@@ -1,0 +1,70 @@
+- name: "Play For SSH Connetion Check"
+  hosts: localhost
+  tasks:
+    - name: "Download the config Backup from Subsystem's"
+      delegate_to: scrbiasdkcp1048
+      ansible.builtin.shell: |
+        set timeout -1
+        spawn /usr/bin/scp -r\
+          {{ device_user }}@{{ ansible_host }}:/dumps/svc.config.backup.*\
+          {{ cfg_dir }}/{{ inventory_hostname }}/.
+        expect "*Password:"
+        send "{{ ansible_ssh_pass }}\n"
+        expect "*>"
+        exit 0
+      no_log: true
+      register: result
+      changed_when: "result.rc == 0"
+      args:
+        executable: /usr/bin/expect
+
+    - name: Test SSH connectivity from Tower to endpoint under itimagt user
+      ansible.builtin.shell:
+        cmd: |
+          /usr/bin/expect -f - << EOF
+          set timeout 30
+          spawn ssh {{ ansible_ssh_common_args }} -i "$ID_RSA_UATOOL" \
+          itimagt@{{ ansible_host }}
+          expect "'$ID_RSA_UATOOL':" {
+          send "{{ uat_passphrase }}\r" ; sleep 3 ; send "exit\r"}
+          expect timeout {
+          send_error "ssh_request_timeout\r" ; exit 2}
+          exit 0
+          EOF
+      register: itimagt_ssh_test_result
+      no_log: true
+      changed_when: false
+      when: itimagt_conn_params_result is succeeded
+
+    - name: Send script to vios
+      ansible.builtin.expect:
+        command: scp ../files/QEV_AIX/iam_extract_global.ksh "{{ connected_user }}"@"{{ inventory_hostname }}":/home/"{{ connected_user }}"
+        responses:
+          (.*)password: "{{ ansible_password }}"
+        timeout: 0
+      delegate_to: localhost
+
+    - name: Fetch files
+      ansible.builtin.expect:
+        command: scp "{{ connected_user }}"@{{ inventory_hostname }}:/tmp/"{{ lookup('pipe', 'date +%Y-%m-%d') }}"_{{ inventory_hostname }}.mef3 ../files/output/
+        responses:
+          (.*)password: "{{ ansible_password }}"
+        timeout: 0
+      delegate_to: localhost
+
+    - name: Send python and its dependencies to the AIX host.
+      ansible.builtin.expect:
+        command: scp ../files/python_aix/python_aix.tar {{ inventory_hostname }}:/tmp/
+        responses:
+          (.*)password: "{{ ansible_password }}"
+        timeout: 0
+      delegate_to: localhost
+
+    - name: Changing Admin Password for QRadar
+      ansible.builtin.expect:
+        command: /opt/qradar/support/changePasswd.sh -a
+        responses:
+          "Password:": "{{ qradar_admin_password }}"
+          "Confirm password:": "{{ qradar_admin_password }}"
+        # you don't want to show passwords in your logs
+      no_log: true
