@@ -1,0 +1,25 @@
+---
+- name: "This Is The Template Program"
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Read Compare report
+      ansible.builtin.find:
+        paths: /var/log
+        patterns: '*.log'
+        file_type: file
+      register: compare_files
+
+
+    - name: "Debug"
+      ansible.builtin.debug:
+        var: compare_files
+
+
+    # - name: Get latest file
+    #   ansible.builtin.set_fact:
+    #     latest_file: "{{ compare_files.files | sort(attribute='mtime', reverse=true) | first }}"
+
+    # - name: "Debug"
+    #   ansible.builtin.debug:
+    #     var: latest_file.path

@@ -1,0 +1,86 @@
+---
+- name: "Playbook San Powermax Allocation"
+  hosts: "localhost"  # it supposed to run on jump host.
+  gather_facts: true
+  # become: true
+  # become_exe: pbrun
+  # become_flags: ''
+  vars:
+    # ansible_python_interpreter: python3
+    mount_operation: ""
+    nfs_server_host_for_inventory_file: ""
+    nfs_share_path_for_inventory_file: ""
+    nfs_mount_point: ""
+    nfs_mount_options: ""
+  tasks:
+    - name: "Block Loading To Read File By Mount Process"
+      block:
+        - name: Mount nas nfs share for SAN Inventory File
+          ansible.builtin.include_role:
+            name: ansible-role-linux-nfs-nas-mount
+          vars:
+            nfs_operation: "{{ mount_operation }}"
+            nfs_server: "{{ nfs_server_host_for_inventory_file }}"
+            share_path: "{{ nfs_share_path_for_inventory_file }}"
+            mount_point: "{{ nfs_mount_point }}"
+            mount_options: "{{ nfs_mount_options }}"
+
+
+
+# - name: "Playbook San Powermax Allocation"
+#   hosts: "{{ linux_hostname }}"  # it supposed to run on jump host.
+#   gather_facts: true
+#   become: true
+#   become_exe: pbrun
+#   become_flags: ''
+#   vars:
+#     ansible_python_interpreter: python3
+#   tasks:
+#     - block:
+#       - name: Mount nas nfs share for SAN Inventory File
+#         ansible.builtin.include_role:
+#           name: ansible-role-linux-nfs-nas-mount
+#         vars:
+#             nfs_operation: "{{ mount_operation }}"
+#             nfs_server: "{{ nfs_server_host_for_inventory_file }}"
+#             share_path: "{{ nfs_share_path_for_inventory_file }}"
+#             mount_point: "{{ nfs_mount_point }}"
+#             mount_options: "{{ nfs_mount_options }}"
+
+
+# - name: "Socket Tunnel Setup For Windows Jump Server"
+#   hosts: localhost
+#   connection: local
+#   gather_facts: false
+#   roles:
+#     - ansible-role-event-socks-tunnel
+
+
+# - name: "Play To Find Isilon Cluster Name And IP-Address From Inventory"
+#   hosts: "{{ windows_jump | default([]) }}"
+#   gather_facts: true
+#   vars:
+#     account_code: "{{ hostvars['localhost']['account_code'] }}"
+#     trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+#     windows_jump: "csc2cwp00008395.cloud.kp.org"
+#   tasks:
+#     - name: "Reading Isilon Cluster CSV File From Mount Point"
+#       win_shell: |
+#         $Inventory_kphp = Import-CSV \\{{ nfs_server_host }}\{{ nfs_share_path }}\{{ isilon_cluster_inventory_file_path }}
+#         $Inventory_kphp | convertto-json
+#       register: my_isilon_output
+
+
+#     - name: "Converting To A List Of Json Data -> 'isilon_cluster_output'"
+#       ansible.builtin.set_fact:
+#         isilon_cluster_output: "{{ my_isilon_output.stdout | from_json }}"
+
+
+#     - name: "Fetching isilon_cluster_name_p And isilon_ip_address_p From isilon_cluster_output CSV File(List Formatted)" # noqa no-jinja-when
+#       ansible.builtin.set_fact:
+#         isilon_cluster_name_p: "{{ item['ClusterName'] }}"
+#         isilon_ip_address_p: "{{ item['IPAddress'] }}"
+#       when:
+#         - item['DataCenter'] == primary_data_center
+#         - item['ClusterName'] != ""
+#       loop: "{{ isilon_cluster_output | list }}"

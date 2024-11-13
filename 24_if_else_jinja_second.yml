@@ -1,0 +1,33 @@
+---
+- name: "This is a Example of MultiLine Variable If Condition"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    isilon_cluster_name_p: "cnpldcisit-hc01"
+    primary_data_center: "SSDC"
+    region: "SC"
+    division: "HOS"
+    app_id: "124"
+    env: "D"
+    list_of_sequence: "{{ range(95, 110) | list }}"
+  tasks:
+    - name: "Set_fact my_app_id and my_seq_id"
+      ansible.builtin.set_fact:
+        path: "/ifs/{{ primary_data_center }}/{{ isilon_cluster_name_p }}"
+        prefix: "{{ division | upper }}{{ region | upper }}{{ env | upper }}"
+        app: "{{ '%05d' % (app_id | int) }}"
+
+
+    - name: "Use Jinja template to create the list"
+      ansible.builtin.set_fact:
+        my_list: |
+          {% filter from_yaml %}
+          {% for i in list_of_sequence %}
+          - {{ path }}/{{ prefix | upper }}{{ app }}{{ '%02d' % (i) }}
+          {% endfor %}
+          {% endfilter %}
+
+    - name: "Print my_path_list_prod"
+      ansible.builtin.debug:
+        msg:
+          - "{{ my_list }}"

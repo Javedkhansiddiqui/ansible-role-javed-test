@@ -1,0 +1,19 @@
+---
+- name: This is a Hello message on terminal
+  hosts: localhost
+  vars:
+    read_excel_folder: template
+    read_excel_file: "library/inventry.xlsx"
+
+  tasks:
+    - name: Reading Excel Data
+      ansible.builtin.lineinfile:
+        path: "{{ read_excel_folder }}/{{ read_excel_file }}"
+        regex: '\t'
+        line: "JWXNM184300463"
+        state: present
+      register: my_data
+
+    - name: "Print the data"
+      ansible.builtin.debug:
+        msg: "=> {{ my_data }}"

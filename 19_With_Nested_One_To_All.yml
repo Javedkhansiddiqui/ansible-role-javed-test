@@ -1,0 +1,56 @@
+---
+- name: "Filter From YAML For Dictionary"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    storage_details_combined: [
+      {
+        "wwns_dict": {
+          "host4": "0x100098f2b3a1f324",
+          "host5": "0x100098f2b3a12635"
+        },
+        "wwns_pmax_list": [
+          "100098f2b3a12635",
+          "100098f2b3a1f324"
+        ],
+        "server_name": "czxbap3.crdc.kp.org"
+      },
+      {
+        "wwns_dict": {
+          "host3": "0x100098f2b3a14633",
+          "host1": "0x100098f2b3a1d541"
+        },
+        "wwns_pmax_list": [
+          "100098f2b3a1d541",
+          "100098f2b3a14633"
+        ],
+        "server_name": "czxbap11.crdc.kp.org"
+      },
+      {
+        "wwns_dict": {
+          "host2": "0x10009440c9d01da2",
+          "host3": "0x10009440c9d01da3",
+          "host4": "0x10009440c9d01de1",
+          "host5": "0x10009440c9d01de2"
+        },
+        "server_name": "pdviatsto004.pldc.kp.org",
+        "wwns_pmax_list": [
+          "10009440c9d01da2",
+          "10009440c9d01da3",
+          "10009440c9d01de1",
+          "10009440c9d01de2"
+        ]}]
+  tasks:
+    - name: "Set Fact my_key1"
+      ansible.builtin.set_fact:
+        my_key1: "{{ my_key1 | default([]) + [item.wwns_dict | dict2items | json_query('[].key')] }}"
+      with_items:
+        - "{{ storage_details_combined }}"
+
+
+    - name: "Set Fact my_data"
+      ansible.builtin.set_fact:
+        my_data: "{{ my_data | default([])+ [item.0.server_name.split('.') | first+'_'+ item.1 ]}}"
+      with_nested:
+        - "{{ storage_details_combined }}"
+        - "{{ my_key1 }}"

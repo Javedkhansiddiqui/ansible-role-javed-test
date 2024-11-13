@@ -1,0 +1,60 @@
+---
+# tasks file for ansible-role-custom-vault-integration
+- name: Prepare for Connectivity Checks
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Integrate with Custom Vault using 2 Jumphosts
+      block:
+        - name: 2-JH Gather password from the Vault
+          shell: >-
+            ssh -i $JH2_SSH_PRIVATE_KEY -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null
+            -oProxyCommand="ssh -i $JH1_SSH_PRIVATE_KEY -W {{ jh2_ip }}:{{ jh2_ssh_port }}
+            -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null {{ jh1_ssh_user }}@{{ jh1_ip }}"
+            {{ jh2_ssh_user }}@{{ jh2_ip }} {{ vault_script_path }} {{ vault_script_args }}
+          environment:
+            JH1_SSH_PRIVATE_KEY: "{{ lookup('env', 'JH1_SSH_PRIVATE_KEY') }}"
+            JH2_SSH_PRIVATE_KEY: "{{ lookup('env', 'JH2_SSH_PRIVATE_KEY') }}"
+          register: vault_output
+          ignore_errors: true
+          # no_log: true
+
+        - name: 2-JH Parse results
+          set_fact:
+            json_output: "{{ vault_output.stdout | from_json }}"
+          failed_when: "'FAILED' in json_output.status"
+          # no_log: true
+      when:
+        - (jh3_ssh_private_key is undefined) or (jh3_ssh_private_key|length == 0)
+        - (jh2_ssh_private_key|length > 0)
+        - "(jh1_ssh_private_key_passphrase is undefined)
+          or (jh1_ssh_private_key_passphrase is none)
+          or (jh1_ssh_private_key_passphrase|trim|length == 0)"
+
+
+    - name: Set fact with the retrieved credentials
+      block:
+        - name: Store user/password
+          set_fact:
+            vault_username: "{{ json_output.user }}"
+            vault_password: "{{ json_output.password }}"
+          # no_log: true
+      # when: not update_tower_credential
+
+    # - name: Update Tower OS Credential
+    #   block:
+    #     - name: Update user/password with information from the Vault
+    #       tower_credential:
+    #         name: "{{ os_credential_to_update }}"
+    #         organization: "{{ blueid_shortcode }}"
+    #         kind: ssh
+    #         username: "{{ json_output.user }}"
+    #         password: "{{ json_output.password }}"
+    #         description: "Synced from Vault at {{ ansible_date_time.date }}"
+    #         state: present
+    #         validate_certs: false
+    #         tower_host: "{{ tower_host }}"
+    #         tower_username: "{{ tower_username }}"
+    #         tower_password: "{{ tower_password }}"
+    #       # no_log: true
+    #   when: update_tower_credential | bool

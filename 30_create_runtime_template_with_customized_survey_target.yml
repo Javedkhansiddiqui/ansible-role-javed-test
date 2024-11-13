@@ -1,0 +1,4 @@
+---
+- name: "Print The Value" # noqa run-once[task]
+  ansible.builtin.debug:
+    msg: "{{ my_survey_color }}"

@@ -1,0 +1,24 @@
+---
+- name: "Dictionary Filtering Demo"
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - 10_Json_Dictionary_Filter_Input.yml
+
+  tasks:
+    - name: "Show me the entire content of server2"
+      ansible.builtin.set_fact:
+        dir_content: "{{ server_list | json_query(dir_json_query_pass) }}"
+
+      vars:
+        dir_json_query_pass: "[?server == 'server2']"
+    - debug:
+        var: dir_content
+
+
+
+    - name: "Show me the permission of /tmp/dir2 file"
+      set_fact:
+        perm_of_dir: '{{ server_list | json_query("[?server == ''server2''].dirs[1].perm")  | join('','')}}' #"perm_of_dir": "0644,0755"
+    - debug:
+        var: perm_of_dir

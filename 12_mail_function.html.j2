@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <title>Template Design</title>
+</head>
+
+<body>
+    <table class="table table-bordered 70%" style="border: 2px solid black; border-collapse: collapse; width:80%">
+
+        <tbody>
+            {% for item in hba_lun_data.stdout_lines %}
+            <tr>
+                {% for data in item.split("\t") %}
+                <td style="text-align:center;">
+                    {{ data }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <p>Thanks &amp;&amp; Regards&nbsp;</p>
+    <p><span
+            style="font-family: var(--bs-body-font-family); font-size: var(--bs-body-font-size); font-weight: var(--bs-body-font-weight); text-align: var(--bs-body-text-align);">Ansible
+            Team&nbsp;</span></p>
+    <p><span
+            style="font-family: var(--bs-body-font-family); font-size: var(--bs-body-font-size); font-weight: var(--bs-body-font-weight); text-align: var(--bs-body-text-align);">Email
+            Id :- KP-DA-Ansible-Support@kyndryl.com</span></p>
+
+    <p><br></p>
+</body>
+
+</html>

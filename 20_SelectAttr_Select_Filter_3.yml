@@ -1,0 +1,31 @@
+---
+- name: "Ansible Select vs SelectAttr"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    numbers: ['10', '20', '11', '15', '30', '19']
+    names: [
+      {
+        "first": "Sarav",
+        "last": "AK",
+        "mobile": "+919876543210",
+        "ctc": "200000",
+        "address": {
+          "city": "Chennai",
+          "country": "India"
+        }
+      }]
+  tasks:
+    - name: "Ansible Select vs SelectAttr"
+      ansible.builtin.debug:
+        msg:
+          - "==========================="
+          - '{{ names | selectattr("first", "eq", "Sarav")}}'
+          - '{{ names | select("match", ".+first.+:.+Sarav.+")}}'
+          - "{{ numbers | select('ge','20') }}"
+          - "{{ numbers | map('int') | select('odd') }}"
+          - "{{ numbers | map('int') | select('even') }}"
+          - "{{ numbers | map('int') | select('divisibleby', 3) }}"
+          - "{{ numbers | map('int') | select('lessthan', 12) }}"
+          - "{{ numbers | select('equalto', '15') }}"
+          - "==========================="

@@ -1,0 +1,896 @@
+ansible-playbook [core 2.13.8]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/runner/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /runner/requirements_collections:/home/runner/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.9.16 (main, May 31 2023, 12:21:58) [GCC 8.5.0 20210514 (Red Hat 8.5.0-18)]
+  jinja version = 3.0.3
+  libyaml = True
+Using /etc/ansible/ansible.cfg as config file
+SSH password:
+host_list declined parsing /runner/inventory/hosts as it did not pass its verify_file() method
+Parsed /runner/inventory/hosts inventory source with script plugin
+Skipping callback 'awx_display', as we already have a stdout callback.
+Skipping callback 'default', as we already have a stdout callback.
+Skipping callback 'minimal', as we already have a stdout callback.
+Skipping callback 'oneline', as we already have a stdout callback.
+
+PLAYBOOK: fetch_vm_and_cluster_info_using_vcenter_script.yml *******************
+2 plays in fetch_vm_and_cluster_info_using_vcenter_script.yml
+
+PLAY [Socks Tunnel Check] ******************************************************
+
+TASK [Gathering Facts] *********************************************************
+task path: /runner/project/fetch_vm_and_cluster_info_using_vcenter_script.yml:2
+<127.0.0.1> ESTABLISH LOCAL CONNECTION FOR USER: 1000770000
+<127.0.0.1> EXEC /bin/sh -c 'echo ~1000770000 && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/runner/.ansible/tmp `"&& mkdir "` echo /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933 `" && echo ansible-tmp-1726600335.2154868-23-75328690794933="` echo /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/setup.py
+<127.0.0.1> PUT /home/runner/.ansible/tmp/ansible-local-18hmak7dql/tmpl1ftqqs2 TO /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933/AnsiballZ_setup.py
+<127.0.0.1> EXEC /bin/sh -c 'chmod u+x /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933/ /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933/AnsiballZ_setup.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '/usr/bin/python3.9 /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933/AnsiballZ_setup.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c 'rm -f -r /home/runner/.ansible/tmp/ansible-tmp-1726600335.2154868-23-75328690794933/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost]
+META: ran handlers
+
+TASK [ansible-role-event-socks-tunnel : set account code and transactin|job id] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:3
+ok: [localhost] => {
+    "ansible_facts": {
+        "account_code": "kp2",
+        "trans_num": "484612454580221"
+    },
+    "changed": false
+}
+
+TASK [ansible-role-event-socks-tunnel : Set jumphost facts] ********************
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:8
+
+TASK [ansible-role-event-socks-tunnel : Default jumphost facts to extra variables] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:21
+ok: [localhost] => (item=1) => {
+    "ansible_facts": {
+        "jumphost1_ip": "100.64.116.50",
+        "jumphost1_ssh_port": "22",
+        "jumphost1_ssh_private_key": "/runner/env/tmpma461yxk",
+        "jumphost1_ssh_private_key_passphrase": "",
+        "jumphost1_ssh_user": "daiteam"
+    },
+    "ansible_loop_var": "level",
+    "changed": false,
+    "level": 1
+}
+ok: [localhost] => (item=2) => {
+    "ansible_facts": {
+        "jumphost2_ip": "167.117.43.165",
+        "jumphost2_ssh_port": "22",
+        "jumphost2_ssh_private_key": "/runner/env/tmpu_b6ueio",
+        "jumphost2_ssh_private_key_passphrase": "",
+        "jumphost2_ssh_user": "Kphprxy1"
+    },
+    "ansible_loop_var": "level",
+    "changed": false,
+    "level": 2
+}
+skipping: [localhost] => (item=3)  => {
+    "ansible_loop_var": "level",
+    "changed": false,
+    "level": 3,
+    "skip_reason": "Conditional result was False"
+}
+skipping: [localhost] => (item=4)  => {
+    "ansible_loop_var": "level",
+    "changed": false,
+    "level": 4,
+    "skip_reason": "Conditional result was False"
+}
+skipping: [localhost] => (item=5)  => {
+    "ansible_loop_var": "level",
+    "changed": false,
+    "level": 5,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Setting of required socks_port variables for single jumphost] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:35
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Creating socks tunnel without passphrase for single jumphost] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:43
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Setting of required socks_port variables for two jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:56
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Creating socks tunnel without passphrase for two jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:63
+<127.0.0.1> ESTABLISH LOCAL CONNECTION FOR USER: 1000770000
+<127.0.0.1> EXEC /bin/sh -c 'echo ~1000770000 && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/runner/.ansible/tmp `"&& mkdir "` echo /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675 `" && echo ansible-tmp-1726600336.451308-77-225391098943675="` echo /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/command.py
+<127.0.0.1> PUT /home/runner/.ansible/tmp/ansible-local-18hmak7dql/tmp4b7zo9i6 TO /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675/AnsiballZ_command.py
+<127.0.0.1> EXEC /bin/sh -c 'chmod u+x /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675/ /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675/AnsiballZ_command.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '/usr/bin/python3.9 /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675/AnsiballZ_command.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c 'rm -f -r /home/runner/.ansible/tmp/ansible-tmp-1726600336.451308-77-225391098943675/ > /dev/null 2>&1 && sleep 0'
+changed: [localhost] => {
+    "changed": true,
+    "cmd": "ps -ef | grep '/tmp/mysocks-kp2-484612454580221-10000' | grep -v grep\\nif [ $? -ne 0 ]; then\\n  bash -c 'ssh -i /runner/env/tmpu_b6ueio -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -oProxyCommand=\\"ssh -i /runner/env/tmpma461yxk -W 167.117.43.165:22 -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -p 22 daiteam@100.64.116.50\\" -CfNq -D /tmp/mysocks-kp2-484612454580221-10000 -p 22 Kphprxy1@167.117.43.165 -vvvvvv;sleep 5'\\nfi\\n",
+    "delta": "0:00:06.965323",
+    "end": "2024-09-17 19:12:23.696609",
+    "invocation": {
+        "module_args": {
+            "_raw_params": "ps -ef | grep '/tmp/mysocks-kp2-484612454580221-10000' | grep -v grep\\nif [ $? -ne 0 ]; then\\n  bash -c 'ssh -i /runner/env/tmpu_b6ueio -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -oProxyCommand=\\"ssh -i /runner/env/tmpma461yxk -W 167.117.43.165:22 -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -p 22 daiteam@100.64.116.50\\" -CfNq -D /tmp/mysocks-kp2-484612454580221-10000 -p 22 Kphprxy1@167.117.43.165 -vvvvvv;sleep 5'\\nfi\\n",
+            "_uses_shell": true,
+            "argv": null,
+            "chdir": null,
+            "creates": null,
+            "executable": null,
+            "removes": null,
+            "stdin": null,
+            "stdin_add_newline": true,
+            "strip_empty_ends": true,
+            "warn": false
+        }
+    },
+    "msg": "",
+    "rc": 0,
+    "start": "2024-09-17 19:12:16.731286",
+    "stderr": "OpenSSH_8.0p1, OpenSSL 1.1.1k  FIPS 25 Mar 2021\\r\\ndebug1: Reading configuration data /etc/ssh/ssh_config\\r\\ndebug3: /etc/ssh/ssh_config line 52: Including file /etc/ssh/ssh_config.d/05-redhat.conf depth 0\\r\\ndebug1: Reading configuration data /etc/ssh/ssh_config.d/05-redhat.conf\\r\\ndebug2: checking match for 'final all' host 167.117.43.165 originally 167.117.43.165\\r\\ndebug3: /etc/ssh/ssh_config.d/05-redhat.conf line 3: not matched 'final'\\r\\ndebug2: match not found\\r\\ndebug3: /etc/ssh/ssh_config.d/05-redhat.conf line 5: Including file /etc/crypto-policies/back-ends/openssh.config depth 1 (parse only)\\r\\ndebug1: Reading configuration data /etc/crypto-policies/back-ends/openssh.config\\r\\ndebug3: gss kex names ok: [gss-curve25519-sha256-,gss-nistp256-sha256-,gss-group14-sha256-,gss-group16-sha512-,gss-gex-sha1-,gss-group14-sha1-]\\r\\ndebug3: kex names ok: [curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1]\\r\\ndebug1: configuration requests final Match pass\\r\\ndebug2: resolve_canonicalize: hostname 167.117.43.165 is address\\r\\ndebug1: re-parsing configuration\\r\\ndebug1: Reading configuration data /etc/ssh/ssh_config\\r\\ndebug3: /etc/ssh/ssh_config line 52: Including file /etc/ssh/ssh_config.d/05-redhat.conf depth 0\\r\\ndebug1: Reading configuration data /etc/ssh/ssh_config.d/05-redhat.conf\\r\\ndebug2: checking match for 'final all' host 167.117.43.165 originally 167.117.43.165\\r\\ndebug3: /etc/ssh/ssh_config.d/05-redhat.conf line 3: matched 'final'\\r\\ndebug2: match found\\r\\ndebug3: /etc/ssh/ssh_config.d/05-redhat.conf line 5: Including file /etc/crypto-policies/back-ends/openssh.config depth 1\\r\\ndebug1: Reading configuration data /etc/crypto-policies/back-ends/openssh.config\\r\\ndebug3: gss kex names ok: [gss-curve25519-sha256-,gss-nistp256-sha256-,gss-group14-sha256-,gss-group16-sha512-,gss-gex-sha1-,gss-group14-sha1-]\\r\\ndebug3: kex names ok: [curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1]\\r\\ndebug1: Executing proxy command: exec ssh -i /runner/env/tmpma461yxk -W 167.117.43.165:22 -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -p 22 daiteam@100.64.116.50\\r\\ndebug1: SELinux support disabled\\r\\ndebug1: identity file /runner/env/tmpu_b6ueio type -1\\r\\ndebug1: identity file /runner/env/tmpu_b6ueio-cert type -1\\r\\ndebug1: Local version string SSH-2.0-OpenSSH_8.0\\r\\nWarning: Permanently added '100.64.116.50' (ECDSA) to the list of known hosts.\\r\\ndebug1: Remote protocol version 2.0, remote software version OpenSSH_8.0\\r\\ndebug1: match: OpenSSH_8.0 pat OpenSSH* compat 0x04000000\\r\\ndebug2: fd 5 setting O_NONBLOCK\\r\\ndebug2: fd 4 setting O_NONBLOCK\\r\\ndebug1: Authenticating to 167.117.43.165:22 as 'Kphprxy1'\\r\\ndebug3: hostkeys_foreach: reading file \\"/dev/null\\"\\r\\ndebug3: send packet: type 20\\r\\ndebug1: SSH2_MSG_KEXINIT sent\\r\\ndebug3: receive packet: type 20\\r\\ndebug1: SSH2_MSG_KEXINIT received\\r\\ndebug2: local client KEXINIT proposal\\r\\ndebug2: KEX algorithms: curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,ext-info-c\\r\\ndebug2: host key algorithms: ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ssh-rsa\\r\\ndebug2: ciphers ctos: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc\\r\\ndebug2: ciphers stoc: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc\\r\\ndebug2: MACs ctos: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512\\r\\ndebug2: MACs stoc: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512\\r\\ndebug2: compression ctos: zlib@openssh.com,zlib,none\\r\\ndebug2: compression stoc: zlib@openssh.com,zlib,none\\r\\ndebug2: languages ctos: \\r\\ndebug2: languages stoc: \\r\\ndebug2: first_kex_follows 0 \\r\\ndebug2: reserved 0 \\r\\ndebug2: peer server KEXINIT proposal\\r\\ndebug2: KEX algorithms: curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,kex-strict-s-v00@openssh.com\\r\\ndebug2: host key algorithms: rsa-sha2-512,rsa-sha2-256,ssh-rsa,ecdsa-sha2-nistp256,ssh-ed25519\\r\\ndebug2: ciphers ctos: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc\\r\\ndebug2: ciphers stoc: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc\\r\\ndebug2: MACs ctos: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512\\r\\ndebug2: MACs stoc: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512\\r\\ndebug2: compression ctos: none,zlib@openssh.com\\r\\ndebug2: compression stoc: none,zlib@openssh.com\\r\\ndebug2: languages ctos: \\r\\ndebug2: languages stoc: \\r\\ndebug2: first_kex_follows 0 \\r\\ndebug2: reserved 0 \\r\\ndebug1: kex: algorithm: curve25519-sha256\\r\\ndebug1: kex: host key algorithm: ecdsa-sha2-nistp256\\r\\ndebug1: kex: server->client cipher: aes256-gcm@openssh.com MAC: <implicit> compression: zlib@openssh.com\\r\\ndebug1: kex: client->server cipher: aes256-gcm@openssh.com MAC: <implicit> compression: zlib@openssh.com\\r\\ndebug1: kex: curve25519-sha256 need=32 dh_need=32\\r\\ndebug1: kex: curve25519-sha256 need=32 dh_need=32\\r\\ndebug3: send packet: type 30\\r\\ndebug1: expecting SSH2_MSG_KEX_ECDH_REPLY\\r\\ndebug3: receive packet: type 31\\r\\ndebug1: Server host key: ecdsa-sha2-nistp256 SHA256:KLnECo0qRXu13Fu3AKZ7d44eGY5ohk327oAixfT2S/U\\r\\ndebug3: hostkeys_foreach: reading file \\"/dev/null\\"\\r\\nWarning: Permanently added '167.117.43.165' (ECDSA) to the list of known hosts.\\r\\ndebug3: send packet: type 21\\r\\ndebug2: set_newkeys: mode 1\\r\\ndebug1: rekey out after 4294967296 blocks\\r\\ndebug1: SSH2_MSG_NEWKEYS sent\\r\\ndebug1: expecting SSH2_MSG_NEWKEYS\\r\\ndebug3: receive packet: type 21\\r\\ndebug1: SSH2_MSG_NEWKEYS received\\r\\ndebug2: set_newkeys: mode 0\\r\\ndebug1: rekey in after 4294967296 blocks\\r\\ndebug1: Will attempt key: /runner/env/tmpu_b6ueio  explicit\\r\\ndebug2: pubkey_prepare: done\\r\\ndebug3: send packet: type 5\\r\\ndebug3: receive packet: type 7\\r\\ndebug1: SSH2_MSG_EXT_INFO received\\r\\ndebug1: kex_input_ext_info: server-sig-algs=<ssh-ed25519,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521>\\r\\ndebug3: receive packet: type 6\\r\\ndebug2: service_accept: ssh-userauth\\r\\ndebug1: SSH2_MSG_SERVICE_ACCEPT received\\r\\ndebug3: send packet: type 50\\r\\ndebug3: receive packet: type 53\\r\\ndebug3: input_userauth_banner\\r\\n================================================================\\nThis is a private computer system. Access to and use requires\\nexplicit current authorization and is limited to business use.\\nAll users express consent to monitoring by system personnel to\\ndetect improper use of or access to the system, system personnel\\nmay provide evidence of such conduct to law enforcement\\nofficials and/or company management.\\n================================================================\\nUAM R2 account support: http://ussweb.crdc.kp.org/UAM/\\n================================================================\\nFor password resets, please call the Helpdesk 888-457-4872\\n================================================================\\nIMPORTANT MESSAGE:This is a private computer system.\\nAccess to and use requires explicit current authorization and is limited to business use.\\nAll users express consent to monitoring by system personnel to detect improper use of or access to the system, system personnel may provide evidence of such conduct to law enforcement officials and/or company management.\\ndebug3: receive packet: type 51\\r\\ndebug1: Authentications that can continue: publickey,gssapi-keyex,gssapi-with-mic,password,keyboard-interactive\\r\\ndebug3: start over, passed a different list publickey,gssapi-keyex,gssapi-with-mic,password,keyboard-interactive\\r\\ndebug3: preferred gssapi-with-mic,publickey,keyboard-interactive,password\\r\\ndebug3: authmethod_lookup gssapi-with-mic\\r\\ndebug3: remaining preferred: publickey,keyboard-interactive,password\\r\\ndebug3: authmethod_is_enabled gssapi-with-mic\\r\\ndebug1: Next authentication method: gssapi-with-mic\\r\\ndebug1: Unspecified GSS failure.  Minor code may provide more information\\nNo Kerberos credentials available: Function not implemented\\n\\n\\r\\ndebug1: Unspecified GSS failure.  Minor code may provide more information\\nNo Kerberos credentials available: Function not implemented\\n\\n\\r\\ndebug2: we did not send a packet, disable method\\r\\ndebug3: authmethod_lookup publickey\\r\\ndebug3: remaining preferred: keyboard-interactive,password\\r\\ndebug3: authmethod_is_enabled publickey\\r\\ndebug1: Next authentication method: publickey\\r\\ndebug1: Trying private key: /runner/env/tmpu_b6ueio\\r\\ndebug3: sign_and_send_pubkey: RSA SHA256:u+Wi2WD0GEG2oe9VbPVi6ugCEV+NTKvNJwAhXyBM5iQ\\r\\ndebug3: sign_and_send_pubkey: signing using rsa-sha2-256\\r\\ndebug3: send packet: type 50\\r\\ndebug2: we sent a publickey packet, wait for reply\\r\\ndebug3: receive packet: type 52\\r\\ndebug1: Enabling compression at level 6.\\r\\ndebug1: Authentication succeeded (publickey).\\r\\nAuthenticated to 167.117.43.165 (via proxy).\\r\\ndebug1: Local connections to /tmp/mysocks-kp2-484612454580221-10000:-2 forwarded to remote address socks:0\\r\\ndebug3: channel_setup_fwd_listener_streamlocal: type 18 path /tmp/mysocks-kp2-484612454580221-10000\\r\\ndebug1: Local forwarding listening on path /tmp/mysocks-kp2-484612454580221-10000.\\r\\ndebug2: fd 3 setting O_NONBLOCK\\r\\ndebug3: fd 3 is O_NONBLOCK\\r\\ndebug1: channel 0: new [unix listener]\\r\\ndebug1: forking to background\\r\\ndebug1: Entering interactive session.\\r\\ndebug1: pledge: proc\\r\\ndebug3: receive packet: type 80\\r\\ndebug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0\\r\\ndebug3: receive packet: type 4\\r\\ndebug1: Remote: /users/kphprxy1/.ssh/authorized_keys:1: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding",
+    "stderr_lines": [
+        "OpenSSH_8.0p1, OpenSSL 1.1.1k  FIPS 25 Mar 2021",
+        "debug1: Reading configuration data /etc/ssh/ssh_config",
+        "debug3: /etc/ssh/ssh_config line 52: Including file /etc/ssh/ssh_config.d/05-redhat.conf depth 0",
+        "debug1: Reading configuration data /etc/ssh/ssh_config.d/05-redhat.conf",
+        "debug2: checking match for 'final all' host 167.117.43.165 originally 167.117.43.165",
+        "debug3: /etc/ssh/ssh_config.d/05-redhat.conf line 3: not matched 'final'",
+        "debug2: match not found",
+        "debug3: /etc/ssh/ssh_config.d/05-redhat.conf line 5: Including file /etc/crypto-policies/back-ends/openssh.config depth 1 (parse only)",
+        "debug1: Reading configuration data /etc/crypto-policies/back-ends/openssh.config",
+        "debug3: gss kex names ok: [gss-curve25519-sha256-,gss-nistp256-sha256-,gss-group14-sha256-,gss-group16-sha512-,gss-gex-sha1-,gss-group14-sha1-]",
+        "debug3: kex names ok: [curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1]",
+        "debug1: configuration requests final Match pass",
+        "debug2: resolve_canonicalize: hostname 167.117.43.165 is address",
+        "debug1: re-parsing configuration",
+        "debug1: Reading configuration data /etc/ssh/ssh_config",
+        "debug3: /etc/ssh/ssh_config line 52: Including file /etc/ssh/ssh_config.d/05-redhat.conf depth 0",
+        "debug1: Reading configuration data /etc/ssh/ssh_config.d/05-redhat.conf",
+        "debug2: checking match for 'final all' host 167.117.43.165 originally 167.117.43.165",
+        "debug3: /etc/ssh/ssh_config.d/05-redhat.conf line 3: matched 'final'",
+        "debug2: match found",
+        "debug3: /etc/ssh/ssh_config.d/05-redhat.conf line 5: Including file /etc/crypto-policies/back-ends/openssh.config depth 1",
+        "debug1: Reading configuration data /etc/crypto-policies/back-ends/openssh.config",
+        "debug3: gss kex names ok: [gss-curve25519-sha256-,gss-nistp256-sha256-,gss-group14-sha256-,gss-group16-sha512-,gss-gex-sha1-,gss-group14-sha1-]",
+        "debug3: kex names ok: [curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1]",
+        "debug1: Executing proxy command: exec ssh -i /runner/env/tmpma461yxk -W 167.117.43.165:22 -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -o ExitOnForwardFailure=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ControlMaster=auto -o ControlPersist=no -p 22 daiteam@100.64.116.50",
+        "debug1: SELinux support disabled",
+        "debug1: identity file /runner/env/tmpu_b6ueio type -1",
+        "debug1: identity file /runner/env/tmpu_b6ueio-cert type -1",
+        "debug1: Local version string SSH-2.0-OpenSSH_8.0",
+        "Warning: Permanently added '100.64.116.50' (ECDSA) to the list of known hosts.",
+        "debug1: Remote protocol version 2.0, remote software version OpenSSH_8.0",
+        "debug1: match: OpenSSH_8.0 pat OpenSSH* compat 0x04000000",
+        "debug2: fd 5 setting O_NONBLOCK",
+        "debug2: fd 4 setting O_NONBLOCK",
+        "debug1: Authenticating to 167.117.43.165:22 as 'Kphprxy1'",
+        "debug3: hostkeys_foreach: reading file \\"/dev/null\\"",
+        "debug3: send packet: type 20",
+        "debug1: SSH2_MSG_KEXINIT sent",
+        "debug3: receive packet: type 20",
+        "debug1: SSH2_MSG_KEXINIT received",
+        "debug2: local client KEXINIT proposal",
+        "debug2: KEX algorithms: curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,ext-info-c",
+        "debug2: host key algorithms: ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-512-cert-v01@openssh.com,rsa-sha2-256-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,rsa-sha2-512,rsa-sha2-256,ssh-rsa",
+        "debug2: ciphers ctos: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc",
+        "debug2: ciphers stoc: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc",
+        "debug2: MACs ctos: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512",
+        "debug2: MACs stoc: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512",
+        "debug2: compression ctos: zlib@openssh.com,zlib,none",
+        "debug2: compression stoc: zlib@openssh.com,zlib,none",
+        "debug2: languages ctos: ",
+        "debug2: languages stoc: ",
+        "debug2: first_kex_follows 0 ",
+        "debug2: reserved 0 ",
+        "debug2: peer server KEXINIT proposal",
+        "debug2: KEX algorithms: curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,kex-strict-s-v00@openssh.com",
+        "debug2: host key algorithms: rsa-sha2-512,rsa-sha2-256,ssh-rsa,ecdsa-sha2-nistp256,ssh-ed25519",
+        "debug2: ciphers ctos: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc",
+        "debug2: ciphers stoc: aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc",
+        "debug2: MACs ctos: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512",
+        "debug2: MACs stoc: hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512",
+        "debug2: compression ctos: none,zlib@openssh.com",
+        "debug2: compression stoc: none,zlib@openssh.com",
+        "debug2: languages ctos: ",
+        "debug2: languages stoc: ",
+        "debug2: first_kex_follows 0 ",
+        "debug2: reserved 0 ",
+        "debug1: kex: algorithm: curve25519-sha256",
+        "debug1: kex: host key algorithm: ecdsa-sha2-nistp256",
+        "debug1: kex: server->client cipher: aes256-gcm@openssh.com MAC: <implicit> compression: zlib@openssh.com",
+        "debug1: kex: client->server cipher: aes256-gcm@openssh.com MAC: <implicit> compression: zlib@openssh.com",
+        "debug1: kex: curve25519-sha256 need=32 dh_need=32",
+        "debug1: kex: curve25519-sha256 need=32 dh_need=32",
+        "debug3: send packet: type 30",
+        "debug1: expecting SSH2_MSG_KEX_ECDH_REPLY",
+        "debug3: receive packet: type 31",
+        "debug1: Server host key: ecdsa-sha2-nistp256 SHA256:KLnECo0qRXu13Fu3AKZ7d44eGY5ohk327oAixfT2S/U",
+        "debug3: hostkeys_foreach: reading file \\"/dev/null\\"",
+        "Warning: Permanently added '167.117.43.165' (ECDSA) to the list of known hosts.",
+        "debug3: send packet: type 21",
+        "debug2: set_newkeys: mode 1",
+        "debug1: rekey out after 4294967296 blocks",
+        "debug1: SSH2_MSG_NEWKEYS sent",
+        "debug1: expecting SSH2_MSG_NEWKEYS",
+        "debug3: receive packet: type 21",
+        "debug1: SSH2_MSG_NEWKEYS received",
+        "debug2: set_newkeys: mode 0",
+        "debug1: rekey in after 4294967296 blocks",
+        "debug1: Will attempt key: /runner/env/tmpu_b6ueio  explicit",
+        "debug2: pubkey_prepare: done",
+        "debug3: send packet: type 5",
+        "debug3: receive packet: type 7",
+        "debug1: SSH2_MSG_EXT_INFO received",
+        "debug1: kex_input_ext_info: server-sig-algs=<ssh-ed25519,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521>",
+        "debug3: receive packet: type 6",
+        "debug2: service_accept: ssh-userauth",
+        "debug1: SSH2_MSG_SERVICE_ACCEPT received",
+        "debug3: send packet: type 50",
+        "debug3: receive packet: type 53",
+        "debug3: input_userauth_banner",
+        "================================================================",
+        "This is a private computer system. Access to and use requires",
+        "explicit current authorization and is limited to business use.",
+        "All users express consent to monitoring by system personnel to",
+        "detect improper use of or access to the system, system personnel",
+        "may provide evidence of such conduct to law enforcement",
+        "officials and/or company management.",
+        "================================================================",
+        "UAM R2 account support: http://ussweb.crdc.kp.org/UAM/",
+        "================================================================",
+        "For password resets, please call the Helpdesk 888-457-4872",
+        "================================================================",
+        "IMPORTANT MESSAGE:This is a private computer system.",
+        "Access to and use requires explicit current authorization and is limited to business use.",
+        "All users express consent to monitoring by system personnel to detect improper use of or access to the system, system personnel may provide evidence of such conduct to law enforcement officials and/or company management.",
+        "debug3: receive packet: type 51",
+        "debug1: Authentications that can continue: publickey,gssapi-keyex,gssapi-with-mic,password,keyboard-interactive",
+        "debug3: start over, passed a different list publickey,gssapi-keyex,gssapi-with-mic,password,keyboard-interactive",
+        "debug3: preferred gssapi-with-mic,publickey,keyboard-interactive,password",
+        "debug3: authmethod_lookup gssapi-with-mic",
+        "debug3: remaining preferred: publickey,keyboard-interactive,password",
+        "debug3: authmethod_is_enabled gssapi-with-mic",
+        "debug1: Next authentication method: gssapi-with-mic",
+        "debug1: Unspecified GSS failure.  Minor code may provide more information",
+        "No Kerberos credentials available: Function not implemented",
+        "",
+        "",
+        "debug1: Unspecified GSS failure.  Minor code may provide more information",
+        "No Kerberos credentials available: Function not implemented",
+        "",
+        "",
+        "debug2: we did not send a packet, disable method",
+        "debug3: authmethod_lookup publickey",
+        "debug3: remaining preferred: keyboard-interactive,password",
+        "debug3: authmethod_is_enabled publickey",
+        "debug1: Next authentication method: publickey",
+        "debug1: Trying private key: /runner/env/tmpu_b6ueio",
+        "debug3: sign_and_send_pubkey: RSA SHA256:u+Wi2WD0GEG2oe9VbPVi6ugCEV+NTKvNJwAhXyBM5iQ",
+        "debug3: sign_and_send_pubkey: signing using rsa-sha2-256",
+        "debug3: send packet: type 50",
+        "debug2: we sent a publickey packet, wait for reply",
+        "debug3: receive packet: type 52",
+        "debug1: Enabling compression at level 6.",
+        "debug1: Authentication succeeded (publickey).",
+        "Authenticated to 167.117.43.165 (via proxy).",
+        "debug1: Local connections to /tmp/mysocks-kp2-484612454580221-10000:-2 forwarded to remote address socks:0",
+        "debug3: channel_setup_fwd_listener_streamlocal: type 18 path /tmp/mysocks-kp2-484612454580221-10000",
+        "debug1: Local forwarding listening on path /tmp/mysocks-kp2-484612454580221-10000.",
+        "debug2: fd 3 setting O_NONBLOCK",
+        "debug3: fd 3 is O_NONBLOCK",
+        "debug1: channel 0: new [unix listener]",
+        "debug1: forking to background",
+        "debug1: Entering interactive session.",
+        "debug1: pledge: proc",
+        "debug3: receive packet: type 80",
+        "debug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0",
+        "debug3: receive packet: type 4",
+        "debug1: Remote: /users/kphprxy1/.ssh/authorized_keys:1: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding"
+    ],
+    "stdout": "",
+    "stdout_lines": []
+}
+
+TASK [ansible-role-event-socks-tunnel : Setting of required socks_port variables for 3 jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:76
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Creating socks tunnel without passphrase for 3 jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:83
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Setting of required socks_port variables for 4 jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:97
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Creating socks tunnel without passphrase for 4 jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:104
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Setting of required socks_port variables for 5 jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:118
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Creating socks tunnel without passphrase for 5 jumphosts] ***
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:125
+skipping: [localhost] => {
+    "changed": false,
+    "skip_reason": "Conditional result was False"
+}
+
+TASK [ansible-role-event-socks-tunnel : Validate socks file] *******************
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:139
+<127.0.0.1> ESTABLISH LOCAL CONNECTION FOR USER: 1000770000
+<127.0.0.1> EXEC /bin/sh -c 'echo ~1000770000 && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '( umask 77 && mkdir -p "` echo /home/runner/.ansible/tmp `"&& mkdir "` echo /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346 `" && echo ansible-tmp-1726600344.010713-114-37887153375346="` echo /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346 `" ) && sleep 0'
+Using module file /usr/lib/python3.9/site-packages/ansible/modules/stat.py
+<127.0.0.1> PUT /home/runner/.ansible/tmp/ansible-local-18hmak7dql/tmplawqubfv TO /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346/AnsiballZ_stat.py
+<127.0.0.1> EXEC /bin/sh -c 'chmod u+x /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346/ /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346/AnsiballZ_stat.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c '/usr/bin/python3.9 /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346/AnsiballZ_stat.py && sleep 0'
+<127.0.0.1> EXEC /bin/sh -c 'rm -f -r /home/runner/.ansible/tmp/ansible-tmp-1726600344.010713-114-37887153375346/ > /dev/null 2>&1 && sleep 0'
+ok: [localhost] => {
+    "changed": false,
+    "invocation": {
+        "module_args": {
+            "checksum_algorithm": "sha1",
+            "follow": false,
+            "get_attributes": true,
+            "get_checksum": true,
+            "get_md5": false,
+            "get_mime": true,
+            "path": "/tmp/mysocks-kp2-484612454580221-10000"
+        }
+    },
+    "stat": {
+        "atime": 1726600337.6902509,
+        "attr_flags": "",
+        "attributes": [],
+        "block_size": 4096,
+        "blocks": 0,
+        "charset": "unknown",
+        "ctime": 1726600337.6902509,
+        "dev": 249,
+        "device_type": 0,
+        "executable": false,
+        "exists": true,
+        "gid": 0,
+        "gr_name": "root",
+        "inode": 98650551,
+        "isblk": false,
+        "ischr": false,
+        "isdir": false,
+        "isfifo": false,
+        "isgid": false,
+        "islnk": false,
+        "isreg": false,
+        "issock": true,
+        "isuid": false,
+        "mimetype": "unknown",
+        "mode": "0600",
+        "mtime": 1726600337.6902509,
+        "nlink": 1,
+        "path": "/tmp/mysocks-kp2-484612454580221-10000",
+        "pw_name": "1000770000",
+        "readable": true,
+        "rgrp": false,
+        "roth": false,
+        "rusr": true,
+        "size": 0,
+        "uid": 1000770000,
+        "version": null,
+        "wgrp": false,
+        "woth": false,
+        "writeable": true,
+        "wusr": true,
+        "xgrp": false,
+        "xoth": false,
+        "xusr": false
+    }
+}
+
+TASK [ansible-role-event-socks-tunnel : Set fact for validate socks file] ******
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:144
+ok: [localhost] => {
+    "censored": "the output has been hidden due to the fact that 'no_log: true' was specified for this result",
+    "changed": false
+}
+
+TASK [ansible-role-event-socks-tunnel : debug] *********************************
+task path: /runner/requirements_roles/ansible-role-event-socks-tunnel/tasks/main.yml:149
+ok: [localhost] => {
+    "jh_socks_port": "10000"
+}
+META: role_complete for localhost
+META: ran handlers
+META: ran handlers
+
+PLAY [Export VM And ESXI Host Details From vCenter] ****************************
+META: ran handlers
+
+TASK [Import Task To Perform Export VM And ESXI Host Details From vCenter] *****
+task path: /runner/project/fetch_vm_and_cluster_info_using_vcenter_script.yml:22
+redirecting (type: action) ansible.builtin.win_copy to ansible.windows.win_copy
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+redirecting (type: action) ansible.builtin.win_copy to ansible.windows.win_copy
+
+TASK [javed_test : Connect To The vCenter And Export The VM and ESXI Report Using Script] ***
+task path: /runner/project/roles/javed_test/tasks/fetch_vm_and_cluster_info_using_vcenter_script.yml:4
+redirecting (type: modules) ansible.builtin.win_copy to ansible.windows.win_copy
+redirecting (type: action) ansible.builtin.win_copy to ansible.windows.win_copy
+redirecting (type: action) ansible.builtin.win_copy to ansible.windows.win_copy
+Using module file /usr/share/ansible/collections/ansible_collections/ansible/windows/plugins/modules/win_copy.ps1
+Pipelining is enabled.
+<10.15.164.238> ESTABLISH PSRP CONNECTION FOR USER: kphanat3 ON PORT 5985 TO 10.15.164.238
+PSRP: EXEC (via pipeline wrapper)
+<10.15.164.238> PSRP: EXEC Set-StrictMode -Version Latest
+$tmp_path = [System.Environment]::ExpandEnvironmentVariables('%TEMP%')
+$tmp = New-Item -Type Directory -Path $tmp_path -Name 'ansible-tmp-1726600347.628631-138-229089735795642'
+Write-Output -InputObject $tmp.FullName
+If (-not $?) { If (Get-Variable LASTEXITCODE -ErrorAction SilentlyContinue) { exit $LASTEXITCODE } Else { exit 1 } }
+<10.15.164.238> PUT /runner/project/roles/javed_test/files/export_vm_and_hosts_details_from_vCenter.ps1 TO C:\\Users\\kphanat3\\AppData\\Local\\Temp\\ansible-tmp-1726600347.628631-138-229089735795642\\source
+Using module file /usr/share/ansible/collections/ansible_collections/ansible/windows/plugins/modules/win_copy.ps1
+Pipelining is enabled.
+PSRP: EXEC (via pipeline wrapper)
+<10.15.164.238> PSRP: EXEC Set-StrictMode -Version Latest
+Remove-Item 'C:\\Users\\kphanat3\\AppData\\Local\\Temp\\ansible-tmp-1726600347.628631-138-229089735795642\\.' -Force -Recurse;
+If (-not $?) { If (Get-Variable LASTEXITCODE -ErrorAction SilentlyContinue) { exit $LASTEXITCODE } Else { exit 1 } }
+changed: [csc2cwp00008395.cloud.kp.org] => {
+    "changed": true,
+    "checksum": "4edf68fe83119b023e929d02bc5215933612f499",
+    "dest": "c:\\\\ANSIBLE-VM-AND-ESXI-REPORT\\\\export_vm_and_hosts_details_from_vCenter.ps1",
+    "operation": "file_copy",
+    "original_basename": "export_vm_and_hosts_details_from_vCenter.ps1",
+    "size": 2738,
+    "src": "/runner/project/roles/javed_test/files/export_vm_and_hosts_details_from_vCenter.ps1"
+}
+
+TASK [javed_test : Execute PowerShell script with arguments] *******************
+task path: /runner/project/roles/javed_test/tasks/fetch_vm_and_cluster_info_using_vcenter_script.yml:11
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+Using module file /usr/share/ansible/collections/ansible_collections/ansible/windows/plugins/modules/win_shell.ps1
+Pipelining is enabled.
+<10.15.164.238> ESTABLISH PSRP CONNECTION FOR USER: kphanat3 ON PORT 5985 TO 10.15.164.238
+PSRP: EXEC (via pipeline wrapper)
+changed: [csc2cwp00008395.cloud.kp.org] => {
+    "changed": true,
+    "cmd": "c:\\\\\\\\ANSIBLE-VM-AND-ESXI-REPORT\\\\\\\\export_vm_and_hosts_details_from_vCenter.ps1 -vcenter_server \\"alab.cloud.kp.org\\" -vcenter_user \\"kphanat10@cs.msds.kp.org\\" -vcenter_password \\"p9=3{9H.#dStZNzX\\"",
+    "delta": "0:01:37.874831",
+    "end": "2024-09-17 19:14:12.043316",
+    "rc": 0,
+    "start": "2024-09-17 19:12:34.168484",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "\\r\\nScope    ProxyPolicy     DefaultVIServerMode InvalidCertificateAction  DisplayDeprecationWarnings WebOperationTimeout\\r\\n                                                                                                  Seconds            \\r\\n-----    -----------     ------------------- ------------------------  -------------------------- -------------------\\r\\nSession  UseSystemProxy  Multiple            Ignore                    True                       300                \\r\\nUser                                         Ignore                                                                  \\r\\nAllUsers                                     Ignore                                                                  \\r\\n\\r\\nIsConnected   : True\\r\\nId            : /VIServer=cs\\\\kphanat10@alab.cloud.kp.org:443/\\r\\nServiceUri    : https://alab.cloud.kp.org/sdk\\r\\nSessionSecret : \\"967d4617ec17ab2ba0c891d31e27043705c559e9\\"\\r\\nName          : alab.cloud.kp.org\\r\\nPort          : 443\\r\\nSessionId     : \\"967d4617ec17ab2ba0c891d31e27043705c559e9\\"\\r\\nUser          : CS\\\\kphanat10\\r\\nUid           : /VIServer=cs\\\\kphanat10@alab.cloud.kp.org:443/\\r\\nVersion       : 8.0.2\\r\\nBuild         : 23929136\\r\\nProductLine   : vpx\\r\\nInstanceUuid  : 2343bab0-c2be-4528-88a3-7fc89d2d7424\\r\\nRefCount      : 1\\r\\nExtensionData : VMware.Vim.ServiceInstance\\r\\n\\r\\nTOTAL NUMBER OF VM'S      : 90\\nTOTAL NUMBER OF ITERATION : 9\\n\\n\\n\\nPROCESSING BATCH 1/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: iis_2019vm, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: testingvm, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: BIG-IQ-8.3.0-Pri, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 4/5/6/7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: gen5_windowsMSSQL2022, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2022 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: gen5_linx87, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: gen5_win_mssql_testing, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cwp21114901, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: one_fuse, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Nexus-DashBoard-3, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: vSphere_Replication_SA2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: VMware Photon OS (64-bit), z_vcenter_vm:enrichment\\n10 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 2/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: csc2cxn21111630_Clone, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cwn21111661_Clone, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Lakshman-Ansible-02, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: SATYA-05, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cwn00025129Clone_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: 33-BLUE-WEB, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Nexus-DashBoard-2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cwn00025129-Main, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: bastion.ocp-sbx01-bdc.k8s.kp.org, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 9 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Python-dev, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\n20 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 3/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: GenF-Network-Ansible, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Clone-Ansiblenode-1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Nexus-DashBoard-1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: gen5AnsibleDev_no_change_no_delete, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: gen5_linux92, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 9 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: srm-va2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: SATYA-02_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: gen5-windows2022, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Kenny-1(TensorFlow), vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: SATYA-01, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\n30 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 4/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: cssdomwie007, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Lakshman-Ansible-01, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: 22-GREEN-WEB, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Other (32-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Ubuntu-Network-Ansible, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: acisim-5.3-1d, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cxn21111630-Original, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cxn21111630_Clone2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: tftestrheshan1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 9 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: shanwin001, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: coreos-OCP, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\n40 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 5/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: VMT-XMWS6.1-Windows2022-SQLSSMS, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows3_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows5_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows7, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows18, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: terraformtest73, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows21, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows6, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows22, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows20, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\n50 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 6/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: Test-Windows13, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows23, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows4_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows14, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows17, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows19, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows11, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: terraformtest902, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows16, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows9, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\n60 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 7/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: Test-Windows8, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: terraformtest74, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows2_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: tftest905, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows15, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: BIG-IQ-8.3.0-Sec, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 4/5/6/7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: BIGIP-15.1.10.2-0.0.2-Standby, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: BIGIP-15.1.10.2-0.0.2-Active, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: 11-RED-WEB, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: NW-Automation, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\n70 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 8/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: SATYA-03, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: test24_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: gitlab, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: test22_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: SATYA-04, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Test-Windows1_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: alab.cloud.kp.org, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: VMware Photon OS (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: test25_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: test23_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: automationVM, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\n80 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\nPROCESSING BATCH 9/9 Of VM'S...\\nTOTAL VM'S IN THIS BATCH: 10\\nProcessed bp_host: test21_q2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: csc2cwn00025129-Test, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: AAP-Dev, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: Repo.cloud.kp.org, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: cssdomwie006, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: sathc135, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: AAP-Dev1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: test20_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment\\nProcessed bp_host: alab_old_do_not_power_on, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2308.bcdc.kp.org, vc_cluster: BDC-LAB-STG-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment\\nProcessed bp_host: ansible-tower(KYang), vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment\\n90 VM'S PROCESSED SUCCESSFULLY\\n\\n\\n\\n****************** ALL VM'S HAS BEEN PROCESSED SUCCESSFULLY !! *************************\\n\\r\\n\\r\\n",
+    "stdout_lines": [
+        "",
+        "Scope    ProxyPolicy     DefaultVIServerMode InvalidCertificateAction  DisplayDeprecationWarnings WebOperationTimeout",
+        "                                                                                                  Seconds            ",
+        "-----    -----------     ------------------- ------------------------  -------------------------- -------------------",
+        "Session  UseSystemProxy  Multiple            Ignore                    True                       300                ",
+        "User                                         Ignore                                                                  ",
+        "AllUsers                                     Ignore                                                                  ",
+        "",
+        "IsConnected   : True",
+        "Id            : /VIServer=cs\\\\kphanat10@alab.cloud.kp.org:443/",
+        "ServiceUri    : https://alab.cloud.kp.org/sdk",
+        "SessionSecret : \\"967d4617ec17ab2ba0c891d31e27043705c559e9\\"",
+        "Name          : alab.cloud.kp.org",
+        "Port          : 443",
+        "SessionId     : \\"967d4617ec17ab2ba0c891d31e27043705c559e9\\"",
+        "User          : CS\\\\kphanat10",
+        "Uid           : /VIServer=cs\\\\kphanat10@alab.cloud.kp.org:443/",
+        "Version       : 8.0.2",
+        "Build         : 23929136",
+        "ProductLine   : vpx",
+        "InstanceUuid  : 2343bab0-c2be-4528-88a3-7fc89d2d7424",
+        "RefCount      : 1",
+        "ExtensionData : VMware.Vim.ServiceInstance",
+        "",
+        "TOTAL NUMBER OF VM'S      : 90",
+        "TOTAL NUMBER OF ITERATION : 9",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 1/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: iis_2019vm, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: testingvm, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: BIG-IQ-8.3.0-Pri, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 4/5/6/7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: gen5_windowsMSSQL2022, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2022 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: gen5_linx87, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: gen5_win_mssql_testing, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cwp21114901, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: one_fuse, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Nexus-DashBoard-3, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: vSphere_Replication_SA2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: VMware Photon OS (64-bit), z_vcenter_vm:enrichment",
+        "10 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 2/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: csc2cxn21111630_Clone, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cwn21111661_Clone, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Lakshman-Ansible-02, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: SATYA-05, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cwn00025129Clone_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: 33-BLUE-WEB, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Nexus-DashBoard-2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cwn00025129-Main, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: bastion.ocp-sbx01-bdc.k8s.kp.org, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 9 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Python-dev, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "20 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 3/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: GenF-Network-Ansible, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Clone-Ansiblenode-1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Nexus-DashBoard-1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: gen5AnsibleDev_no_change_no_delete, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: gen5_linux92, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 9 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: srm-va2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: SATYA-02_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: gen5-windows2022, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Kenny-1(TensorFlow), vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: SATYA-01, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "30 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 4/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: cssdomwie007, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Lakshman-Ansible-01, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: 22-GREEN-WEB, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Other (32-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Ubuntu-Network-Ansible, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: acisim-5.3-1d, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Ubuntu Linux (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cxn21111630-Original, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cxn21111630_Clone2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: tftestrheshan1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 9 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: shanwin001, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: coreos-OCP, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "40 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 5/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: VMT-XMWS6.1-Windows2022-SQLSSMS, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows3_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows5_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows7, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows18, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: terraformtest73, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows21, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows6, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows22, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows20, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "50 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 6/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: Test-Windows13, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows23, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows4_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows14, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows17, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows19, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows11, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: terraformtest902, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows16, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows9, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "60 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 7/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: Test-Windows8, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: terraformtest74, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows2_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: tftest905, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows15, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: BIG-IQ-8.3.0-Sec, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 4/5/6/7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: BIGIP-15.1.10.2-0.0.2-Standby, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: BIGIP-15.1.10.2-0.0.2-Active, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: CentOS 7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: 11-RED-WEB, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: NW-Automation, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "70 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 8/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: SATYA-03, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: test24_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: gitlab, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: test22_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: SATYA-04, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Test-Windows1_q124, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: alab.cloud.kp.org, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: VMware Photon OS (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: test25_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: test23_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: automationVM, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "80 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "PROCESSING BATCH 9/9 Of VM'S...",
+        "TOTAL VM'S IN THIS BATCH: 10",
+        "Processed bp_host: test21_q2, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: csc2cwn00025129-Test, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: AAP-Dev, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: Repo.cloud.kp.org, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2019 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: cssdomwie006, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: sathc135, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2307.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: AAP-Dev1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 8 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: test20_q1, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Microsoft Windows Server 2016 (64-bit), z_vcenter_vm:enrichment",
+        "Processed bp_host: alab_old_do_not_power_on, vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2308.bcdc.kp.org, vc_cluster: BDC-LAB-STG-GenF, vc_data_center: alab-GenF, vc_guestos: , z_vcenter_vm:enrichment",
+        "Processed bp_host: ansible-tower(KYang), vc_vcenter_server: alab.cloud.kp.org, vc_physical_host: rmbdcesxp2309.bcdc.kp.org, vc_cluster: BDC-ALAB-GenF, vc_data_center: alab-GenF, vc_guestos: Red Hat Enterprise Linux 7 (64-bit), z_vcenter_vm:enrichment",
+        "90 VM'S PROCESSED SUCCESSFULLY",
+        "",
+        "",
+        "",
+        "****************** ALL VM'S HAS BEEN PROCESSED SUCCESSFULLY !! *************************",
+        "",
+        ""
+    ]
+}
+
+TASK [javed_test : Get Content Of File vcenter_topology_alab_vm.csv] ***********
+task path: /runner/project/roles/javed_test/tasks/fetch_vm_and_cluster_info_using_vcenter_script.yml:16
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+Using module file /usr/share/ansible/collections/ansible_collections/ansible/windows/plugins/modules/win_shell.ps1
+Pipelining is enabled.
+<10.15.164.238> ESTABLISH PSRP CONNECTION FOR USER: kphanat3 ON PORT 5985 TO 10.15.164.238
+PSRP: EXEC (via pipeline wrapper)
+changed: [csc2cwp00008395.cloud.kp.org] => {
+    "changed": true,
+    "cmd": "type c:\\\\ANSIBLE-VM-AND-ESXI-REPORT\\\\vcenter_topology_alab_vm.csv",
+    "delta": "0:00:00.875088",
+    "end": "2024-09-17 19:14:17.012554",
+    "rc": 0,
+    "start": "2024-09-17 19:14:16.137466",
+    "stderr": "",
+    "stderr_lines": [],
+    "stdout": "\\"bp_host\\",\\"vc_vcenter_server\\",\\"vc_physical_host\\",\\"vc_cluster\\",\\"vc_data_center\\",\\"vc_guestos\\",\\"z_vcenter_vm\\"\\r\\n\\"iis_2019vm\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"testingvm\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"BIG-IQ-8.3.0-Pri\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 4/5/6/7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"gen5_windowsMSSQL2022\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2022 (64-bit)\\",\\"enrichment\\"\\r\\n\\"gen5_linx87\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"gen5_win_mssql_testing\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"csc2cwp21114901\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"one_fuse\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Nexus-DashBoard-3\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"\\r\\n\\"vSphere_Replication_SA2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"VMware Photon OS (64-bit)\\",\\"enrichment\\"\\r\\n\\"csc2cxn21111630_Clone\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"csc2cwn21111661_Clone\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Lakshman-Ansible-02\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"SATYA-05\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"csc2cwn00025129Clone_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"33-BLUE-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Nexus-DashBoard-2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"\\r\\n\\"csc2cwn00025129-Main\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"bastion.ocp-sbx01-bdc.k8s.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Python-dev\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"GenF-Network-Ansible\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Clone-Ansiblenode-1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Nexus-DashBoard-1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"\\r\\n\\"gen5AnsibleDev_no_change_no_delete\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"gen5_linux92\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"\\r\\n\\"srm-va2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"SATYA-02_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"gen5-windows2022\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Kenny-1(TensorFlow)\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"SATYA-01\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"cssdomwie007\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Lakshman-Ansible-01\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"22-GREEN-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Other (32-bit)\\",\\"enrichment\\"\\r\\n\\"Ubuntu-Network-Ansible\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"acisim-5.3-1d\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"\\r\\n\\"csc2cxn21111630-Original\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"csc2cxn21111630_Clone2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"tftestrheshan1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"\\r\\n\\"shanwin001\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"coreos-OCP\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"VMT-XMWS6.1-Windows2022-SQLSSMS\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Test-Windows3_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows5_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows7\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows18\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"terraformtest73\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Test-Windows21\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows6\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows22\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows20\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows13\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Test-Windows23\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows4_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows14\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows17\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows19\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows11\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"terraformtest902\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Test-Windows16\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows9\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Test-Windows8\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"terraformtest74\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows2_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"tftest905\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"Test-Windows15\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"BIG-IQ-8.3.0-Sec\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 4/5/6/7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"BIGIP-15.1.10.2-0.0.2-Standby\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"BIGIP-15.1.10.2-0.0.2-Active\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"11-RED-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"NW-Automation\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"SATYA-03\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"test24_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"gitlab\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"test22_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"SATYA-04\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Test-Windows1_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"alab.cloud.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"VMware Photon OS (64-bit)\\",\\"enrichment\\"\\r\\n\\"test25_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"test23_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"automationVM\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n\\"test21_q2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"csc2cwn00025129-Test\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"AAP-Dev\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"Repo.cloud.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"\\r\\n\\"cssdomwie006\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"sathc135\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"AAP-Dev1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"\\r\\n\\"test20_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"\\r\\n\\"alab_old_do_not_power_on\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2308.bcdc.kp.org\\",\\"BDC-LAB-STG-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"\\r\\n\\"ansible-tower(KYang)\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"\\r\\n",
+    "stdout_lines": [
+        "\\"bp_host\\",\\"vc_vcenter_server\\",\\"vc_physical_host\\",\\"vc_cluster\\",\\"vc_data_center\\",\\"vc_guestos\\",\\"z_vcenter_vm\\"",
+        "\\"iis_2019vm\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"testingvm\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIG-IQ-8.3.0-Pri\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 4/5/6/7 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_windowsMSSQL2022\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2022 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_linx87\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_win_mssql_testing\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"csc2cwp21114901\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"one_fuse\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Nexus-DashBoard-3\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"vSphere_Replication_SA2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"VMware Photon OS (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cxn21111630_Clone\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn21111661_Clone\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Lakshman-Ansible-02\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"SATYA-05\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn00025129Clone_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"33-BLUE-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Nexus-DashBoard-2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn00025129-Main\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"bastion.ocp-sbx01-bdc.k8s.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"",
+        "\\"Python-dev\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"GenF-Network-Ansible\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Clone-Ansiblenode-1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Nexus-DashBoard-1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5AnsibleDev_no_change_no_delete\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_linux92\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"",
+        "\\"srm-va2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"SATYA-02_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"gen5-windows2022\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Kenny-1(TensorFlow)\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"SATYA-01\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"cssdomwie007\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Lakshman-Ansible-01\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"22-GREEN-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Other (32-bit)\\",\\"enrichment\\"",
+        "\\"Ubuntu-Network-Ansible\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"acisim-5.3-1d\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cxn21111630-Original\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"csc2cxn21111630_Clone2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"tftestrheshan1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"",
+        "\\"shanwin001\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"coreos-OCP\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"VMT-XMWS6.1-Windows2022-SQLSSMS\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows3_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows5_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows7\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows18\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"terraformtest73\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows21\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows6\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows22\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows20\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows13\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows23\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows4_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows14\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows17\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows19\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows11\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"terraformtest902\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows16\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows9\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows8\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"terraformtest74\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows2_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"tftest905\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows15\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIG-IQ-8.3.0-Sec\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 4/5/6/7 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIGIP-15.1.10.2-0.0.2-Standby\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIGIP-15.1.10.2-0.0.2-Active\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"11-RED-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"NW-Automation\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"SATYA-03\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"test24_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"gitlab\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"test22_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"SATYA-04\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows1_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"alab.cloud.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"VMware Photon OS (64-bit)\\",\\"enrichment\\"",
+        "\\"test25_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"test23_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"automationVM\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"test21_q2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn00025129-Test\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"AAP-Dev\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Repo.cloud.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"cssdomwie006\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"sathc135\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"AAP-Dev1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"test20_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"alab_old_do_not_power_on\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2308.bcdc.kp.org\\",\\"BDC-LAB-STG-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"ansible-tower(KYang)\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\""
+    ]
+}
+
+TASK [javed_test : Print Content Of File vcenter_topology_alab_vm.csv] *********
+task path: /runner/project/roles/javed_test/tasks/fetch_vm_and_cluster_info_using_vcenter_script.yml:21
+ok: [csc2cwp00008395.cloud.kp.org] => {
+    "msg": [
+        "\\"bp_host\\",\\"vc_vcenter_server\\",\\"vc_physical_host\\",\\"vc_cluster\\",\\"vc_data_center\\",\\"vc_guestos\\",\\"z_vcenter_vm\\"",
+        "\\"iis_2019vm\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"testingvm\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIG-IQ-8.3.0-Pri\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 4/5/6/7 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_windowsMSSQL2022\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2022 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_linx87\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_win_mssql_testing\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"csc2cwp21114901\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"one_fuse\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Nexus-DashBoard-3\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"vSphere_Replication_SA2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"VMware Photon OS (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cxn21111630_Clone\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn21111661_Clone\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Lakshman-Ansible-02\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"SATYA-05\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn00025129Clone_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"33-BLUE-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Nexus-DashBoard-2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn00025129-Main\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"bastion.ocp-sbx01-bdc.k8s.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"",
+        "\\"Python-dev\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"GenF-Network-Ansible\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Clone-Ansiblenode-1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Nexus-DashBoard-1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5AnsibleDev_no_change_no_delete\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"gen5_linux92\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"",
+        "\\"srm-va2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"SATYA-02_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"gen5-windows2022\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Kenny-1(TensorFlow)\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"SATYA-01\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"cssdomwie007\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Lakshman-Ansible-01\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"22-GREEN-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Other (32-bit)\\",\\"enrichment\\"",
+        "\\"Ubuntu-Network-Ansible\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"acisim-5.3-1d\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Ubuntu Linux (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cxn21111630-Original\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"csc2cxn21111630_Clone2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"tftestrheshan1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 9 (64-bit)\\",\\"enrichment\\"",
+        "\\"shanwin001\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"coreos-OCP\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"VMT-XMWS6.1-Windows2022-SQLSSMS\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows3_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows5_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows7\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows18\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"terraformtest73\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows21\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows6\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows22\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows20\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows13\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows23\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows4_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows14\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows17\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows19\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows11\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"terraformtest902\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows16\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows9\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows8\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"terraformtest74\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows2_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"tftest905\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"Test-Windows15\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIG-IQ-8.3.0-Sec\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 4/5/6/7 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIGIP-15.1.10.2-0.0.2-Standby\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"BIGIP-15.1.10.2-0.0.2-Active\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"CentOS 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"11-RED-WEB\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"NW-Automation\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"SATYA-03\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"test24_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"gitlab\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"test22_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"SATYA-04\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"Test-Windows1_q124\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"alab.cloud.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"VMware Photon OS (64-bit)\\",\\"enrichment\\"",
+        "\\"test25_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"test23_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"automationVM\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\"",
+        "\\"test21_q2\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"csc2cwn00025129-Test\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"AAP-Dev\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"Repo.cloud.kp.org\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2019 (64-bit)\\",\\"enrichment\\"",
+        "\\"cssdomwie006\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"sathc135\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2307.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"AAP-Dev1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 8 (64-bit)\\",\\"enrichment\\"",
+        "\\"test20_q1\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Microsoft Windows Server 2016 (64-bit)\\",\\"enrichment\\"",
+        "\\"alab_old_do_not_power_on\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2308.bcdc.kp.org\\",\\"BDC-LAB-STG-GenF\\",\\"alab-GenF\\",,\\"enrichment\\"",
+        "\\"ansible-tower(KYang)\\",\\"alab.cloud.kp.org\\",\\"rmbdcesxp2309.bcdc.kp.org\\",\\"BDC-ALAB-GenF\\",\\"alab-GenF\\",\\"Red Hat Enterprise Linux 7 (64-bit)\\",\\"enrichment\\""
+    ]
+}
+META: role_complete for csc2cwp00008395.cloud.kp.org
+META: ran handlers
+META: ran handlers
+
+PLAY RECAP *********************************************************************
+csc2cwp00008395.cloud.kp.org : ok=4    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+localhost                  : ok=7    changed=1    unreachable=0    failed=0    skipped=10   rescued=0    ignored=0

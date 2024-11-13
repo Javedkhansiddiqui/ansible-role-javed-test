@@ -1,0 +1,136 @@
+---
+# - name: "First Play - Socks Tunnel Check"
+#   hosts: localhost
+#   connection: local
+#   gather_facts: true
+#   roles:
+#     - role: ansible-role-event-socks-tunnel
+
+
+- name: "Second Play - This is the example of ansible with python to read excel file data"
+  hosts: "{{ linux_jump | default([]) }}"
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+    vcenter_server: "alab.cloud.kp.org"
+    vcenter_user: "kphanat10@cs.msds.kp.org"
+    vcenter_password: "p9=3{9H.#dStZNzX"
+    export_share_path: "C:\\path\\"    # "\\\\emp.appl.kp.org\\BigPanda\\Enrichment\\To_be_Upload\\vCenter"
+    linux_jump: "csc2cxp21113105.cloud.kp.org"
+  tasks:
+    - name: "Login into vCenter And Get Session"
+      ansible.builtin.uri:
+        url: https://{{ vcenter_server }}/rest/com/vmware/cis/session
+        force_basic_auth: true
+        validate_certs: false
+        method: POST
+        user: "{{ vcenter_user }}"
+        password: "{{ vcenter_password }}"
+      register: login_output
+      no_log: true
+
+
+    - name: "Get All VMs From VCenter- {{ vcenter_server }}"
+      ansible.builtin.uri:
+        url: https://{{ vcenter_server }}/rest/vcenter/vm
+        force_basic_auth: true
+        validate_certs: false
+        headers:
+          Cookie: "{{ login_output.set_cookie }}"
+      register: vms_output
+      no_log: true
+
+
+    - name: "[Create A List With All VM's From VCenter- {{ vcenter_server }}"
+      ansible.builtin.set_fact:
+        all_vm_list: "{{ all_vm_list | default([]) + [item.name] }}"
+      with_items: "{{ vms_output.json.value }}"
+
+
+    - name: "Print All VM List -> 'all_vm_list'"
+      ansible.builtin.debug:
+        msg:
+          - "{{ all_vm_list }}"
+
+
+    - name: "How Many Vm's Are There in -> 'all_vm_list'"
+      ansible.builtin.set_fact:
+        number_of_elements: "{{ all_vm_list | length }}" # 6000
+
+
+    - name: "Create File Name Extention"
+      ansible.builtin.set_fact:
+        my_file_name: "vcenter_topology_{{ vcenter_server.split('.')[0] }}_vm.csv"
+
+
+    - name: "End pLay"
+      ansible.builtin.meta: end_play
+
+
+    - name: "Delete File On {{ linux_jump }} , If Exist"
+      ansible.builtin.file:
+        path: "/tmp/{{ my_file_name }}"
+        state: absent
+
+
+    - name: "Delete File On localhost , If Exist"
+      ansible.builtin.file:
+        path: "/tmp/{{ my_file_name }}"
+        state: absent
+      delegate_to: localhost
+
+
+    - name: "CSV - Create File And Set The Header As First Input"
+      ansible.builtin.lineinfile:
+        dest: "/tmp/{{ my_file_name }}"
+        line: "bp_host,vc_vcenter_server,vc_physical_host,vc_datacenter,vc_guestos,z_vcenter_vm"
+        insertafter: EOF
+        create: true
+        mode: "0677"
+        state: present
+
+
+    - name: "This Block Will Loop Over All VM's inside {{ vcenter_server }}"
+      ansible.builtin.include_tasks: VM_and_ESXI_caller.yml
+      loop: "{{ all_vm_list }}"
+      loop_control:
+        index_var: my_idx
+
+
+
+    - name: "Copying File From {{ linux_jump }} -> Localhost" # noqa name[template]
+      ansible.builtin.fetch:
+        src: "/tmp/{{ my_file_name }}"
+        dest: "/tmp/"
+        flat: true
+
+
+    - name: "Read File From => '{{ linux_jump }}'"
+      ansible.builtin.command:
+        cmd: "cat /tmp/{{ my_file_name }}"
+      register: vm_content_linux_jump
+      changed_when: vm_content_linux_jump.rc == 0
+
+
+    - name: "Read File From => 'Localhost'"
+      ansible.builtin.command:
+        cmd: "cat /tmp/{{ my_file_name }}"
+      register: vm_content_localhost
+      changed_when: vm_content_localhost.rc == 0
+      delegate_to: localhost
+
+
+    - name: "Copying File From Localhost -> {{ windows_jump }}"
+      ansible.windows.win_copy:
+        src: "/tmp/{{ my_file_name }}"
+        dest: "c:\\ANSIBLE_SMTP\\"
+        remote_src: false
+      delegate_to: "{{ windows_jump }}"
+      vars:
+        become_user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+        become: true
+        ansible_python_interpreter: "/usr/bin/python"
+        ansible_user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+        ansible_password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
+        account_code: "{{ hostvars['localhost']['account_code'] }}"
+        trans_num: "{{ hostvars['localhost']['trans_num'] }}"

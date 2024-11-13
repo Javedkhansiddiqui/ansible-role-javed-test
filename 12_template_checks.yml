@@ -1,0 +1,24 @@
+---
+- name: "This Is The Template Program"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_env: "d"
+    my_environment: "KPHC"
+    my_region: "HI"
+    primary_data_center: "PDC"
+    target_data_center: "NDC"
+    preffered_folder: "dialysis_kpfted_report"
+    file_system_type: "HYBRID WINDOWS UNIX"
+    requester: "jithin.kv@kyndryl.com"
+  tasks:
+    - name: "Debug"
+      ansible.builtin.debug:
+        msg: "{{ Test | d('None') }}"
+
+    - name: "Creating Template To print In Table"
+      ansible.builtin.template:
+        src: "12_template_checks.html.j2"
+        dest: "/var/www/html/index.html"
+        mode: "0700"
+      become: true

@@ -1,0 +1,35 @@
+---
+- name: This is a example of Dict,List Loop in Ansible
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Create servers
+      ansible.builtin.set_fact:
+        name_list: "{{ item.name }} is on {{ my_idx }}"
+      loop:
+        - name: server1
+          disks: 3gb
+          ram: 15Gb
+          network:
+            nic01: 100Gb
+            nic02: 10Gb
+        - name: server2
+          disks: 3gb
+          ram: 15Gb
+          network:
+            nic01: 100Gb
+            nic02: 10Gb
+        - name: server3
+          disks: 3gb
+          ram: 15Gb
+          network:
+            nic01: 100Gb
+            nic02: 10Gb
+      loop_control:
+        label: "{{ item.name }}"
+        index_var: my_idx
+
+
+    - name: Print
+      ansible.builtin.debug:
+        msg: "{{ name_list }}"

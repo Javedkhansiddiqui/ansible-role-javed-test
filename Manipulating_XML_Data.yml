@@ -1,0 +1,15 @@
+- name: "This Is The Example To Read XML File"
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Get Count Of 'beers' nodes
+      community.general.xml:
+        path: Manipulating_XML_Data.xml
+        xpath: /business/beers/beer
+        count: true
+      register: hits
+
+
+    - name: "Print Data"
+      ansible.builtin.debug:
+        var: hits.count

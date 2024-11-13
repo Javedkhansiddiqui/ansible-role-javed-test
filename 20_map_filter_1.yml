@@ -1,0 +1,28 @@
+---
+- name: Transform and display media agent FQDN and IP data
+  hosts: localhost
+  gather_facts: false
+  vars:
+    "mediaagent_fqdn_ip": [
+        [
+          "{",
+          "    \"Name\": \"pzxtbs1.pldc.kp.org\",",
+          "    \"IPAddress\": \"10.16.15.36\"",
+          "}",
+        ],
+        [
+          "{",
+          "    \"Name\": \"pzxtbs2.pldc.kp.org\",",
+          "    \"IPAddress\": \"10.16.15.38\"",
+          "}"
+        ]
+      ]
+  tasks:
+    - name: Parse raw data to JSON format
+      ansible.builtin.set_fact:
+        mediaagent_fqdn_ip_final: "{{ mediaagent_fqdn_ip | map('join', '') | map('from_json') }}"
+
+
+    - name: Display transformed media agent data
+      ansible.builtin.debug:
+        var: mediaagent_fqdn_ip_final

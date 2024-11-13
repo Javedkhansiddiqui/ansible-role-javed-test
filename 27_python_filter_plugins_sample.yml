@@ -1,0 +1,15 @@
+---
+- name: "stdout_callback example"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    input: ["a", "b", "c"]
+    test1: The quick brown fox jumps over the lazy dog
+    test2: The quick,brown fox,jumps over,the lazy dog
+  tasks:
+    - name: "Print from_json"
+      ansible.builtin.debug:
+        msg:
+          - "{{ 'abc' | string_postfix('-postfix') }}"
+          - "{{ 'abc' | string_postfix('prefix-') }}"
+          - "{{ test1 | string_replace(' ', '-') }}"

@@ -1,0 +1,29 @@
+{
+    "name": "Javed Khan Siddque Survey",
+    "description": "Javed Khan Siddque Survey Testing Description",
+    "spec": [
+        {
+            "type": "multiplechoice",
+            "question_name": "Select The Color",
+            "question_description": "Select From Drop Down",
+            "min": null,
+            "default": "BLACK",
+            "max": null,
+            "required": true,
+            "choices": "RED\nGREEN\nBLUE\nBLACK",
+            "variable": "my_survey_color"
+        },
+        {
+            "type": "multiplechoice",
+            "question_name": "Select a command you would like to execute",
+            "question_description": "Restricted list of commands executable by operator",
+            "required": true,
+            "min": 0,
+            "max": 1024,
+            "default": "show version",
+            "choices": "show version\nshow ip interface brief\nshow interface description\nshow ip route",
+            "new_question": true,
+            "variable": "controller_input"
+        }
+    ]
+}

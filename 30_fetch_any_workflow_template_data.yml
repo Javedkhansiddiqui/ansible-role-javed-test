@@ -1,0 +1,51 @@
+- name: "Fetch Running Time Details From Tower"
+  hosts: localhost
+  gather_facts: true
+  # ignore_errors: true
+  # ignore_unreachable: true
+  vars:
+    ansible_python_interpreter: python
+    my_workflow_id: "3663"
+  tasks:
+    - name: "First - Fetching Job Details - AAP"
+      ansible.builtin.uri:
+        url: "{{ lookup('env', 'TOWER_HOST') }}/api/v2/workflow_job_templates/{{ my_workflow_id }}"
+        # url: "{{ lookup('env', 'TOWER_HOST') }}/api/v2/workflow_jobs/"
+        method: GET
+        user: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+        body_format: json
+        status_code: 201, 200
+        force_basic_auth: true
+        validate_certs: false
+        use_proxy: false
+        # params:
+        #   workflow_template: "{{ my_workflow_id }}"
+        #   order_by: "-created"
+        #   page_size: 1
+      register: get_workflow_data
+      delegate_to: localhost
+      no_log: false
+      become: false
+
+
+    - name: "Set-Fact 'my_last_job_dict' - DICT"
+      ansible.builtin.set_fact:
+        my_last_job_dict: "{{ my_last_job_dict | default([]) + [get_workflow_data.json.summary_fields.last_job] }}"
+
+
+  # "my_last_job_dict": [
+  #     {
+  #       "id": 2069173,
+  #       "name": "kp2_workflow_storage_san_powermax_reservation",
+  #       "description": "",
+  #       "finished": "2023-12-11T14:25:20.146442Z",
+  #       "status": "successful",
+  #       "failed": false
+  #     }
+  #   ]
+
+
+    # - name: "Set-Fact 'storage_details' For Current Play Input"
+    #   ansible.builtin.set_fact:
+    #     storage_details: "{{ my_extra_var.storage_device }}"

@@ -1,0 +1,8 @@
+---
+- name: Gather Linux Server Details
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Display Linux server information
+      ansible.builtin.debug:
+        var: ansible_facts

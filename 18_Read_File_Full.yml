@@ -1,0 +1,18 @@
+---
+- name: "This Is The Template Program"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    hba_lun_report: "library/vm_details2.csv"
+
+  tasks:
+    - name: "Display multiple file contents -1"
+      ansible.builtin.debug:
+        var: item
+      with_file:
+        - "{{ hba_lun_report }}"
+
+
+    - name: "Display multiple file contents -2"
+      ansible.builtin.debug:
+        msg: "the value of foo.txt is {{ lookup('ansible.builtin.file', '{{ hba_lun_report }}') }}"

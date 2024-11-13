@@ -1,0 +1,26 @@
+- name: "One To One With nested Loop"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    list1: ["apple", "banana", "cherry"]
+    list2: ["red", "yellow", "dark red"]
+    list3: ["A", "B", "C"]
+  tasks:
+    - name: "One To One With nested Loop"
+      ansible.builtin.debug:
+        msg: "{{ item.0 }} has maped with {{ item[1] }} and {{ item.2 }}"
+      with_together:
+        - "{{ list1 }}"
+        - "{{ list2 }}"
+        - "{{ list3 }}"
+
+
+# ok: [localhost] => (item=['apple', 'red']) => {
+#     "msg": "apple has maped with red"
+# }
+# ok: [localhost] => (item=['banana', 'yellow']) => {
+#     "msg": "banana has maped with yellow"
+# }
+# ok: [localhost] => (item=['cherry', 'dark red']) => {
+#     "msg": "cherry has maped with dark red"
+# }

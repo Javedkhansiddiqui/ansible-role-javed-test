@@ -1,0 +1,148 @@
+---
+- name: "This is a Example of MultiLine Variable If Condition"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    System_Environment: "Producion"
+    Application_Region: "South California"
+    Division: "Javed"
+    File_System_Type: "HYBRID (Windows/Unix/Linux)"
+    File_Share_Name: "/mydepartment"
+    Data_Center: "NDC - Napa"
+  tasks:
+    - name: "Set-fact Names"
+      ansible.builtin.set_fact:
+        env: >-
+          {%- if System_Environment == "Production" -%}
+          P
+          {%- else -%}
+          D
+          {%- endif -%}
+        # app-id: >-
+        #   {%- if dedicated_storage_environment == "YES" -%}
+        #     {%- if listed_dedicated_storage_environment == "YES" -%}
+        #     "{{ find_application.application_details.app-id.split("-") | last }}"
+        #     {%- else -%}
+        #     "{{ find_application.application_details.app-id.split("-") | last }}"
+        #   {%- else -%}
+        #   "{{ find_application.application_details.app-id.split("-") | last }}"
+        #   {%- endif -%}
+        region: >-
+          {%- if Application_Region == "National" -%}
+          NA
+          {%- elif Application_Region == "North California" -%}
+          NC
+          {%- elif Application_Region == "South California" -%}
+          SC
+          {%- elif Application_Region == "Hawaii" -%}
+          HI
+          {%- elif Application_Region == "Georgia" -%}
+          GA
+          {%- elif Application_Region == "Colorado" -%}
+          CO
+          {%- elif Application_Region == "Mid-Atlantic" -%}
+          MA
+          {%- elif Application_Region == "Northwest" -%}
+          NW
+          {%- else -%}
+          WA
+          {%- endif -%}
+        division: >-
+          {%- if Division == "Corporate IT" -%}
+          CIT
+          {%- elif Division == "Foundation" -%}
+          FOU
+          {%- else -%}
+          HOS
+          {%- endif -%}
+        file_system_type: >-
+          {%- if File_System_Type == "NFS (Unix)" -%}
+          NFS UNIX
+          {%- elif File_System_Type == "NFS (Linux)" -%}
+          NFS LINUX
+          {%- elif File_System_Type == "NFS (Unix/Linux)" -%}
+          NFS UNIX LINUX
+          {%- elif File_System_Type == "HYBRID (Windows/Linux)" -%}
+          HYBRID WINDOWS LINUX
+          {%- elif File_System_Type == "HYBRID (Windows/Unix)" -%}
+          HYBRID WINDOWS UNIX
+          {%- elif File_System_Type == "HYBRID (Windows/Unix/Linux)" -%}
+          HYBRID WINDOWS UNIX LINUX
+          {%- else -%}
+          SMB WINDOWS
+          {%- endif -%}
+        file_Share_name: "{{ File_Share_Name  }}"
+        Data_Center: >-
+          {%- if Data_Center == "NDC - Napa" -%}
+          NDC
+          {%- elif Data_Center == "CDC - Corona" -%}
+          CDC
+          {%- elif Data_Center == "SSDC - Silver Spring" -%}
+          SSDC
+          {%- elif Data_Center == "Other/Non-Data Center locationg" -%}
+              {%- if Region == "Hi - Hawaii" -%}
+              HI
+              {%- elif Region == "Co - Colorado" -%}
+              CO
+              {%- elif Region == "DS" -%}
+              DS
+              {%- elif Region == "GA - Georgia" -%}
+              GA
+              {%- else -%}
+              MA
+              {% endif %}
+          {%- endif -%}
+        my_check: >-
+          {%- if "HYBRID" in File_System_Type -%}
+          HYBRID
+          {%- elif "NFS" in File_System_Type -%}
+          NFS
+          {%- else -%}
+          SMB
+          {%- endif -%}
+
+
+    - name: "Print Data"
+      ansible.builtin.debug:
+        msg:
+          - "{{ env }}"
+          - "{{ region }}"
+          - "{{ division }}"
+          - "{{ my_check }}"
+          - "{{ File_System_Type }}"
+          - "{{ env }}/{{ region }}/{{ division }}/{{ my_check }}"
+
+# =========================
+# NDC - Napa
+# CDC - Corona
+# SSDC - Silver Spring
+# Other/Non-Data Center location
+
+# AD Permissions
+# =========================
+# AD Group Name
+# ----
+# AD Group Access level
+# ----
+# Read Only
+# Read-Write
+# Modify
+# Full
+
+
+# Owner Details
+# ==========================
+# Server IP Address(es)
+# 172.0.0.1
+# Owner details (GroupID:UID)
+# 3506:6501
+
+# Preferred Mount Point Name
+# ==========================
+# abcv
+
+# File Share Access Permissions (Read, Write and Execute permissions for User, Group and Others)
+# ==========================
+# 754("User:read,write,execute" "Group:read,execute" "Others:read"
+# 700("User:read,write,execute" "Group:no access" "Others:no access"
+# 777("User:read,write,execute" "Group:read,write,execute" "Others:read,write,execute"

@@ -1,0 +1,49 @@
+---
+- name: "Run Ansible Tower Job Template with Dynamic Credential"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_env: 'genf'
+  tasks:
+    - name: "Set Tower Variables Before Play"
+      ansible.builtin.set_fact:
+        tower_host: "{{ lookup('env', 'TOWER_HOST') }}"   # Tower Host Name
+        tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"  # Tower Username To Connect To Tower / credential_id_tower
+        tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}" # Tower Password To Connect To Tower / credential_id_tower
+        job_template_id: "8477"  # Job Template ID Name , Which Need To Trigger
+        credential_id_vm_genf: "1603" # VM Credential For GENF
+        credential_id_vm_genk: "536" # VM Credential For GENK
+        credential_id_vm_gen1: "536" # VM Credential For GEN1
+        credential_id_vm_kpwa: "1612" # VM Credential For KPWA
+        credential_id_tower: "298" # Tower Credential To Connect To Tower
+        credential_id_ssh: "288"  # SSh Cedential To Connect To Jump Server
+        credential_id_smtp: "1266" # SMTP Credential For Mailing Purpose
+        credential_id_hop: "78" # JumpHost HOPE Details
+
+
+    - name: Launch Job Template with Dynamic Credential
+      awx.awx.job_launch:
+        tower_host: "{{ tower_host }}"
+        tower_username: "{{ tower_username }}"
+        tower_password: "{{ tower_password }}"
+        validate_certs: false
+        job_template: "{{ job_template_id }}"
+        extra_vars:
+          my_vcentername: "alab.cloud.kp.org"
+          jumpserver_win_server: "csc2cwp00008395.cloud.kp.org"   # 10.15.164.238   This is our Ansible Windows Jump Server
+          cc_email: "javed.siddque@kyndryl.com"
+          my_vcentername_ui: "alab.cloud.kp.org"
+        credentials:
+          - "{{ credential_id_ssh }}"  # Specify the Credential ID dynamically
+          - "{{ credential_id_tower }}"  # Specify the Credential ID dynamically
+          - "{{ credential_id_hop }}"  # Specify the Credential ID dynamically
+          - "{{ credential_id_smtp }}"  # Specify the Credential ID dynamically
+          - "{{ credential_id_vm_genf }}"  # Specify the Credential ID dynamically
+      when: my_env == 'genf'
+      register: my_job_launch
+
+
+    # - name: Wait for job max 10 min
+    #   awx.awx.job_wait:
+    #     job_id: "{{ my_job_launch.id }}"
+    #     timeout: 1000

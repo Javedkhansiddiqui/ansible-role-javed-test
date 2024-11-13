@@ -1,0 +1,11 @@
+---
+- name: "Playbook For Brocade Config Upload"
+  hosts: "csc2cxn00002917.cloud.kp.org"
+  gather_facts: false
+  collections:
+    - brocade.fos
+  tasks:
+      - name: "Import Role javed_test"
+        ansible.builtin.import_role:
+          name: javed_test
+          tasks_from: brocade_configupload.yml

@@ -1,0 +1,7 @@
+- name: Retrieve Ansible Environment Variables
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: "Print Ansible Environment Variables"
+      ansible.builtin.debug:
+        msg: "{{ ansible_env }}"

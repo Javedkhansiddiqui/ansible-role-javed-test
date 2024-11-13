@@ -1,0 +1,24 @@
+---
+- name: Ansible Find Example
+  hosts: localhost
+  vars:
+    my_files: []
+  tasks:
+    - name: Find files bigger than 100mb in size
+      become: true
+      ansible.builtin.find:
+        paths: /var/log
+        file_type: directory
+        recurse: false
+        excludes: 'nginx,mysql'
+      register: output
+
+    - name: Adding Files to the LIST
+      no_log: true
+      ansible.builtin.set_fact:
+        my_files: "{{ my_files + [item.path] }}"
+      with_items: "{{ output.files }}"
+
+    - name: "Debug"
+      ansible.builtin.debug:
+        var: my_files

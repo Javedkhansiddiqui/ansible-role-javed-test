@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Template Design</title>
+</head>
+
+<body>
+
+    <table class="table table-bordered 70%" style="border: 2px solid black; border-collapse: collapse; width:80%">
+        <tbody>
+            <tr>
+                <td>APPLICATION ENVIRONMENT</td>
+                <td>{{ my_env | upper | d('')}}</td>
+            </tr>
+            <tr>
+                <td>STORAGE ENVIRONMENT</td>
+                <td>{{ my_environment | upper }}</td>
+            </tr>
+            <tr>
+                <td>REGION</td>
+                <td>{{ my_region }}</td>
+            </tr>
+            <tr>
+                <td>PRIMARY DATA CENTER</td>
+                <td>{{ primary_data_center }}</td>
+            </tr>
+            {% if primary_data_center != 'PDC' %}
+            <tr>
+                <td>TARGET DATA CENTER</td>
+                <td>{{ target_data_center }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td>PREFERRED FOLDER</td>
+                <td>{{ preffered_folder }}</td>
+            </tr>
+            <tr>
+                <td>FILE SYSTEM TPYE</td>
+                <td>{{ file_system_type }}</td>
+            </tr>
+            <tr>
+                <td>REQUESTER</td>
+                <td>{{ requester }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>

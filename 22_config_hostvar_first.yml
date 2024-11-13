@@ -1,0 +1,11 @@
+---
+- name: "Register a Variable and Search to perform Operation"
+  hosts: localhost
+  gather_facts: true
+  tasks:
+   - name: "Fetch FQDN For isilon_cluster_name_p and isilon_cluster_name_t"
+     ansible.builtin.set_fact:
+     # isilon_cluster_name_p_fqdn: "{{ hostvars[host]['ansible_facts']['fqdn'] }}"
+      my_hostname: "{{ hostvars[inventory_hostname] }}"
+
+

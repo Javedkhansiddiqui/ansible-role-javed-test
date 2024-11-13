@@ -1,0 +1,32 @@
+---
+- name: Read file created yesterday in /tmp directory
+  hosts: "csc2cxp21113105.cloud.kp.org"
+  gather_facts: true
+  tasks:
+    - name: Find file created yesterday in /tmp
+      ansible.builtin.find:
+        paths: /tmp
+        # patterns: "*"
+        # patterns: "{{ ansible_date_time.date | regex_replace('^(\\d{4}-\\d{2}-\\d{2}).*$', '\\1') }}_*.log"
+        patterns: "[0-9]{4}-[0-9]{2}-[0-9]{2}_csc2cxp21113105-ssh-connection-validation.log"
+        # patterns: "{{ ansible_date_time.date | regex_replace('-', '\\-') }}_csc2cxp21113105-ssh-connection-validation.log"
+        age: "1d"
+        recurse: true
+        use_regex: true
+      register: found_files
+
+
+    - name: "Display Latest File"
+      ansible.builtin.set_fact:
+        my_yesterday_file: '{{ (found_files.files | sort(attribute="ctime", reverse=true) | first).path }}'
+
+
+    - name: Read content of the file created yesterday
+      ansible.builtin.slurp:
+        src: "{{ my_yesterday_file }}"
+      register: file_content
+
+
+    - name: Display file content
+      ansible.builtin.debug:
+        var: file_content

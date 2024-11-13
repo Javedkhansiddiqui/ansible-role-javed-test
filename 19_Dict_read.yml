@@ -1,0 +1,52 @@
+---
+- name: "Dict Read"
+  hosts: localhost
+  vars_files:
+    - "19_Dict.yml"
+  vars:
+    region: "MA"
+    isilon_cluster_name_p: "massdcisip-hc01"
+  tasks:
+    - name: "Reading Smart Connect Zone"
+      read_csv:
+        path: "library/smartconnect_inventory.csv"
+      register: smart_connect_zone_output
+
+
+    - name: "Print Full Smart Connect Zone"
+      ansible.builtin.debug:
+        msg: "{{ smart_connect_zone_output.list }}"
+
+    - name: "Fetching target Cluster Detail From Dictionary Input"        # noqa no-jinja-when
+      ansible.builtin.set_fact:
+        target_cluster_name: "{{ item.target_cluster_name }}"
+        target_data_center: "{{ item.target_data_center }}"
+      when: (item.region is search "{{ region }}") and (item.primary_cluster_name == "{{ isilon_cluster_name_p }}")
+      loop: "{{ rep_setup }}"
+
+
+    - name: "Setting Smart Connect Zone For Replication" # noqa no-jinja-when
+      ansible.builtin.set_fact:
+        smart_connect_zone_name_for_rep: "{{ item['Smartconnect zone name for Replication'] }}"
+        smart_connect_zone_name_for_smb: "{{ item['Smartconnect zone name for SMB'] }}"
+        smart_connect_zone_name_for_nfs: "{{ item['smartconnect zone name for NFS'] }}"
+      when: item['Cluster name'] == "{{ target_cluster_name }}"
+      loop: "{{ smart_connect_zone_output.list }}"
+
+
+    - name: "Setting Smart Connect Zone For Source Subnet And Pool" # noqa no-jinja-when
+      ansible.builtin.set_fact:
+        source_subnet_for_rep: "{{ item['Source subnet for replication'] }}"
+        source_pool_for_rep: "{{ item['source pool for replication'] }}"
+      when: item['Cluster name'] == "{{ isilon_cluster_name_p }}"
+      loop: "{{ smart_connect_zone_output.list }}"
+
+
+    - name: "Display Smart Connect Zone Details"
+      ansible.builtin.debug:
+        msg:
+          - "Smart Connect Zone Name For Replication :- {{ smart_connect_zone_name_for_rep }}"
+          - "Smart Connect Zone Name For SMB :- {{ smart_connect_zone_name_for_smb }}"
+          - "Smart Connect Zone Name For NFS :- {{ smart_connect_zone_name_for_nfs }}"
+          - "Source Subnet For Replicaion :- {{ source_subnet_for_rep }}"
+          - "Source Pool For Replication :- {{ source_pool_for_rep }}"

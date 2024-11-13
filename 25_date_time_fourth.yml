@@ -1,0 +1,39 @@
+---
+- name: "This code is going to give uptime"
+  hosts: localhost
+  tasks:
+
+    # This code is going to give uptime of current System
+    - name: "Check uptime of current redhat system"
+      ansible.builtin.command:
+        cmd: "uptime"
+      register: uptime_output
+      changed_when: false
+
+    - name: "Print"
+      ansible.builtin.debug:
+        var: uptime_output.stdout_lines
+
+
+    # # This will give the current System Date
+    # - name: "Show the Current system Time"
+    #   ansible.builtin.command:
+    #     cmd: date
+    #   register: date_value
+    #   changed_when: false
+
+
+    # - name: "Print"
+    #   ansible.builtin.debug:
+    #     var: date_value.stdout
+
+
+    - name: User Readable Date Time
+      ansible.builtin.debug:
+        msg:
+          - "{{ ansible_date_time.day }}-{{ ansible_date_time.month }}-{{ ansible_date_time.year }}, {{ ansible_date_time.weekday }} \
+        {{ ansible_date_time.time }} {{ ansible_date_time.tz }}"
+          - "--------------------"
+          - "{{ ansible_date_time }}"
+          - "--------------------"
+          - "{{ lookup('pipe', 'date +%d_%m_%Y_%H_%M_%S') }}"

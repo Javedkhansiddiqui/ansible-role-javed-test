@@ -1,0 +1,48 @@
+---
+- name: "This is playbook for reading excel csv data"
+  gather_facts: false
+  hosts: localhost
+  vars:
+    read_csv_folder: "library"
+    read_csv_file1: "netapp.csv"
+    read_csv_file2: "testing.csv"
+    vcenter_file: "vCenter_inventory.csv"
+
+  tasks:
+    - name: "Read isilon cluster csv file"
+      community.general.read_csv:
+        path: "{{ read_csv_folder }}/{{ read_csv_file1 }}"
+      register: isilon_output1
+
+    - name: "Get isilon host from isilon cluster file"
+      ansible.builtin.set_fact:
+        netapp_ip: "{{ item['IP Address'] }}"
+        netapp_environment: "{{ item['SVM Name'] }}"
+      when: item['DNS Zone'] == "cnndcsvmpbk1-s.nndc.kp.org"
+      loop: "{{ isilon_output1.list }}"
+
+
+    - name: "Print output_data => 1"
+      ansible.builtin.debug:
+        msg:
+          - "{{ netapp_ip }}"
+          - "{{ netapp_environment }}"
+
+
+    - name: "Read vCenter Inventry File"
+      community.general.read_csv:
+        path: "{{ read_csv_folder }}/{{ vcenter_file }}"
+      register: vcenter_file_output
+
+
+    - name: "Print vCenter"
+      ansible.builtin.set_fact:
+        vCenter_list: "{{ vCenter_list | default([]) + [item.vCenter_Name] }}"
+      loop: "{{ vcenter_file_output.list }}"
+
+
+    - name: "Print vCenter"
+      ansible.builtin.debug:
+        msg:
+          - "{{ vCenter_list }}"
+          - "{{ vCenter_list[1] }}"

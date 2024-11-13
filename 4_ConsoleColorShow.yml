@@ -1,0 +1,15 @@
+---
+- name: "This Playbook Is For Console Color Show"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    csi: "\x1B["
+    red: '{{csi}}}31m'
+    green: '{{csi}}32m'
+    cyan: '{{csi}}36m'
+  tasks:
+    - name: "Run Shell Command"
+      ansible.builtin.shell:
+        cmd: "echo '{{ '=' * 10 }} {{ red }}H{{ green }}E{{ cyan }}L{{ red }}L{{ green }}O{{ cyan }}!{{ csi }}0m {{ '='*10 }}' > /dev/tty"
+      changed_when: shell_output.rc == 0
+      register: shell_output

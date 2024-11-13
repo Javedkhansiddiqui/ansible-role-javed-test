@@ -1,0 +1,47 @@
+---
+- name: "This Is The Template Program"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    template_folder: library
+    template_data: my_template.txt
+    my_headers: MODE , NO. OF LINKS/ DIR'S ,  USER , GROUP , SIZE , DATE/TIME , FILE / DIRECTORY
+
+  tasks:
+    - name: "Running ls -l Command"  # noqa: run_once[task]
+      ansible.builtin.shell:
+        cmd: ls -l | awk '(NR>1) {print $1","$2","$3","$4","$5","$6,$7,$8","$9}'
+        chdir: /home/ansiblecontroller
+      changed_when: output_data.rc == 0
+      register: output_data
+      delegate_to: localhost
+      run_once: true
+
+    - name: "Print output_data"
+      ansible.builtin.debug:
+        msg: "{{ output_data.stdout_lines }}"
+
+    - name: "Empty The file"
+      ansible.builtin.file:
+        path: "{{ template_folder }}/{{ template_data }}"
+        state: absent
+
+    - name: "Build File"
+      ansible.builtin.lineinfile:
+        line: "{{ item }}"
+        dest: "{{ template_folder }}/{{ template_data }}"
+        create: true
+        state: present
+        mode: "0677"
+      delegate_to: localhost
+      loop: "{{ output_data.stdout_lines }}"
+
+
+    - name: "Creating Template To print In Table" # noqa: run_once[task]
+      ansible.builtin.template:
+        src: "12_template_check.html.j2"
+        dest: "/var/www/html/index.html"
+        mode: "0677"
+      become: true
+      delegate_to: localhost
+      run_once: true

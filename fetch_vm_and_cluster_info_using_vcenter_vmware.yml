@@ -1,0 +1,19 @@
+---
+- name: "Export VM And ESXI Host Details From vCenter -"
+  hosts: "{{ jump_host | default([]) }}"
+  gather_facts: false
+  vars:
+    jump_host: "csc2cxp21113105.cloud.kp.org"
+    vcenter_server: "{{ lookup('env', 'VMWARE_HOST') }}"
+    vcenter_user: "{{ lookup('env', 'VMWARE_USER') }}"
+    vcenter_password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+    ansible_python_interpreter: "/usr/bin/python3"
+  tasks:
+    - name: Gather guest vm info
+      vmware.vmware.guest_info:
+        hostname: "https://{{ vcenter_server }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+        guest_name: "iis_2019vm"
+      register: my_data

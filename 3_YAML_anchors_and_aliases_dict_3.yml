@@ -1,0 +1,50 @@
+---
+- name: "YAML anchors and aliases: sharing variable values"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    default_settings: &defaults
+      memory: 4GB
+      cpu: 2
+      disk: 100GB
+      features:
+        - basic
+        - monitoring
+
+    environments:
+      development:
+        <<: *defaults  # Use all settings from the anchor `defaults`
+        cpu: 1         # Override CPU setting for development
+        features:
+          - basic      # Override features list for development
+
+      staging:
+        <<: *defaults  # Use all settings from the anchor `defaults`
+        cpu: 4         # Override CPU setting for staging
+
+      production:
+        <<: *defaults  # Use all settings from the anchor `defaults`
+        cpu: 8         # Override CPU setting for production
+        disk: 500GB    # Override disk size for production
+        features:
+          - basic
+          - monitoring
+          - backup
+          - alerting
+
+  tasks:
+    - name: "Print default_settings"
+      ansible.builtin.debug:
+       var: default_settings
+
+    - name: "Print environments"
+      ansible.builtin.debug:
+       var: environments
+
+    - name: "Print staging"
+      ansible.builtin.debug:
+       var: staging
+
+    - name: "Print production"
+      ansible.builtin.debug:
+       var: production

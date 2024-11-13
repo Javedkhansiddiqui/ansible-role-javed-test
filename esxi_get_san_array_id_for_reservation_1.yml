@@ -1,0 +1,150 @@
+---
+- name: "Socks Tunnel Check"
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - role: ansible-role-event-socks-tunnel
+
+
+- name: "Playbook To Fetch WWN From VCenter Level"
+  hosts: "{{ jumpserver_host | default([]) }}"
+  gather_facts: true
+  ignore_errors: true
+  ignore_unreachable: true
+  vars:
+    account_code: "{{ hostvars['localhost']['account_code'] }}"
+    trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+    vcenter_hostname: "{{ lookup('env', 'VMWARE_HOST') }}"
+    vcenter_username: "{{ lookup('env', 'VMWARE_USER') }}"
+    vcenter_password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+    ansible_python_interpreter: "/usr/bin/python"
+    jumpserver_host: "csc2cwp00008395.cloud.kp.org"
+    vcenter_name: "cscrdengvc8.crdc.kp.org"
+    esxi_host: "zqviatsto008.pldc.kp.org"
+  tasks:
+      - name: "Check If Required Details Are Present"
+        ansible.builtin.assert:
+          that:
+            - vcenter_username != ''
+            - vcenter_password != ''
+          fail_msg: "Vcenter Server Connection Parameters Are Missing"
+          success_msg: "Verified Vcenter Server Connection Parameters. Proceeding..."
+
+
+      #  This Section Is Activity Regarding Making Dictionary Per Server
+      - name: "Making vcenter_info_dict Dictionary Empty [For {{ vcenter_name }}]"
+        ansible.builtin.set_fact:
+          vcenter_info_dict: []
+
+
+      - name: "Creating CSV File Naming Convention For {{ vcenter_name }}"
+        ansible.builtin.set_fact:
+          my_folder: "C:\\SAN-POWERMAX-ALLOCATION"
+          my_esxi_file: "{{ vcenter_name.split('.') | first }}_hba_and_wwn.csv"
+
+
+      - name: "Connect To The vCenter And Fetch WWN - 1"
+        ansible.builtin.win_shell: |
+          Import-Module VMware.PowerCLI
+          $ErrorActionPreference = 'SilentlyContinue'
+          Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+          Connect-VIServer -server {{ vcenter_name }} -username "{{ vcenter_username }}" -Password "{{ vcenter_password }}"
+          Get-Cluster | Get-VMhost | Get-VMHostHBA -Type FibreChannel | Select VMHost,Device,@{N="WWN";E={"{0:X}" -f $_.PortWorldWideName}} | Sort VMhost,Device  | Export-Csv -Path "{{ my_folder }}\\{{ my_esxi_file }}" -NoTypeInformation -UseCulture
+          Disconnect-VIServer -Confirm:$false
+        register: fetch_esxi_1
+        
+
+
+      - name: "Get Content Of :- {{ jumpserver_host }}:\\{{ my_folder }}\\{{ my_esxi_file }}- WWN - 1"
+        ansible.builtin.win_shell: "type {{ my_folder }}\\{{ my_esxi_file }}"
+        register: file_contents_1
+
+
+      - name: "Display Content Of :- {{ jumpserver_host }}:\\{{ my_folder }}\\{{ my_esxi_file }} - WWN - 1"
+        ansible.builtin.debug:
+          msg: "{{ fetch_esxi_1.stdout_lines }}"
+
+ 
+
+      - name: "Connect To The vCenter And Fetch WWN - 2"
+        ansible.builtin.script: "{{ role_path }}/files/hba_and_wwn_fetch_copy.ps1 {{ esxi_host }}"
+        register: fetch_output_2
+    
+
+      - name: "Get Content Of :- {{ jumpserver_host }}:\\{{ my_folder }}\\{{ my_esxi_file }}- WWN - 2"
+        ansible.builtin.win_shell: "type C:\\SAN-POWERMAX-ALLOCATION\\wwn_2.csv"
+        register: file_contents_2
+
+
+      - name: "Display Content Of :- C:\\SAN-POWERMAX-ALLOCATION\\wwn_2.csv - WWN - 2"
+        ansible.builtin.debug:
+          msg: "{{ fetch_output_2.stdout_lines }}"
+
+
+      # - name: "Connect To The vCenter And Fetch WWN - 3"
+      #   ansible.builtin.win_shell: |
+      #     Import-Module VMware.PowerCLI
+      #     $ErrorActionPreference = 'SilentlyContinue'
+      #     Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+      #     Connect-VIServer -server {{ vcenter_name }} -username "{{ vcenter_username }}" -Password "{{ vcenter_password }}"
+      #     $esx = {{ esxi_host }}
+      #     $hbas = Get-VMHostHba -VMHost $esx -Type FibreChannel
+      #     foreach ($hba in $hbas)
+      #         {
+      #             $wwpn = "{0:x}" -f $hba.PortWorldWideName
+      #             Write-Host $hba.Device":"$wwpn
+      #         }
+      #     Disconnect-VIServer -Confirm:$false
+      #   register: fetch_esxi_3
+       
+
+      # - name: "Display Content Of :- WWN - 3"
+      #   ansible.builtin.debug:
+      #     msg: "{{ fetch_esxi_3.stdout_lines }}"
+
+
+
+      # - name: "Connect To The vCenter And Fetch WWN - 4"
+      #   ansible.builtin.win_shell: |
+      #     Import-Module VMware.PowerCLI
+      #     $ErrorActionPreference = 'SilentlyContinue'
+      #     Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
+      #     Connect-VIServer -server {{ vcenter_name }} -username "{{ vcenter_username }}" -Password "{{ vcenter_password }}"
+      #     {{ role_path }}/files/hba_and_wwn_fetch_copy.ps1  {{ esxi_host }}
+      #     Disconnect-VIServer -Confirm:$false
+      #   register: fetch_esxi_4
+    
+
+      # - name: "Display Content Of :- WWN - 4"
+      #   ansible.builtin.debug:
+      #     msg: "{{ fetch_esxi_4.stdout_lines }}"
+
+
+
+# # =================== This Section Is Activity Regarding Per Mail Content ============================
+#       - name: "Create vcenter_info_dict Dictionary with vCenter For -> {{ vcenter_name }}"
+#         ansible.builtin.set_fact:
+#           vcenter_info_dict: "{{ vcenter_info_dict | combine({vcenter_name: dict_var}) }}"
+
+
+#       - name: "Debug Raw Data For -> {{ vcenter_name }}"
+#         ansible.builtin.debug:
+#           msg: "{{ vcenter_info_dict }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

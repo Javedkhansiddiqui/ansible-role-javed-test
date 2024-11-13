@@ -1,0 +1,41 @@
+- name: "[GENF] Playbook To Send Email Notification On Successfull Completion"
+  hosts: localhost
+  gather_facts: true
+  vars:
+    ansible_python_interpreter: python
+  tasks:
+    - name: "[GENF] Debug Current tower_job_id"
+      ansible.builtin.debug:
+        msg: "{{ tower_job_id }}"
+
+
+    - name: "[GENF] Fetch Current Job Details To Get Actual Start Time"
+      ansible.builtin.uri:
+        url: "https://ansible-tower-na2.ocp1.sr1.ag1.sp.ibm.local/api/v2/jobs/{{ tower_job_id }}"
+        method: GET
+        user: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+        validate_certs: false
+        return_content: true
+        status_code:
+          - 201
+          - 200
+      register: job_details
+
+    - name: "[GENF] Fetch Start Time(request_date) From job_details in ISO-806 Format"
+      ansible.builtin.set_fact:
+        fetched_date: "{{ job_details.json.started | default(ansible_date_time.iso8601_micro) }}" # 2023-07-20T16:36:44.396234Z
+
+    - name: "[GENF] Reformat Start Time {{ fetched_date }} To Proper Date Format"
+      ansible.builtin.set_fact:
+        fetched_date_filtered: "{{ fetched_date.split('.')[0].split('T')[0].split('-') | join('-') + ' ' + fetched_date.split('.')[0].split('T')[1].split(':') | join(':') }}"
+      # 2023-08-11 16:37:57
+
+    - name: "[GENF] Convert UTC Time ->'{{ fetched_date_filtered }}' To -> IST Time"
+      ansible.builtin.command: /usr/bin/python3
+      args:
+        stdin: |
+          from datetime import datetime
+          import datetime
+          print(datetime.datetime.strptime("{{ fetched_date_filtered }}", "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours=5, minutes=30))
+      register: ist_time_output

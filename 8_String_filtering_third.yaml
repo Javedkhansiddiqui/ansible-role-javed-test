@@ -1,0 +1,19 @@
+- name: "This is a example to sort a list using name and number"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Initialize list of strings
+      ansible.builtin.set_fact:
+        list_values: ['2','4','1','9','3']
+        list_names: ['Javed', 'khan', 'siddque','ansible', 'developer', 'javed', 'automation', 'czxbap3.crdc.kp.org', 'czxbap11.crdc.kp.org']
+
+    - name: Sort defined list
+      ansible.builtin.set_fact:
+        sorted_list_strings: "{{ list_values | sort }}"
+        sorted_list_names: "{{ list_names | sort | unique }}"
+
+    - name: Print the var
+      ansible.builtin.debug:
+        msg:
+         - "{{ sorted_list_strings }}"
+         - "{{ sorted_list_names }}"

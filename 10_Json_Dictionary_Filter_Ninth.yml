@@ -1,0 +1,135 @@
+---
+- name: "Filter From YAML For Dictionary"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    storage_details_combined: [
+      {
+        "wwns_dict": {
+          "host4": "0x100098f2b3a1f324",
+          "host5": "0x100098f2b3a12635"
+        },
+        "wwns_pmax_list": [
+          "100098f2b3a12635",
+          "100098f2b3a1f324"
+        ],
+        "server_name": "czxbap3.crdc.kp.org"
+      },
+      {
+        "wwns_dict": {
+          "host3": "0x100098f2b3a14633",
+          "host1": "0x100098f2b3a1d541"
+        },
+        "wwns_pmax_list": [
+          "100098f2b3a1d541",
+          "100098f2b3a14633"
+        ],
+        "server_name": "czxbap11.crdc.kp.org"
+      },
+      {
+        "wwns_dict": {
+          "host2": "0x10009440c9d01da2",
+          "host3": "0x10009440c9d01da3",
+          "host4": "0x10009440c9d01de1",
+          "host5": "0x10009440c9d01de2"
+        },
+        "server_name": "pdviatsto004.pldc.kp.org",
+        "wwns_pmax_list": [
+          "10009440c9d01da2",
+          "10009440c9d01da3",
+          "10009440c9d01de1",
+          "10009440c9d01de2"
+        ]}]
+  tasks:
+
+
+    # - name: "Set Fact my_key"
+    #   ansible.builtin.set_fact:
+    #     my_key: "{{ my_key | default([]) + [item.wwns_dict | dict2items | json_query('[].value') | replace('0x', '')] }}"
+    #     my_append: "{{ my_append | default([]) + [item.server_name.split('.') | first] }}"
+    #     my_val: "{{ my_val | default([]) + [item.wwns_dict | dict2items | json_query('[].key')] }}"
+    #   with_items:
+    #     - "{{ storage_details_combined }}"
+
+    # # - name: "Set_Fact my_append"
+    # #   ansible.builtin.set_fact:
+    # #     my_append: "{{ my_append | default([]) + [item.server_name.split('.') | first] }}"
+    # #   with_items:
+    # #     - "{{ storage_details_combined }}"
+
+
+    # # - name: "Set Fact my_val"
+    # #   ansible.builtin.set_fact:
+    # #     my_val: "{{ my_val | default([]) + [item.wwns_dict | dict2items | json_query('[].key')] }}"
+    # #   with_items:
+    # #     - "{{ storage_details_combined }}"
+
+
+    # # - name: "flatten list"
+    # #   ansible.builtin.set_fact:
+    # #     my_flatten_key1: "{{ my_key1 | flatten }}"
+
+    # # - name: "Set Fact my_key1"
+    # #   ansible.builtin.set_fact:
+    # #     my_key1: "{{ item.wwns_dict | dict2items | json_query('[].key') }}"
+    # #     my_test: "{{ item.wwns_dict | dict2items | json_query('[].value') | replace('0x', '') }}"
+    # #   loop: "{{ storage_details_combined }}"
+
+    - name: "Set Fact my_key1"
+      ansible.builtin.set_fact:
+        my_key1: "{{ my_key1 | default([]) + [item.wwns_dict | dict2items | json_query('[].key')] }}"
+      with_items:
+        - "{{ storage_details_combined }}"
+
+
+    - name: "Set Fact my_data"
+      ansible.builtin.set_fact:
+        my_data: "{{ my_data | default([])+ [item.0.server_name.split('.') | first+'_'+ item.1 ]}}"
+      with_nested:
+        - "{{ storage_details_combined }}"
+        - "{{ my_key1 }}"
+
+
+    - name: "Set_fact my_key"
+      ansible.builtin.set_fact:
+        my_key: "{{ my_key | default([]) + [item.wwns_dict | dict2items | json_query('[].value') | replace('0x', '') ] }}"
+      with_items:
+        - "{{ storage_details_combined }}"
+
+
+
+    - name: "Debug my_key_final/my_data_final"
+      ansible.builtin.debug:
+        msg:
+         - "{{ my_key }}"
+         - "============"
+         - "{{ my_data }}"
+         - "==========="
+         - "{{ dict(my_key|zip(my_data))|dict2items }}"
+
+
+    - name: "my final data"
+      ansible.builtin.debug:
+        msg:
+          - "KEY IS -> {{ item.key }}"
+          - "VALUE IS -> {{ item.value }}"
+      with_items:
+        - "{{ dict(my_key|zip(my_data))|dict2items }}"
+
+
+    # - name: "Set Fact my_key1"
+    #   ansible.builtin.set_fact:
+    #     my_dict: |
+    #       {% filter from_yaml %}
+    #       {% for i in storage_details_combined %}
+    #       {% set srv=i.server_name|split('.')|first %}
+    #       {% for k,v in i.wwns_dict.items() %}
+    #       {{ v[2:] }}: {{ srv }}_{{ k }}
+    #       {% endfor %}
+    #       {% endfor %}
+    #       {% endfilter %}
+
+
+    # - name: "my final data"
+    #   ansible.builtin.debug:
+    #     msg: "{{ my_dict }}"

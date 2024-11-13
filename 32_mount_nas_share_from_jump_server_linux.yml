@@ -1,0 +1,48 @@
+---
+- name: Playbook for NAS isilon File Read Using Mount Process.
+  hosts: "{{ jumpserver_host }}"
+  become: true
+  vars:
+    ansible_python_interpreter: python3
+    jumpserver_host: "csc2cxp21113105.cloud.kp.org"
+    nfs_server_host: "cnpdcsvmnnfs201-s.pldc.kp.org"
+    nfs_mount_point: /storage_isilon_shared_dir
+    mount_operation: mount
+    unmount_operation: unmount
+    nfs_share_path: /ansible_test/ansible_test
+    nfs_mount_options: defaults
+    dfs_dump_file_path: 'DFS_DUMP.csv'
+    isilon_cluster_inventory_file_path: 'Isilon_Inventory.csv'
+  tasks:
+    - name: "Mount NAS Share to read File"
+      block:
+        - name: "Mount nas nfs share"
+          ansible.builtin.include_role:
+            name: ansible-role-linux-nfs-nas-mount
+          vars:
+            nfs_operation: "{{ mount_operation }}"
+            nfs_server: "{{ nfs_server_host }}"
+            share_path: "{{ nfs_share_path }}"
+            mount_point: "{{ nfs_mount_point }}"
+            mount_options: "{{ nfs_mount_options }}"
+
+
+      rescue:
+        - name: "Print Fail Message For Mouting"
+          ansible.builtin.fail:
+            msg: "Job template failed as Mount NFS share task failed with the issue:- {{ ansible_failed_result }}. Please check the job log."
+
+
+        - name: "Perform your activity"
+          ansible.builtin.import_role:
+            name: javed_test
+            tasks_from: main.yml
+
+
+      always:
+        - name: "Unmount nas nfs share"
+          ansible.builtin.include_role:
+            name: ansible-role-linux-nfs-nas-mount
+          vars:
+           nfs_operation: "{{ unmount_operation }}"
+           mount_point: "{{ nfs_mount_point }}"

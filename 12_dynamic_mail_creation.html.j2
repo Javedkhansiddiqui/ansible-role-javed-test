@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>SAN POWERMAX CONSUMPTION ACTIVITY</title>
+</head>
+<style>
+    table {
+        font-family: Aptos, sans-serif;
+        width: 80%;
+        border: 6px solid rgb(23, 44, 232);
+        text-align: center;
+    }
+
+    td,
+    th {
+        border: 2px solid black;
+        text-align: center;
+        padding: 10px 10px;
+    }
+</style>
+<body>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Aptos, sans-serif;">Hello team,</span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br class="ContentPasted1"></span>
+        </div>
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br class="ContentPasted1"></span>
+        </div>
+        <div class="ContentPasted1"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <b>{{ sctask_ticket_no }}</b>- Consumption for SAN POWERMAX ALLOCATION activity has been completed.
+        </div>
+        <div class="ContentPasted1"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            Please find details below for the same.
+        </div>
+        <div class="ContentPasted1"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            Post lun creation and we have fetched those volumes on linux server :- <b>{{ hostname }}</b>
+        </div>
+    </div>
+    <br>
+    <q>
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th colspan="6" class="bg-warning table-warning" style="text-align:center;font-weight: bold;">
+                    <h2>MOUNT&nbsp; POINTS&nbsp; AFTER&nbsp; CONSUMPTIONS&nbsp; ACTIVITY</h2>
+                </th>
+            </tr>
+
+            <tr>
+                {% for hdr in df_headers_list.split(",") %}
+                <td class="bg-dark table-dark" style="text-align:center;background:rgb(74, 75, 70);">
+                    {{ hdr }}
+                </td>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in df_output.stdout_lines %}
+            {% if 'apps_vg-' in item %}
+            <tr>
+                {% for data in item.split(",") %}
+                <td class="bg-warning table-success text-success" style="text-align:center;font-weight: bold;background: rgb(111, 128, 69);color:rgb(17, 247, 189);"><b>{{
+                        data }}</b></td>
+                {% endfor %}
+            </tr>
+            {% else %}
+            <tr>
+                {% for data in item.split(",") %}
+                <td style="text-align:center;">{{ data }}</td>
+                {% endfor %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    </q>
+
+    <br>
+    <br>
+    <q>
+
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th colspan="7" class="bg-warning table-warning" style="text-align:center;font-weight: bold;">
+                        <h2>DETAILED&nbsp; INFORMATION&nbsp; ABOUT&nbsp; STORAGE&nbsp; RELATED&nbsp; BLOCK&nbsp; DEVICES</h2>
+                    </th>
+                </tr>
+
+                <tr>
+                    {% for hdr in lsblk_headers_list.split(",") %}
+                    <td class="bg-dark table-dark" style="text-align:center;background:rgb(74, 75, 70);">
+                        {{ hdr }}
+                    </td>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in lsblk_output.stdout_lines %}
+                {% if item.startswith('emcpower') or 'apps_vg-' in item %}
+                <tr>
+                    {% for data in item.split(",") %}
+                    <td class="bg-warning table-success text-success" style="text-align:center;font-weight: bold;background: rgb(111, 128, 69);color:rgb(17, 247, 189);"><b>{{
+                            data }}</b></td>
+                    {% endfor %}
+                </tr>
+                {% else %}
+                <tr>
+                    {% for data in item.split(",") %}
+                    <td style="text-align:center;">{{ data }}</td>
+                    {% endfor %}
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </q>
+
+    <p><span style="font-size: 16px; font-family: Calibri, sans-serif;"></span><span
+            style="color: rgb(209, 213, 216); text-shadow: rgba(107, 76, 76, 0.85) 1px -1px 0px; font-size: 16px; font-family: Calibri, sans-serif;">*******
+            This is an auto-generated mail , Please don&apos;t reply *******</span></p>
+    <div class="elementToProof"
+        style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+        <p><span style="font-size: 16px; text-shadow: rgba(107, 76, 76, 0.85) 1px -1px 0px;">Thanks &amp;&amp;
+                Regards<br>Ansible Team</span></p>
+    </div>
+    <p><span style="font-size: 16px; font-family: Calibri, sans-serif;">&nbsp;
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script> &nbsp;
+        </span></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <p><br></p>
+
+</body>
+
+</html>

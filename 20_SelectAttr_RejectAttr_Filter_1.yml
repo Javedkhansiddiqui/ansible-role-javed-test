@@ -1,0 +1,46 @@
+---
+- name: Sum size of FS
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_file_system:
+      - nom_FS: /appm/oracle/product
+        nom_LV: lv_product
+        size_FS: 5
+        owner_FS: oracle
+        group_FS: dba1
+        vg_name: vgapplis
+
+      - nom_FS: /appm/oracle/product/12.1.0.2
+        nom_LV: lv_12102
+        size_FS: 15
+        owner_FS: oracle
+        group_FS: dba
+        vg_name: vgapplis
+
+      - nom_FS: /appm/oracle/dev
+        nom_LV: lv_121
+        size_FS: 12
+        owner_FS: oracle
+        group_FS: dba
+        vg_name: vgapplis
+
+      - nom_FS: /apps/oracle/logs
+        nom_LV: lvlogs
+        size_FS: 5
+        owner_FS: oracle
+        group_FS: dba2
+        vg_name: vglogs
+
+  tasks:
+    - name: "Calculate with selectattr"
+      ansible.builtin.set_fact:
+        # show_only_vgapplis_total_size: "{{ my_file_system | selectattr('vg_name', '==', 'vgapplis') | map(attribute='size_FS') | sum }}"
+        # show_list_where_group_fs_dba: "{{ my_file_system | selectattr('group_FS','eq','dba') }}"
+        # show_list_where_vgapplis_vgapplis: "{{ my_file_system | selectattr('vg_name','equalto','vgapplis')}}"
+
+        # show_list_whose_size_FS_greater_10: "{{ my_file_system | selectattr('size_FS','>=',10) }}"
+        # show_list_whose_size_FS_greater_5: "{{ my_file_system | selectattr('size_FS','gt',5) }}"
+
+        redzoneresidents: "{{ my_file_system | selectattr('oracle','in','nom_FS')}}"
+        # greenzoneresidents: "{{ my_file_system | rejectattr('city','in','Coimbatore,Chennai')}}"

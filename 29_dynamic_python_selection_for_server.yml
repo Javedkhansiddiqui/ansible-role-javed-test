@@ -1,0 +1,38 @@
+- name: "[Raw Play] Run command to check Python version"
+  hosts: pdviatsto004.pldc.kp.org  # pzaeng155.pldc.kp.org
+  gather_facts: false
+  tasks:
+    - name: Check Python version
+      ansible.builtin.raw: python3 --version
+      ignore_errors: true
+      register: python_version
+
+
+- name: "[Selection Play] Set ansible_python_interpreter based on Python version"
+  hosts: pdviatsto004.pldc.kp.org   # pzaeng155.pldc.kp.org
+  gather_facts: false
+  become: true
+  become_exe: pbrun
+  become_flags: ''
+  tasks:
+    - name: "Set ansible_python_interpreter"
+      ansible.builtin.set_fact:
+        ansible_python_interpreter: "{% if python_version.stdout.find('3.') != -1 %}python3{% else %}python2{% endif %}"
+
+
+
+- name: "[Main Play] Run powermt display path with selected python interpreter"
+  hosts: pdviatsto004.pldc.kp.org # pzaeng155.pldc.kp.org
+  gather_facts: false
+  become: true
+  become_exe: pbrun
+  become_flags: ''
+  tasks:
+    - name: "First Print Selected ansible_python_interpreter"
+      ansible.builtin.debug:
+        msg: "{{ ansible_python_interpreter }}"
+
+
+    - name: Run powermt display path
+      ansible.builtin.command: powermt display paths
+      register: powermt_output

@@ -1,0 +1,20 @@
+---
+- name: "This is a Example of Line In File MOdule"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_headers: MODE,NO. OF LINKS/ DIR'S,USER,GROUP,SIZE,DATE / TIME,FILE / DIRECTORY
+  tasks:
+    - name: "Debug The File Using Cat Command"
+      ansible.builtin.command:
+        cmd: cat "~/Desktop/test.txt"
+      register: output_data
+      changed_when: output_data.rc == 0
+
+
+    - name: "12_table_color_change.txt File Created"
+      ansible.builtin.template:
+        src: "12_read_file_print_mail.html.j2"
+        dest: "/var/www/html/index.html"
+        mode: "0677"
+      become: true

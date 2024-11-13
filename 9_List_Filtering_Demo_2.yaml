@@ -1,0 +1,31 @@
+---
+
+- name: This is a example of Filter, Join , List in Ansible
+  hosts: localhost
+  tasks:
+    - name: Default Behaviour of Printing
+      ansible.builtin.debug:
+        msg: "{{ ansible_interfaces }}"                         # normal print in list format
+
+
+    - name: List/Default Behaviour Printing
+      ansible.builtin.debug:
+        msg: "{{ ansible_interfaces | list }}"                  # same like above because that is default behavior
+
+    - name: Join Behaviour Printing
+      ansible.builtin.debug:
+        msg: "{{ ansible_interfaces | join }}"                   # This will print in one line
+
+    - name: List with join Behaviour Printing in one line with comma
+      ansible.builtin.debug:
+        msg: "{{ ansible_interfaces | list | join }}"            # This will print in one line
+
+
+    - name: List with join Behaviour Printing in one by one in new line
+      ansible.builtin.debug:
+        msg: "{{ ansible_interfaces | list | join(',') }}"       # This will print in one line with comma
+
+
+    - name: Show me only what match with eth and wlan
+      ansible.builtin.debug:
+        msg: "{{ ansible_interfaces | select('match', '^(enp|vir)') | list }}"

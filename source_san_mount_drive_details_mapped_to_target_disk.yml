@@ -1,0 +1,120 @@
+---
+- name: "Mapping SAN Mount Drive With Source/Old Device ID And Target/new Device ID"
+  hosts: localhost
+  gather_facts: false
+  vars:
+  #   my_hard_disk_converted_to_GB:
+
+  #     - { device_id: 1, size: 32212254720, size_gb: 300.0 }  # 11
+  #         - { cap_unit: "BYTES", device_id: 11, mount_point: "H", no_of_vols: "1", size: 10479468544, size_gb: 250.00 }
+  #         - { cap_unit: "BYTES", device_id: 11, mount_point: "J", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+
+
+  #     - { device_id: 3, size: 32212254720, size_gb: 100.0 }  # 14
+  #           - { cap_unit: "BYTES", device_id: 14, mount_point: "E", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+  #  <extend> - { cap_unit: "BYTES", device_id: 14, mount_point: "J", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+
+
+  #     - { device_id: 2, size: 32212254720, size_gb: 400.0 }  # 12
+  #         - { cap_unit: "BYTES", device_id: 12, mount_point: "G", no_of_vols: "1", size: 10479468544, size_gb: 400.00 }
+
+
+  #     - { device_id: 4, size: 32212254720, size_gb: 100.0 }  # 13
+  #           - { cap_unit: "BYTES", device_id: 13, mount_point: "F", no_of_vols: "1", size: 10479468544, size_gb: 100.00 }
+
+
+  #     - { device_id: 5, size: 32212254720, size_gb: 500.0 }  # 15
+  #           - { cap_unit: "BYTES", device_id: 15, mount_point: "I", no_of_vols: "1", size: 31460425728, size_gb: 500.00 }
+
+
+    my_hard_disk_converted_to_GB:
+      - { device_id: 1, size: 32212254720, size_gb: 300.0 }  # 11
+      - { device_id: 3, size: 32212254720, size_gb: 100.0 }  # 14
+      - { device_id: 2, size: 32212254720, size_gb: 400.0 }  # 12
+      - { device_id: 4, size: 32212254720, size_gb: 100.0 }  # 13
+      - { device_id: 5, size: 32212254720, size_gb: 500.0 }  # 15
+    san_mount_drive_details_converted_to_GB:
+      - { cap_unit: "BYTES", device_id: 13, mount_point: "F", no_of_vols: "1", size: 10479468544, size_gb: 100.00 }
+      - { cap_unit: "BYTES", device_id: 11, mount_point: "H", no_of_vols: "1", size: 10479468544, size_gb: 250.00 }
+      - { cap_unit: "BYTES", device_id: 15, mount_point: "I", no_of_vols: "1", size: 31460425728, size_gb: 500.00 }
+      - { cap_unit: "BYTES", device_id: 14, mount_point: "E", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+      - { cap_unit: "BYTES", device_id: 11, mount_point: "J", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+      - { cap_unit: "BYTES", device_id: 12, mount_point: "G", no_of_vols: "1", size: 10479468544, size_gb: 400.00 }
+      - { cap_unit: "BYTES", device_id: 14, mount_point: "J", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+    # san_mount_drive_details_converted_to_GB:
+    #   - { cap_unit: "BYTES", device_id: 13, mount_point: "F", no_of_vols: "1", size: 10479468544, size_gb:  90.00 } # noqa yaml[colons]
+    #   - { cap_unit: "BYTES", device_id: 11, mount_point: "H", no_of_vols: "1", size: 10479468544, size_gb: 245.00 }
+    #   - { cap_unit: "BYTES", device_id: 15, mount_point: "I", no_of_vols: "1", size: 31460425728, size_gb: 480.00 }
+    #   - { cap_unit: "BYTES", device_id: 14, mount_point: "E", no_of_vols: "1", size: 31460425728, size_gb:  45.00 } # noqa yaml[colons]
+    #   - { cap_unit: "BYTES", device_id: 11, mount_point: "J", no_of_vols: "1", size: 31460425728, size_gb:  50.00 } # noqa yaml[colons]
+    #   - { cap_unit: "BYTES", device_id: 12, mount_point: "G", no_of_vols: "1", size: 10479468544, size_gb: 390.00 }
+    #   - { cap_unit: "BYTES", device_id: 14, mount_point: "J", no_of_vols: "1", size: 31460425728, size_gb:  40.00 } # noqa yaml[colons]
+
+
+  tasks:
+    - name: "Fetch Total Size Used Per Device-IDs By Looping Over 'san_mount_drive_details_converted_to_GB'"
+      ansible.builtin.set_fact:
+        total_size_per_device: "{{total_size_per_device | default({}) | combine({item.device_id: (total_size_per_device[item.device_id] | default(0)) + item.size_gb}) }}"
+      loop: "{{ san_mount_drive_details_converted_to_GB }}"
+      loop_control:
+        label: "{{ item.device_id }}"
+
+
+    - name: "Format 'total_size_per_device' Total Size Used Per Device-IDs"
+      ansible.builtin.set_fact:
+       final_total_size_per_device: "{{ final_total_size_per_device | default([]) + [{'device_id':item.key, 'size_gb': item.value}] }}"
+      loop: "{{ total_size_per_device | dict2items }}"
+
+
+    - name: "Print Total Size Used Per Device-IDs"
+      ansible.builtin.debug:
+        var: final_total_size_per_device
+
+
+    - name: "Initialize Empty Lists For Device Mappings And Processed Device-IDs"
+      ansible.builtin.set_fact:
+        device_mapping_list: []
+        processed_source_device_ids: []
+        processed_target_device_ids: []
+
+
+    - name: "Map 'source_device_id' With 'target_device_id' Pairs Without Duplicates"
+      ansible.builtin.set_fact:
+        device_mapping_list: "{{ device_mapping_list + [{'source_device_id': item.0.device_id, 'target_device_id': item.1.device_id}] }}"
+        processed_source_device_ids: "{{ processed_source_device_ids + [item.0.device_id] }}"
+        processed_target_device_ids: "{{ processed_target_device_ids + [item.1.device_id] }}"
+      when:
+        - item.0.device_id not in processed_source_device_ids
+        - item.1.device_id not in processed_target_device_ids
+        - item.1.size_gb | float >= item.0.size_gb | float
+        # - item.1.size_gb | float == item.0.size_gb | float
+      with_nested:
+        - "{{ final_total_size_per_device | sort(attribute='size_gb') | reverse }}"
+        - "{{ my_hard_disk_converted_to_GB }}"
+
+
+    - name: "Display 'device_mapping_list'"
+      ansible.builtin.debug:
+        var: device_mapping_list
+
+
+    - name: "Map And Replace 'source_device_id' With 'target_device_id' On Var 'san_mount_drive_details_converted_to_GB'"
+      ansible.builtin.set_fact:
+        final_mapped_san_mount_drive_details: "{{ final_mapped_san_mount_drive_details | default([]) + [
+          {
+            'device_id': item.0.target_device_id,
+            'size_gb': item.1.size_gb,
+            'mount_point': item.1.mount_point,
+            'no_of_vols': item.1.no_of_vols,
+            'size': item.1.size,
+            'cap_unit': item.1.cap_unit
+          }] }}"
+      when: item.0.source_device_id | int == item.1.device_id | int
+      with_nested:
+        - "{{ device_mapping_list }}"
+        - "{{ san_mount_drive_details_converted_to_GB }}"
+
+
+    - name: "Show Final 'final_mapped_san_mount_drive_details'"
+      ansible.builtin.debug:
+        var: final_mapped_san_mount_drive_details

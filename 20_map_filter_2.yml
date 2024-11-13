@@ -1,0 +1,17 @@
+- name: "Playbook To Manipulate Json Data"
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - 20_map_filter_0.json
+  tasks:
+    - name: "Fetch Name Only"
+      ansible.builtin.set_fact:
+        # name_only: "{{ dummy_data | map(attribute='name') }}"
+        name_with_email_merge: "{{ name_with_email_merge | default([]) + [item | combine({'name/gender': item.name+'/'+item.gender})] }}"
+      loop: "{{ dummy_data }}"
+
+    - name: "Print Name Only"
+      ansible.builtin.debug:
+        msg:
+          # - "{{ name_only }}"
+          - "{{ name_with_email_merge }}"

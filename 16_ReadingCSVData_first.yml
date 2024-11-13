@@ -1,0 +1,30 @@
+---
+- name: This is a Hello message on terminal
+  hosts: localhost
+  vars:
+    read_csv_folder: template
+    read_csv_file: read_csv_file.csv
+
+# name,uid,gid
+# dag,500,500
+# jeroen,501,500
+
+  tasks:
+    - name: "Read users from CSV file and return a dictionary"
+      community.general.read_csv:
+        path: "{{ read_csv_folder }}/{{ read_csv_file }}"
+        key: name    # This will read the ''name'' column , which is first
+      register: users
+      delegate_to: localhost
+
+
+    - name: "Print the data"
+      ansible.builtin.debug:
+        msg: 'User {{ users.dict.dag.name }} has UID {{ users.dict.dag.uid }} and GID {{ users.dict.dag.gid }}'
+       # User dag has UID 500 and GID 500
+
+
+# Read a CSV file and access the first item
+    - name: "Print the data"
+      ansible.builtin.debug:
+        msg: 'User {{ users.list.1.name }} has UID {{ users.list.1.uid }} and GID {{ users.list.1.gid }}'

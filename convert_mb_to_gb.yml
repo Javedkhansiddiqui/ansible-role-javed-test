@@ -1,0 +1,33 @@
+---
+- name: "Playbook For Convert MB To GB"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    GB_conversion_value: 1073741824
+    emc_disk: [
+      {
+        DeviceId: "1",
+        FriendlyName: "EMC SYMMATRIX",
+        Size: 32212254720
+      },
+      {
+        DeviceId: "3",
+        FriendlyName: "EMC SYMMATRIX",
+        Size: 5368709120
+      },
+      {
+        DeviceId: "2",
+        FriendlyName: "EMC SYMMATRIX",
+        Size: 68715282432
+      }
+    ]
+  tasks:
+    - name: Convert 'emc_disk' List With Size_GB Field"
+      ansible.builtin.set_fact:
+        emc_disk_converted: "{{ emc_disk_converted | default([]) + [{ 'DeviceId': item.DeviceId, 'FriendlyName': item.FriendlyName, 'Size': item.Size, 'Size_GB': (item.Size / (1024**3)) | round(2) }] }}"
+      loop: "{{ emc_disk }}"
+
+
+    - name: "Display Converted EMC Disk With Size_GB Field"
+      ansible.builtin.debug:
+        msg: "{{ emc_disk_converted }}"

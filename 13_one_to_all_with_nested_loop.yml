@@ -1,0 +1,41 @@
+- name: "One To All With nested Loop"
+  hosts: localhost
+  vars:
+    list1: ["apple", "banana", "cherry"]
+    list2: ["red", "yellow", "dark red"]
+  tasks:
+    - name: "One To All With nested Loop"
+      ansible.builtin.debug:
+        msg: "{{ item.0 }} has maped with {{ item.1 }}"
+      with_nested:
+        - "{{ list1 }}"
+        - "{{ list2 }}"
+
+
+# ok: [localhost] => (item=['apple', 'red']) => {
+#     "msg": "apple has maped with red"
+# }
+# ok: [localhost] => (item=['apple', 'yellow']) => {
+#     "msg": "apple has maped with yellow"
+# }
+# ok: [localhost] => (item=['apple', 'dark red']) => {
+#     "msg": "apple has maped with dark red"
+# }
+# ok: [localhost] => (item=['banana', 'red']) => {
+#     "msg": "banana has maped with red"
+# }
+# ok: [localhost] => (item=['banana', 'yellow']) => {
+#     "msg": "banana has maped with yellow"
+# }
+# ok: [localhost] => (item=['banana', 'dark red']) => {
+#     "msg": "banana has maped with dark red"
+# }
+# ok: [localhost] => (item=['cherry', 'red']) => {
+#     "msg": "cherry has maped with red"
+# }
+# ok: [localhost] => (item=['cherry', 'yellow']) => {
+#     "msg": "cherry has maped with yellow"
+# }
+# ok: [localhost] => (item=['cherry', 'dark red']) => {
+#     "msg": "cherry has maped with dark red"
+# }

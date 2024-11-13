@@ -1,0 +1,71 @@
+---
+- name: "Run Ansible Tower Workflow/Job Template With Dynamic Credential"
+  hosts: localhost
+  gather_facts: false
+  vars:  
+    workflow_job_template_id: 12439
+  tasks:  
+      - name: "Scheduler Block" 
+        block:
+          - name: "convert ansible time to UTC"
+            # shell: date +'%Y%m%dT%H%M%SZ' -u -d '+2 hours'
+            shell: date +'%Y%m%dT%H%M%SZ' -u -d '+2 minutes'
+            register: utc_time_result
+
+
+          - name: "Print ansible time to UTC"
+            set_fact:
+              utc_time: "{{ utc_time_result.stdout }}"
+            
+          
+          - name: "Create unique schedule name"
+            set_fact:
+              ind_date: "{{ utc_time }}"
+              schedule_name: "scheduler-{{ 345987 | random | to_uuid }}"  # scheduler-1f929abd-ef67-508b-bb5c-ce8af6919e7f
+            
+
+
+          - name: launch job
+            uri:
+              url: "{{ lookup('env', 'TOWER_HOST') }}/api/v2/workflow_job_templates/{{ workflow_job_template_id }}/schedules/"
+              method: POST
+              headers:
+                  Authorization: "Bearer {{ lookup('env', 'TOWER_OAUTH_TOKEN') }}"
+              return_content: yes
+              validate_certs: no
+              force_basic_auth: true
+              status_code: [200, 201]
+              body_format: json
+              body:
+                rrule: "DTSTART:{{ utc_time }} RRULE:INTERVAL=1;FREQ=YEARLY;COUNT=1"
+                name: "{{ schedule_name }}"
+                description: ""
+                extra_data: 
+                  size_dict:
+                    '00234': 10
+                    '00233': 5
+                # inventory: null
+                # scm_branch: ""
+                # job_type: null
+                # job_tags: ""
+                # skip_tags: ""
+                # limit: ""
+                # diff_mode: null
+                # verbosity: null
+                enabled: true
+                next_run: null
+                timezone: "Asia/Kolkata"
+                until: ""
+            register: schedule_result_cifs
+            
+
+          - name: launch job
+            set_fact:
+              sched_id: "{{ schedule_result_cifs.json['id'] }}"
+
+    
+              
+   
+        
+        
+    

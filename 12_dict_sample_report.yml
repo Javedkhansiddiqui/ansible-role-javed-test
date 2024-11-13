@@ -1,0 +1,42 @@
+---
+- name: "This Is The Check Program"
+  hosts: localhost
+  gather_facts: true
+  vars:
+     san_array_id: "000196800309"
+     mail_content_final_dict: [{
+        "ig_name": "czxbap3_ig",
+        "mv_name": "czxbap3_mv",
+        "server_name": "czxbap3",
+        "sg_name": "czxbap3_sg",
+        "size_dict":
+           {
+              "0024B": "15.0 GB",
+              "0024C": "15.0 GB",
+              "0024D": "20.0 GB",
+              "0024E": "12.0 GB"
+           }}, {
+              "ig_name": "czxbap3_czxbap11_clstr_ig",
+              "mv_name": "czxbap3_czxbap11_clstr_mv",
+              "server_name": "czxbap3_3",
+              "sg_name": "czxbap3_czxbap11_clstr_sg",
+              "size_dict":
+                 {
+                    "0024F": "12.0 GB",
+                    "00250": "12.0 GB",
+                    "00251": "25.0 GB"}}]
+  tasks:
+     - name: "Run BootStrap"
+       ansible.builtin.include_role:
+          name: bootstrap
+       vars:
+          bootstrap_version: "4.4.1"
+          bootstrap_directory: "~/bootstrap_css"
+
+
+     - name: "Loading Template"
+       ansible.builtin.template:
+          src: "12_dict_sample_report.html.j2"
+          dest: "/var/www/html/index.html"
+          mode: "0677"
+       become: true

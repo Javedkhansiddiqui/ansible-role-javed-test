@@ -1,0 +1,38 @@
+# pingout.yml
+# Run as: $ ansible-playbook pingout.yml -i pingout-inventory
+#         $ cat pingout-inventory
+#         $ cat /tmp/ping-report.txt
+
+
+- name: "Check Reachable Hosts"
+  hosts: webservers
+  gather_facts: false
+  tasks:
+    - name: "Ping each host"    # noqa run_once[task]
+      ansible.builtin.command: ping -c1 {{ item }}
+      run_once: true
+      loop: "{{ ansible_play_hosts_all }}"
+      delegate_to: localhost
+      register: ping_result
+      failed_when: false
+
+    - name: "How did we do?"    # noqa run_once[task]
+      ansible.builtin.debug:
+        msg: "{{ ping_result.results[0] }}"
+      run_once: true
+
+    - name: "Format it a bit"    # noqa run_once[task]
+      # Note: the docs for 'copy' say don't do this, to use template instead,
+      # and there are reasons, but this suffices for posting purposes.
+      # The 'content:' below should be in your template.
+      ansible.builtin.copy:
+        dest: /tmp/ping-report.txt
+        mode: '0700'
+        content: |
+          --- PING REPORT ---
+          {% for pr in ping_result.results %}
+          {{ pr.stdout_lines | first }}
+          {{ pr.stdout_lines | last }}
+          {% endfor %}
+      run_once: true
+      delegate_to: localhost

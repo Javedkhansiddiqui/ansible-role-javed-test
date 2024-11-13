@@ -1,0 +1,53 @@
+---
+- name: "First Play - Socks Tunnel Check"
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - role: ansible-role-event-socks-tunnel
+
+
+- name: "Second Play - This is the example of ansible to trnsfer file"
+  hosts: "{{ target_win_server }}"
+  gather_facts: true
+  vars:
+    target_win_server: "csc2cwn21112037.cloud.kp.org"
+    account_code: "{{ hostvars['localhost']['account_code'] }}"
+    trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+    ansible_python_interpreter: "/usr/bin/python"
+  tasks:
+    - name: "Set-Fact User"
+      ansible.builtin.set_fact: 
+        runuser: "{{ ansible_user }}"
+        runpass: "{{ ansible_password }}"
+      no_log: true
+
+
+    - name: "Block Loading To Send File From SMB Share To Windows Server - {{ target_win_server }}"
+      become: true
+      become_method: runas
+      become_user: "{{ runuser }}"
+      vars:
+        ansible_become_user: "{{ runuser }}"
+        ansible_become_pass: "{{ runpass }}"
+      block:
+        - name: "Check Directory"
+          ansible.builtin.win_shell: "Test-Path -Path 'C:\\VMware Tools\\Program File\\VMware\\VMware Tools\\Drivers\\pvscsi\\Win8'"
+          register: check_path_exist_status
+
+
+
+        - name: "Create Directory, If Not Exist"
+          ansible.builtin.win_shell: "New-Item -Path 'C:\\VMware Tools\\Program File\\VMware\\VMware Tools\\Drivers\\pvscsi\\Win8' -ItemType Directory"
+          register: directory_created_output
+          when: check_path_exist_status.stdout_lines[0] == "False"
+
+          
+        - name: "Copy Folder From SMB Share - '10.15.214.205' => Windows Server - '{{ target_win_server }}'"
+          ansible.windows.win_copy:
+            src: "\\\\10.15.214.205\\E$\\Software\\PVSCSI Drivers\\pvscsi\\Win8\\"
+            dest: "C:\\VMware Tools\\Program File\\VMware\\VMware Tools\\Drivers\\pvscsi\\Win8"
+            remote_src: true
+          register: final_copy_output
+
+

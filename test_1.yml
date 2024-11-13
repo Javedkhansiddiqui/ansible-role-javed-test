@@ -1,0 +1,22 @@
+---
+- name: "This is Test_1 Playbook"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    # final_total_size_per_device:
+    #   - { device_id: 13, size_gb: 100.0 }
+    #   - { device_id: 11, size_gb: 300.0 }
+    #   - { device_id: 12, size_gb: 100.0 }
+    #   - { device_id: 10, size_gb: 400.0 }
+    #   - { device_id: 14, size_gb: 500.0 }
+
+    final_total_size_per_device:
+      - { device_id: 13, size_gb: 50.0 }
+      - { device_id: 11, size_gb: 280.0 }
+      - { device_id: 12, size_gb: 100.0 }
+      - { device_id: 10, size_gb: 350.0 }
+      - { device_id: 14, size_gb: 450.0 }
+  tasks:
+    - name: "Set-Fact"
+      ansible.builtin.debug:
+        msg: "{{ final_total_size_per_device }}"

@@ -1,0 +1,20 @@
+===========================HBA DETAILS=============================
+{% for hdr in my_headers.split(",") %}
+
+{{ hdr }}
+
+{% endfor %}
+
+
+MODE NO. OF LINKS/ DIR'S USER GROUP SIZE DATE/TIME FILE / DIRECTORY
+
+{# =========================LUN DETAILS===============================
+{% for item in output_data.stdout_lines %}
+
+{% for data in item.split(",") %}
+
+{{ data }}
+
+{% endfor %}
+
+{% endfor %} #}

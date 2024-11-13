@@ -1,0 +1,49 @@
+- name: "Interview Data For NTTDATA"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_occupation_data: [
+      {
+        'first_name': 'bala',
+        'occ': 'puppet'
+      },
+      {
+        'first_name': 'lekha',
+        'occ': 'ansible'
+      },
+      {
+        'first_name': 'javed',
+        'occ': 'ansible'
+      },
+      {
+        'first_name': 'vijesh',
+        'occ': 'ansible'
+      }
+    ]
+  tasks:
+    - name: "Fetch First Name Which Occupation Is Ansible - 1"
+      ansible.builtin.set_fact:
+        ansible_occupation_data_1: "{{ my_occupation_data | selectattr('occ', 'eq', 'ansible') | map(attribute='first_name') }}"
+
+
+    - name: "Fetch First Name Which Occupation Is Ansible - 2"
+      ansible.builtin.set_fact:
+        ansible_occupation_data_2: "{{ my_occupation_data | json_query(my_var) }}"
+      vars:
+       my_var: "[?occ == 'ansible'].first_name"
+
+
+    - name: "Fetch First Name Which Occupation Is Ansible - 3"
+      ansible.builtin.set_fact:
+        ansible_occupation_data_3: "{{ ansible_occupation_data_3 | default([]) + [item.first_name] }}"
+      when: item.occ == 'ansible'
+      loop: "{{ my_occupation_data }}"
+
+
+
+    - name: "Print First Name Which Occupation Is Ansible"
+      ansible.builtin.debug:
+        msg:
+          - "{{ ansible_occupation_data_1 }}"
+          - "{{ ansible_occupation_data_2 }}"
+          - "{{ ansible_occupation_data_3 }}"

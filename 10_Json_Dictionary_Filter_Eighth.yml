@@ -1,0 +1,27 @@
+---
+- name: "========AIX File Permission Change Play========================"
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - 10_Json_Dictionary_Filter_Input.yml
+
+
+  tasks:
+    - name: "Check the current file or dir & save them with there current permission in one file /tmp/old_permission"
+      ansible.builtin.set_fact:
+        old_file: '{{ server_list | json_query("[?server == ''localhost''].files[].path") }}'
+        old_dir: '{{ server_list | json_query("[?server == ''localhost''].dirs[].path") }}'
+
+    - name: "Copy it on /tmp/old_permission.txt"
+      ansible.builtin.command:
+        cmd: "ls -ltR '{{ item }}' > /tmp/old_permission.txt"
+      changed_when: false
+
+
+      loop: "{{ old_file }}"
+      register: top_result
+
+    - name: "Print"
+      ansible.builtin.debug:
+        var: "{{ top_result.results }}"
+      when: old_file | length > 0

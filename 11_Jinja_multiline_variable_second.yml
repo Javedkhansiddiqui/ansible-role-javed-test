@@ -1,0 +1,28 @@
+---
+- name: "This is a Example of MultiLine Variable If Condition"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    before_fetch_array_id_output: "Before"
+    after_fetch_array_id_output: "After"
+    mail_subject_defined: >-
+      {%- if before_fetch_array_id_output is defined and after_fetch_array_id_output is defined -%}
+      {{ inventory_hostname }} -> POST MIGRATION:- Comparision Report Post Migration
+      {%- else -%}
+      {{ inventory_hostname }} -> PRE MIGRATION:- EMC HBA and LUN Validation Report
+      {%- endif -%}
+    mail_subject_compare: >-
+      {%- if before_fetch_array_id_output == "After" -%}
+      {{ inventory_hostname }} -> Yes, Match Found
+      {%- else -%}
+      {{ inventory_hostname }} ->  No Record Found
+      {%- endif -%}
+
+  tasks:
+    - name: Checking MultiLine Variable If Condition
+      ansible.builtin.debug:
+        msg:
+          - "{{ before_fetch_array_id_output }}"
+          - "{{ after_fetch_array_id_output }}"
+          - "{{ mail_subject_defined }}"
+          - "{{ mail_subject_compare }}"

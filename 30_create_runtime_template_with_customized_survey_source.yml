@@ -1,0 +1,26 @@
+---
+- name: Create job template with customized survey and options/choices
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: "Create job template with customized survey and options/choices" # noqa run-once[task]
+      awx.awx.job_template:
+        controller_host: "{{ lookup('env', 'TOWER_HOST') }}"
+        tower_username:
+        # controller_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        controller_oauthtoken: "{{ lookup('env', 'TOWER_OAUTH_TOKEN') }}"
+        name: "javed_dynamic_survey_testing"
+        job_type: "run"
+        inventory: "kp2_mirror_inventory"
+        project: "kp2_project_javed_test"
+        playbook: "create_runtime_template_with_customized_survey_target.yml"
+        credential:
+          - "97"    # Specify the Credential ID dynamically
+          - "78"    # Specify the Credential ID dynamically
+          - "298"    # Specify the Credential ID dynamically
+        survey_enabled: true
+        # survey_spec: "create_runtime_template_with_customized_survey_multichoice.j2"
+        survey_spec: "{{ lookup('template', 'create_runtime_template_with_customized_survey_multichoice.json') }}"
+        validate_certs: false
+        execution_environment: "ansible_kyndryl_2.13"
+      run_once: true

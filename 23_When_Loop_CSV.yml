@@ -1,0 +1,33 @@
+---
+- name: "This is a Example of When Loop On CSV File"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    isilon_cluster_inventory_file_path: "KPHC-Isilon-Inventory.csv"
+    region: "NC"
+    primary_data_center: "CDC"
+  tasks:
+    - name: "Reading Isilon Cluster CSV File From Mount Point"    # noqa fqcn[action]
+      read_csv:
+        path: "library/{{ isilon_cluster_inventory_file_path }}"
+      register: isilon_cluster_output
+
+
+    - name: "Debug"
+      ansible.builtin.debug:
+        msg: "{{ isilon_cluster_output.list }}"
+
+
+    - name: "Fetching isilon_cluster_name_p and isilon_ip_address_p From isilon_cluster_output CSV File(List Formatted)"    # noqa no-jinja-when
+      ansible.builtin.set_fact:
+        isilon_cluster_name_p: "{{ item['Cluster Name'] }}"
+        isilon_ip_address_p: "{{ item['IP Address'] }}"
+      # when: (item['Dedicated region'] is search "{{ region }}") and (item['Data Center'] == "{{ primary_data_center }}")
+      when: (item['Dedicated region'] is search region) and (item['Data Center'] == primary_data_center)
+      loop: "{{ isilon_cluster_output.list }}"
+
+    - name: "Debug"
+      ansible.builtin.debug:
+        msg:
+          - "{{ isilon_cluster_name_p }}"
+          - "{{ isilon_ip_address_p }}"

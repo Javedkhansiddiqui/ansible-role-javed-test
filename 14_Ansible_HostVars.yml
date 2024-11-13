@@ -1,0 +1,6 @@
+- name: Retrieve host vars
+  hosts: localhost
+  tasks:
+    - name: " Print hostvars Dictionary"
+      ansible.builtin.debug:
+        var: hostvars[inventory_hostname]

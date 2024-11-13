@@ -1,0 +1,51 @@
+---
+- name: "This is Example Of Converting Different Input In List"
+  hosts: localhost
+  vars:
+    list_of_sequence: "{{ range(1, 10) | list }}"
+    client_nfs_export_server_string_ui: '172.11.12.11, 172.11.12.13, 127.0.0.1 ,test123.kp.org ,myserver.nndc.kp.org'
+  tasks:
+    - name: "1-> Converting String Input From-> client_nfs_export_server_string In A List After trim/split by comma->client_nfs_export_server_list"
+      ansible.builtin.set_fact:
+        server_list: "{{ item | trim }}"
+        client_nfs_export_server_list: "{{ client_nfs_export_server_list | default([]) + ['{{ server_list }}'] }}"
+      loop: "{{ client_nfs_export_server_string_ui | split(',') }}"
+
+
+    - name: "2-> Converting String Input From-> client_nfs_export_server_string In A List After trim/split by comma->client_nfs_export_server_list"
+      ansible.builtin.set_fact:
+        client_nfs_export_server_list_copy: "{{ client_nfs_export_server_string_ui.split(',') | map('trim') | list }}"
+
+
+    - name: "Print All Element By Index"
+      ansible.builtin.debug:
+        msg:
+          - "client_nfs_export_server_list is :-"
+          - "{{ client_nfs_export_server_list }}"
+          - "----------------------------------"
+          - "client_nfs_export_server_list_copy is :-"
+          - "{{ client_nfs_export_server_list_copy }}"
+
+
+    - name: "Create A Dictionary With String"
+      ansible.builtin.set_fact:
+        my_dict: "{{ my_dict | default({}) | combine([{item: 'x'}]) }}"
+      loop: '{{ list_of_sequence }}'
+
+
+    - name: "Create A List With String"
+      ansible.builtin.set_fact:
+        my_list: "{{ my_list | default([]) + [item] }}"
+      loop: '{{ list_of_sequence }}'
+
+
+    - name: "Debug Both List And Dict"
+      ansible.builtin.debug:
+        msg:
+          - "{{ my_dict }}"
+          - "----------------------------------"
+          - "{{ my_list }}"
+          - "----------------------------------"
+          - "{{ my_dict.3 }}"
+          - "----------------------------------"
+          - "{{ my_list[3] }}"

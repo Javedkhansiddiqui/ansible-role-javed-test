@@ -1,0 +1,187 @@
+---
+- name: "Playbook To Fetch SAN Related To Information[ WWPN / SLOT / PORT / HBA ] For 'SAN POWERMAX ALLOCATION' Activity"
+  hosts: "csc2cxn00002917.cloud.kp.org" # localhost
+  gather_facts: true
+  # vars:
+  #  server_ilo_address: "172.16.130.41"
+  tasks:
+    - name: "Get BaseNetworkAdapters Count Of System Using Redfish"
+      ansible.builtin.uri:
+        url: "https://{{ server_ilo_address }}/redfish/v1/Systems/1/BaseNetworkAdapters/"
+        method: GET
+        user: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
+        password: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+        force_basic_auth: true
+        validate_certs: false
+      register: base_adapter_info
+
+
+    - name: "Get Base Network Adapters Count"
+      ansible.builtin.set_fact:
+        base_network_adapter_count: "{{ base_adapter_info.json['Members@odata.count'] }}"
+        # https://10.16.50.85/redfish/v1/Systems/1/BaseNetworkAdapters/1
+        # https://10.16.50.85/redfish/v1/Systems/1/BaseNetworkAdapters/2
+
+
+    - name: "Get Full Details For All Base Network Adapters"
+      ansible.builtin.uri:
+        url: "https://{{ server_ilo_address }}/redfish/v1/Systems/1/BaseNetworkAdapters/{{ item }}"
+        method: GET
+        user: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
+        password: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
+        force_basic_auth: true
+        validate_certs: false
+      register: network_adapters
+      with_sequence: start=1 end={{ base_network_adapter_count }}
+
+
+
+
+    - name: "Filter Slot Details [EMC ONLY] From List Of Adapters"
+      ansible.builtin.set_fact:
+        my_slot_number: "{{ (item.json.Location | regex_search('Slot (\\d+)')).split(' ')[-1] }}"
+      when: item.json.FcPorts != []
+      loop: "{{ network_adapters.results }}"
+
+
+    - name: "Filter FC Port List[EMC ONLY] From List Of Adapters"
+      ansible.builtin.set_fact:
+        my_fc_ports: "{{ my_fc_ports | default([]) + [item.json.FcPorts] }}"
+      when: item.json.FcPorts != []
+      loop: "{{ network_adapters.results }}"
+
+
+
+    - name: "Display Created Dictionary 'wwns_dict' && List 'wwns_pmax_list'"
+      ansible.builtin.debug:
+        msg:
+          - "{{ my_slot_number }}"
+          - "==============="
+          - "{{ my_fc_ports }}"
+
+
+    # - name: "Create Dictionary Format Like <HBA:WWPN> From 'my_fc_ports'"
+    #   ansible.builtin.set_fact:
+    #     wwns_dict: "{{ wwns_dict | default({}) | combine({ 'hba'~my_idx : item.WWPN | replace(':', '') }) }}"
+    #   loop: "{{ my_fc_ports | flatten(levels=1) }}"
+    #   loop_control:
+    #    index_var: my_idx
+
+
+    # - name: "Create Dictionary Format Like <HBA:WWPN> From 'my_fc_ports'"
+    #   ansible.builtin.set_fact:
+    #     wwns_dict: "{{ wwns_dict | default({}) | combine({ 'hba'~my_idx : item.WWPN | replace(':', '') }) }}"
+    #   loop: "{{ my_fc_ports | flatten(levels=1) }}"
+    #   loop_control:
+    #    index_var: my_idx
+
+
+    # - name: "Create List Format Like [WWPN,..] From 'my_fc_ports'"
+    #   ansible.builtin.set_fact:
+    #     wwns_pmax_list: "{{ wwns_pmax_list | default([]) + [item.WWPN | replace(':', '')] }}"
+    #   loop: "{{ my_fc_ports | flatten(levels=1) }}"
+
+
+
+    # - name: "Display Created Dictionary 'wwns_dict' && List 'wwns_pmax_list'"
+    #   ansible.builtin.debug:
+    #     msg:
+    #       - "{{ wwns_dict }}"
+    #       - "==============="
+    #       - "{{ wwns_pmax_list }}"
+
+
+
+
+
+# - name: "Playbook To Formating Inputs 'request_date' && 'storage_details_combined'"
+#   hosts: localhost
+#   gather_facts: true
+#   vars:
+#     wwn_list: []
+#   tasks:
+#     - name: "Fetch Start Time(request_date) From job_details in ISO-806 Format"
+#       ansible.builtin.set_fact:
+#         fetched_date: "{{ ansible_date_time.iso8601_micro }}"  # 2023-07-20T16:36:44.396234Z
+
+
+#     - name: "Reformat Start Time {{ fetched_date }} To Proper Date Format"
+#       ansible.builtin.set_fact:
+#         fetched_date_filtered: "{{ fetched_date.split('.')[0].split('T')[0].split('-') | join('-') + ' ' + fetched_date.split('.')[0].split('T')[1].split(':') | join(':') }}"
+#           # 2023-08-11 16:37:57
+
+
+#     - name: "Convert UTC Time ->'{{ fetched_date_filtered }}' To -> IST Time"
+#       ansible.builtin.command: /usr/bin/python3
+#       args:
+#         stdin: |
+#           from datetime import datetime
+#           import datetime
+#           print(datetime.datetime.strptime("{{ fetched_date_filtered }}", "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours=5, minutes=30))
+#       register: ist_time_output
+
+
+#     - name: "Set_Fact UTC Time {{ fetched_date_filtered }} To IST Time"
+#       ansible.builtin.set_fact:
+#         request_date: "{{ ist_time_output.stdout.split(' ')[0].replace('-', '_') + '_' + ist_time_output.stdout.split(' ')[1][:5].replace(':', '_') }}" # 2023_10_12_19_00_37
+
+
+#     - name: "Block Loading For NON-ESXI HOST"
+#       when: my_os | lower != "esxi"
+#       block:
+#         - name: "Set-Fact 'host_list' Variable Before Play With List Of Servers [NON-ESXI HOST]"
+#           ansible.builtin.set_fact:
+#             host_list: "{{ hostname.split(',') }}"
+
+
+#         - name: "Set-Fact wwn_list==storage_details_combined [NON-ESXI HOST]"
+#           ansible.builtin.set_fact:
+#             wwn_list: "{{ wwn_list | default([]) + [{'wwns_dict': hostvars['localhost']['wwns_dict'], 'server_name': item, 'wwns_pmax_list': hostvars['localhost']['wwns_pmax_list']}] }}"
+#           with_items:
+#             - "{{ host_list }}"
+
+
+#     - name: "Block Loading For ESXI HOST"
+#       when: my_os | lower == "esxi"
+#       block:
+#         - name: "Set-Fact 'host_list' Variable Before Play With List Of Servers [ESXI HOST]"
+#           ansible.builtin.set_fact:
+#             host_list: "{{ hostname.split(',') }}"
+
+
+#         - name: "Set-Fact wwn_list==storage_details_combined"
+#           ansible.builtin.set_fact:
+#             wwn_list: "{{ wwn_list | default([]) + [{'wwns_dict': hostvars['localhost']['wwns_dict'], 'server_name': item, 'wwns_pmax_list': hostvars['localhost']['wwns_pmax_list']}] }}"
+#           with_items:
+#             - "{{ host_list }}"
+
+
+#     - name: "Create 'storage_device' Var Dictionary Of Given Set Of Servers On 'hostname'"
+#       ansible.builtin.set_fact:
+#         storage_device: "{{ storage_device | default([]) + [{'servername': item.split('.')[0]}] }}"
+#       loop: "{{ hostname.split(',') | map('trim') | list }}"
+
+
+
+#     - name: "Set-stat Storage Details Combined Details For Next Play"
+#       ansible.builtin.set_stats:
+#         data:
+#           storage_details_combined: "{{ wwn_list }}"
+#           request_date: "{{ request_date }}"
+#           storage_device: "{{ storage_device }}"
+
+#           # storage_details_combined:
+#           #     - wwns_dict:
+#           #         host3: '0x100098f2b3a1f328'
+#           #         host1: '0x100098f2b3a1263a'
+#           #       wwns_pmax_list:
+#           #         - 100098f2b3a1263a
+#           #         - 100098f2b3a1f328
+#           #       server_name: czxbap3.crdc.kp.org
+#           #     - wwns_dict:
+#           #         host3: '0x100098f2b3a14632'
+#           #         host1: '0x100098f2b3a1d54e'
+#           #       wwns_pmax_list:
+#           #         - 100098f2b3a1d54e
+#           #         - 100098f2b3a14632
+#           #       server_name: czxbap11.crdc.kp.org

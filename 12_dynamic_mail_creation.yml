@@ -1,0 +1,76 @@
+---
+- name: Generate HTML from Jinja2 template
+  hosts: localhost
+  gather_facts: false
+  vars:
+    sctask_ticket_no: "SCTASK1234567"
+    hostname: "pdviatsto004.pldc.kp.org"
+    df_output: {
+      "stdout_lines": [
+        "devtmpfs,63G,0,63G,0%,/dev",
+        "tmpfs,63G,0,63G,0%,/dev/shm",
+        "tmpfs,63G,2.1M,63G,1%,/run",
+        "tmpfs,63G,0,63G,0%,/sys/fs/cgroup",
+        "/dev/mapper/system_vg-root_lv,30G,558M,30G,2%,/",
+        "/dev/mapper/system_vg-usr_lv,12G,9.4G,2.7G,79%,/usr",
+        "/dev/sda1,2.0G,309M,1.7G,16%,/boot",
+        "/dev/mapper/system_vg-opt_lv,22G,6.0G,17G,27%,/opt",
+        "/dev/mapper/system_vg-users_lv,2.0G,1.5G,526M,75%,/users",
+        "/dev/mapper/system_vg-home_lv,2.0G,47M,2.0G,3%,/home",
+        "/dev/mapper/system_vg-tmp_lv,8.0G,107M,7.9G,2%,/tmp",
+        "/dev/mapper/system_vg-var_lv,18G,8.5G,9.6G,47%,/var",
+        "/dev/mapper/system_vg-var_tmp_lv,2.0G,245M,1.8G,13%,/var/tmp",
+        "/dev/mapper/system_vg-var_cache_dnf_lv,4.0G,344M,3.7G,9%,/var/cache/dnf",
+        "/dev/mapper/system_vg-var_crash_lv,64G,490M,64G,1%,/var/crash",
+        "/dev/mapper/system_vg-var_log_lv,12G,8.2G,3.9G,69%,/var/log",
+        "/dev/mapper/system_vg-var_log_audit,4.0G,3.1G,1003M,76%,/var/log/audit",
+        "tmpfs,13G,0,13G,0%,/run/user/0",
+        "tmpfs,13G,0,13G,0%,/run/user/694105294",
+        "/dev/mapper/apps_vg-apps_lv0,8.0G,90M,8.0G,2%,/apps1",
+        "/dev/mapper/apps_vg-apps_lv1,9.0G,97M,8.9G,2%,/apps2"
+     ]
+    }
+
+    df_headers_list: "FILE-SYSTEM,SIZE,USED,AVAILABLE,USE %,MOUNTED ON"
+    lsblk_headers_list: "NAME,MAJ:MIN,RM,SIZE,RO,TYPE,MOUNT POINT"
+    lsblk_output: {
+        "stdout_lines": [
+            "sda,8:0,0,447.1G,0,disk,",
+            "├─sda1,8:1,0,2G,0,part,/boot",
+            "├─sda2,8:2,0,200G,0,part,",
+            "│,├─system_vg-root_lv,253:0,0,30G,0,lvm",
+            "│,├─system_vg-swap_lv,253:1,0,16G,0,lvm",
+            "│,├─system_vg-usr_lv,253:2,0,12G,0,lvm",
+            "│,├─system_vg-var_log_audit,253:3,0,4G,0,lvm",
+            "│,├─system_vg-var_log_lv,253:4,0,12G,0,lvm",
+            "│,├─system_vg-var_cache_dnf_lv,253:5,0,4G,0,lvm",
+            "│,├─system_vg-var_crash_lv,253:6,0,64G,0,lvm",
+            "│,├─system_vg-var_tmp_lv,253:7,0,2G,0,lvm",
+            "│,├─system_vg-var_lv,253:8,0,18G,0,lvm",
+            "│,├─system_vg-users_lv,253:9,0,2G,0,lvm",
+            "│,├─system_vg-tmp_lv,253:10,0,8G,0,lvm",
+            "│,├─system_vg-opt_lv,253:11,0,22G,0,lvm",
+            "│,└─system_vg-home_lv,253:12,0,2G,0,lvm",
+            "├─sda3,8:3,0,200G,0,part,",
+            "└─sda4,8:4,0,45.1G,0,part,",
+            "sdb,8:16,0,8G,0,disk,",
+            "sdc,8:32,0,9G,0,disk,",
+            "sdd,8:48,0,8G,0,disk,",
+            "sde,8:64,0,9G,0,disk,",
+            "emcpowerbv,120:1168,0,8G,0,disk,",
+            "└─apps_vg-apps_lv0,253:13,0,8G,0,lvm,/apps1",
+            "emcpowerbw,120:1184,0,9G,0,disk,",
+            "└─apps_vg-apps_lv1,253:14,0,9G,0,lvm,/apps2"
+        ]
+    }
+  tasks:
+    # - name: Convert JSON string to dictionary
+    #   ansible.builtin.set_fact:
+    #     full_data: "{{ json_data | from_json }}"
+
+
+    - name: Render HTML from Jinja2 template
+      ansible.builtin.template:
+        src: dynamic_mail_creation.html.j2
+        dest: dynamic_mail_creation.html
+        mode: '0700'

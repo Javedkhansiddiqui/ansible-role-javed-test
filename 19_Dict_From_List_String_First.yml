@@ -1,0 +1,23 @@
+- name: "This Is The Program to Create List Of List From Input"
+  hosts: localhost
+  gather_facts: true
+  vars:
+    linux_hosts_ui: 'czxbap3.crdc.kp.org,czxbap11.crdc.kp.org,czxbap12.crdc.kp.org'
+  tasks:
+    - name: "First Read The User Input Given At Run Time Of WorkFlow Template"
+      ansible.builtin.set_fact:
+        linux_hosts: "{{ linux_hosts_ui | split(',') | map('trim') | list }}"
+
+
+    - name: "First Read The User Input Given At Run Time Of WorkFlow Template - 1"
+      ansible.builtin.set_fact:
+        storage_details: "{{ storage_details | default([]) + [{'server_name': item.split('.')[0]}] }}"
+      loop: "{{ linux_hosts }}"
+
+
+    - name: "Debug"
+      ansible.builtin.debug:
+        msg:
+          - "{{ linux_hosts }}"
+          - "=============="
+          - "{{ storage_details }}"

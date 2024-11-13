@@ -1,0 +1,25 @@
+---
+- name: "This is a Example of MultiLine Variable If Condition"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_env: "d"
+    my_environment: "KPHC"
+    region: "HI"
+    primary_data_center: "SSDC"
+    preffered_folder: "dialysis_kpfted_report"
+    file_system_type: "HYBRID WINDOWS UNIX"
+    requester: "githin.kv@kyndryl.com"
+    dfs_path: >-
+      {%- if my_env == "P" or my_env == "p" -%}
+      \\cs.msds.kp.org\{{ my_environment | lower }}nas{{ region | lower }}\{{ preffered_folder }}
+      {%- else -%}
+      \\cs.msds.kp.org\{{ my_environment | lower }}nas{{ region | lower }}-nonprod\{{ preffered_folder }}
+      {%- endif -%}
+
+  tasks:
+    - name: "Printing dfs_path"
+      ansible.builtin.debug:
+        msg:
+          - "{% if primary_data_center != 'PDC' %}{{ primary_data_center }}{% endif %}"
+          - "{{ requester | split('.') | first | capitalize }}"

@@ -1,0 +1,107 @@
+---
+- name: "First play - Playbook To Job ID"
+  hosts: localhost
+  gather_facts: true
+  vars:
+    my_input_file: "my_file.txt"
+  tasks:
+    - name: "1. Debug Current tower_job_id"
+      ansible.builtin.debug:
+        msg: "{{ tower_job_id }}"
+
+
+    - name: "2. Fetch Current Job Project Name"
+      ansible.builtin.uri:
+        url: "https://ansible-tower-na2.ocp1.sr1.ag1.sp.ibm.local/api/v2/jobs/{{ tower_job_id }}"
+        method: GET
+        user: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+        validate_certs: false
+        return_content: true
+        force_basic_auth: true
+        status_code:
+          - 201
+          - 200
+      register: job_details_response
+
+
+    - name: "3. Print / Extract Current Job Project Name And ID"
+      ansible.builtin.set_fact:
+        current_job_project_id: "{{ job_details_response.json.summary_fields.project.id }}"
+        current_job_project_name: "{{ job_details_response.json.summary_fields.project.name }}"
+
+
+    - name: "4. Get Project Name Full Details - {{ current_job_project_id }}"
+      ansible.builtin.uri:
+        url: "https://ansible-tower-na2.ocp1.sr1.ag1.sp.ibm.local/api/v2/projects/{{ current_job_project_id }}/"
+        method: GET
+        user: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+        validate_certs: false
+        return_content: true
+        force_basic_auth: true
+        status_code:
+          - 201
+          - 200
+      register: project_detailed_response
+
+
+    - name: "5. Print / Extract Current Job Project -> ORGANIZATION + SCM_TYPE + SCM_URL + SCM_BRANCH"
+      ansible.builtin.set_fact:
+        current_job_project_organization: "{{ project_detailed_response.json.summary_fields.organization.name }}"
+        current_job_project_scm_type: "{{ project_detailed_response.json.scm_type }}"
+        current_job_project_scm_url: "{{ project_detailed_response.json.scm_url }}"
+        current_job_project_scm_branch: "{{ project_detailed_response.json.scm_branch }}"
+
+
+
+    # ***************** SYNC CHECKING ****************** #
+    - name: "6. Block Loading For Sync Github and AAP Production Job Template"
+      block:
+        - name: "6.1 Update and Sync GitHub Projects in Ansible Tower"
+          awx.awx.project:
+            name: "{{ current_job_project_name }}"  # kp2_project_storage_space_reclaimation
+            organization: "{{ current_job_project_organization }}" # kp2
+            scm_type: "{{ current_job_project_scm_type }}" # git
+            scm_url: "{{ current_job_project_scm_url }}" # https://xxxxx.git
+            scm_branch: "{{ current_job_project_scm_branch }}" # dev
+            scm_update_on_launch: true   # This is very important to update Job Template with Github latest information
+            state: "present"
+            tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+            tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+            tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+          register: project_sync_response
+
+
+
+        - name: "6.2 Check Project Synchronization Result"
+          ansible.builtin.debug:
+            # msg: "Project Synchronization Status :- {{ 'SYNCED SUCCESSFULLY' if project_sync_response.changed else 'NO NEW UPDATE FOUND' }}"
+            msg: >-
+              {%- if project_sync_response.changed -%}
+              SYNCED SUCCESSFULLY
+              {%- elif project_sync_response.failed -%}
+              SYNC FAILED
+              {%- else -%}
+              NO NEW UPDATE FOUND
+              {%- endif -%}
+
+
+        - name: "Import Role"
+          ansible.builtin.import_role:
+            name: javed_test
+            tasks_from: main.yml
+
+
+      # rescue:
+      #   - name: "Print Fail Message"
+      #     ansible.builtin.fail:
+      #   - name: "[FAIL MAIL] Import Role To Trigger Mail -> Loading 3_email_notification.yml [SCRIPT FAIL , CHECK MANUAL]"
+      #     ansible.builtin.import_role:
+      #       name: storage_space_reclaimation
+      #       tasks_from: 3_email_notification.yml
+      #     vars:
+      #       my_datastore_script_error: "{% if ((project_sync_response.stderr_lines != '') and (project_sync_response.rc == 1)) %}datastore_error{%else%}{%endif%}"
+
+      #       my_start_time: "{{ hostvars['localhost']['my_start_time'] }}"
+      #     delegate_to: localhost

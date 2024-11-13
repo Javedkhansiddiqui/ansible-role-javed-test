@@ -1,0 +1,21 @@
+---
+- name: "This is a Example of Line In File MOdule"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_headers: MODE , NO. OF LINKS/ DIR'S ,  USER , GROUP , SIZE , DATE/TIME , FILE / DIRECTORY
+  tasks:
+    - name: "Running ls -l Command"  # noqa: run_once[task]
+      ansible.builtin.shell:
+        cmd: ls -l | awk '(NR>1) {print $1","$2","$3","$4","$5","$6,$7,$8","$9}'
+      changed_when: output_data.rc == 0
+      register: output_data
+      delegate_to: localhost
+
+
+    - name: "HBA_LUN_SampleReport.txt File Created"
+      ansible.builtin.template:
+        src: "12_HBA_LUN_SampleReport.html.j2"
+        dest: "/tmp/HBA_LUN_SampleReport.txt"
+        mode: "0677"
+        newline_sequence: "\\n"

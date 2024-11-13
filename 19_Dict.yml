@@ -1,0 +1,67 @@
+---
+rep_setup:
+ [
+    {
+    'primary_data_center': 'SSDC',
+    'target_data_center': 'NDC',
+    'region': 'CO GA MA',
+    'primary_cluster_name': 'massdcisip-hc01',
+    'target_cluster_name': 'cnnndcisip-hc04'
+    },
+    {
+    'primary_data_center': 'NDC',
+    'target_data_center': 'SSDC',
+    'region': 'CO GA MA',
+    'primary_cluster_name': 'cnnndcisip-hc04',
+    'target_cluster_name': 'massdcisip-hc01'
+    },
+    {
+    'primary_data_center': 'CDC',
+    'target_data_center': 'NDC',
+    'region': 'SC',
+    'primary_cluster_name': 'cscrdcisip-hp01',
+    'target_cluster_name': 'cnnndcisip-hc01'
+    },
+    {
+    'primary_data_center': 'NDC',
+    'target_data_center': 'CDC',
+    'region': 'SC',
+    'primary_cluster_name': 'cnnndcisip-hc01',
+    'target_cluster_name': 'cscrdcisip-hp01'
+    },
+    {
+    'primary_data_center': 'CDC',
+    'target_data_center': 'NDC',
+    'region': 'NC',
+    'primary_cluster_name': 'cscrdcisip-hc02',
+    'target_cluster_name': 'cnnndcisip-hc02'
+    },
+    {
+    'primary_data_center': 'NDC',
+    'target_data_center': 'CDC',
+    'region': 'NC',
+    'primary_cluster_name': 'cnnndcisip-hc02',
+    'target_cluster_name': 'cscrdcisip-hc02'
+    },
+    {
+    'primary_data_center': 'CDC',
+    'target_data_center': 'NDC',
+    'region': 'HI NA NW',
+    'primary_cluster_name': 'cscrdcisip-hc03',
+    'target_cluster_name': 'cnnndcisip-hc03'
+    },
+    {
+    'primary_data_center': 'NDC',
+    'target_data_center': 'CDC',
+    'region': 'HI NA NW',
+    'primary_cluster_name': 'cnnndcisip-hc03',
+    'target_cluster_name': 'cscrdcisip-hc03'
+    },
+    {
+    'primary_data_center': 'xxx',
+    'target_data_center': 'NDC',
+    'region': 'WA',
+    'primary_cluster_name': 'DCA-ISI-CLS',
+    'target_cluster_name': 'cnnndcisip-hc03'
+    }
+  ]

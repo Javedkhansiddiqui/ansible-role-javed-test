@@ -1,0 +1,23 @@
+---
+- name: "This is a Example of reading dictionary"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    data: "Javed Khan Siddque"
+  tasks:
+    - name: "Run the ifconfig command"
+      ansible.builtin.debug:
+        msg:
+          - "Print first item using split and last:- {{ data | split('') | first }}"       # Javed
+          # - "Print==================================:- {{ data }}"                      # Javed Khan Siddque
+          # - "Print with @ in between using join:- {{ data | join('@') }}"               # J@a@v@e@d@ @K@h@a@n@ @S@i@d@d@q@u@e
+          # - "Print with space in between using join:- {{ data | join(' ') }}"           # J a v e d   K h a n   S i d d q u e
+          # - "Print list sep by space in b/w using split:- {{ data | split(' ') }}"      # ['Javed', 'Khan', 'Siddque']
+          # - "Print list sep by space in b/w using split:- {{ data | split() }}"         # ['Javed', 'Khan', 'Siddque']
+          # - "Print first item using split and last:- {{ data | split() | first }}"       # Javed
+          # - "Print first item using split and last:- {{ data | split() | last }}"        # siddque
+          # - "Print with commow add with join:- {{ data | split(' ') | join(',') }}"     # Javed,Khan,Siddque
+          # - "{{ 'Javed Khan Siddque' | truncate(8, True, '@', 0) }}"
+          # - "{{ 'Javed Khan Siddque' | truncate(8, False, '@', 0) }}"
+          # - "{{ 'Javed Khan Siddque' | truncate(5, True, '@', 0) }}"
+          # - "{{ 'Javed Khan Siddque' | truncate(5, False, '@', 0) }}"

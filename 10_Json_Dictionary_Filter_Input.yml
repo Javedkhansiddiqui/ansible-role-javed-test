@@ -1,0 +1,42 @@
+server_list:
+  - server: server1
+    files:
+      - path: "/tmp/abc.txt"
+        perm: '0700'
+      - path: "/tmp/some.txt"
+        perm: '0700'
+    dirs:
+      - path: "/tmp/test1"
+        perm: '0700'
+        recurse: false
+      - path: "/tmp/test2"
+        perm: '0700'
+        recurse: true
+
+  - server: localhost
+    files:
+        - path: "/tmp/abc.txt"
+          perm: '0700'
+        - path: "/tmp/some.txt"
+          perm: '0700'
+    dirs:
+        - path: "/tmp/test1"
+          perm: '0700'
+          recurse: false
+        - path: "/tmp/test2"
+          perm: '0700'
+          recurse: true
+
+  - server: server2
+    files:
+      - path: "/tmp/def.txt"
+        perm: '0700'
+      - path: "/tmp/ghi.txt"
+        perm: '0700'
+    dirs:
+      - path: "/tmp/dir1"
+        perm: '0644'
+        recurse: false
+      - path: "/tmp/dir2"
+        perm: '0755'
+        recurse: true

@@ -1,0 +1,22 @@
+---
+- name: "This is a Example of Multi Line Script"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: "Check OS"
+      ansible.builtin.shell: |
+       whoami
+       cat /etc/redhat-release
+       if [ -d "/tmp" ]
+       then
+          echo "Directory /tmp exists."
+       else
+           echo "Error: Directory /tmp does not exists."
+       fi
+      register: output
+      changed_when: output.rc == 0
+
+
+    - name: "DEbuf Output"
+      ansible.builtin.debug:
+        msg: "{{ output.stdout_lines }}"

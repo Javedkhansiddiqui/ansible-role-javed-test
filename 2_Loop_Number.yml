@@ -1,0 +1,25 @@
+---
+- name: "This is a Example of Check input Var"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Count our fruit
+      ansible.builtin.debug:
+        msg: "{{ item }} with index {{ my_idx + 1 }}"
+      loop:
+        - apple
+        - banana
+        - pear
+      loop_control:
+        index_var: my_idx
+
+
+# ok: [localhost] => (item=apple) => {
+#     "msg": "apple with index 1"
+# }
+# ok: [localhost] => (item=banana) => {
+#     "msg": "banana with index 2"
+# }
+# ok: [localhost] => (item=pear) => {
+#     "msg": "pear with index 3"
+# }

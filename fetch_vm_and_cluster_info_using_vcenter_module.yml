@@ -1,0 +1,69 @@
+---
+- name: "Export VM And ESXI Host Details From vCenter"
+  hosts: "{{ jump_host | default([]) }}"
+  gather_facts: false
+  vars:
+    jump_host: "csc2cxp21113105.cloud.kp.org"
+    vcenter_server: "{{ lookup('env', 'VMWARE_HOST') }}"
+    vcenter_user: "{{ lookup('env', 'VMWARE_USER') }}"
+    vcenter_password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+  tasks:
+    - name: "Gather VM Details From Using VCenter"
+      community.vmware.vmware_vm_info:
+        hostname: "{{ vcenter_server }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: false
+      register: vm_details_output
+
+
+    - name: "Create File Name Extention For {{ vcenter_server }}"
+      ansible.builtin.set_fact:
+        my_file_name: "vcenter_topology_{{ vcenter_server.split('.')[0] }}_vm.csv"
+
+
+    - name: "Delete File '/tmp/{{ my_file_name }}' From {{ jump_host }}, If Exist"
+      ansible.builtin.file:
+        path: "/tmp/{{ my_file_name }}"
+        state: absent
+
+
+    - name: "Delete File '/tmp/{{ my_file_name }}' From localhost , If Exist"
+      ansible.builtin.file:
+        path: "/tmp/{{ my_file_name }}"
+        state: absent
+      delegate_to: localhost
+
+
+    - name: "CSV - Create File '/tmp/{{ my_file_name }}' and Add Headers First"
+      ansible.builtin.lineinfile:
+        dest: "/tmp/{{ my_file_name }}"
+        line: "bp_host,vc_vcenter_server,vc_physical_host,vc_cluster,vc_data_center,vc_guestos,z_vcenter_vm"
+        create: true
+        state: present
+        mode: "0677"
+
+
+    - name: "CSV - Create File And Set The Header As First Input"
+      ansible.builtin.lineinfile:
+        dest: "/tmp/{{ my_file_name }}"
+        line: "{{ item.guest_name }},{{ vcenter_server }},{{ item.esxi_hostname }},{{ item.cluster }},{{ item.datacenter }},{{ item.guest_fullname }},enrichment"
+        insertafter: EOF
+        create: true
+        mode: "0677"
+        state: present
+      loop: "{{ vm_details_output.virtual_machines }}"
+
+
+
+    - name: "Read File From {{ jump_host }} On Location '/tmp/{{ my_file_name }}'"
+      ansible.builtin.command:
+        cmd: "cat /tmp/{{ my_file_name }}"
+      register: file_content_output
+      changed_when: file_content_output.rc == 0
+
+
+
+    - name: "Print File From {{ jump_host }} On Location '/tmp/{{ my_file_name }}'"
+      ansible.builtin.debug:
+        msg: "{{ file_content_output.stdout_lines }}"

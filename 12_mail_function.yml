@@ -1,0 +1,47 @@
+---
+- name: "This Is The Template Program"
+  hosts: localhost
+  gather_facts: true
+  vars:
+    team: "Linux Team"
+  tasks:
+    - name: "Block to Execute EMC HBA && LUN Validation Loading."
+      block:
+        - name: "Executing Script to fetch and Create Results and Store In File"
+          ansible.builtin.script:
+            cmd: "library/hba_lun_validation_script.sh"
+
+
+        - name: "Read Content of A File Post Script Run"
+          ansible.builtin.command:
+            cmd: cat /tmp/{{ ansible_nodename }}_HBA_LUN_Details.csv
+          register: hba_lun_data
+          changed_when: false
+
+
+        - name: "Display Content"
+          ansible.builtin.debug:
+            msg: "{{ hba_lun_data.stdout_lines }}"
+
+
+        - name: "Creating Template To print In Table" # noqa: run_once[task]
+          ansible.builtin.template:
+            src: "12_mail_function.html.j2"
+            dest: "/var/www/html/index.html"
+            mode: "0677"
+          become: true
+          delegate_to: localhost
+          run_once: true
+
+
+        # - name: "Including Mail File -> Include Task mail_trigger.yml"
+        #   ansible.builtin.include_tasks:
+        #     file: mail_trigger.yml
+
+      rescue:
+        - name: "Any Tasks Failed"
+          ansible.builtin.fail:
+            msg:
+              - "ERROR OCCURRED IN, ROLE: EMC_HBA_and_LUN_validation_for_linux, PLAYBOOK: task/main.yml"
+              - "FAILED TASK NAME : {{ ansible_failed_task.name }}"
+              - "FAILED WITH ERROR: {{ ansible_failed_result.msg }}"

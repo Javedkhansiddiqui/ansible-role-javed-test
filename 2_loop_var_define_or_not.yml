@@ -1,0 +1,25 @@
+---
+- name: "Loop Over To See Var Defined Or Not"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    quota_full_path: "MA"
+    smb_share_name: "SSDC"
+  tasks:
+    - name: "Loop Over To See Var Defined Or Not"
+      ansible.builtin.fail:
+        msg: "Required variable {{ item }} has not been provided"
+      when: lookup('vars', item) is undefined
+      loop:
+        - quota_full_path
+        - smb_share_name
+        - quota_share_dir
+        - isilon_cluster_name_p
+        - isilon_ip_address_p
+        - primary_data_center
+        - isilon_cluster_name_t
+        - isilon_ip_address_t
+        - target_data_center
+        - source_pool_for_rep
+        - source_subnet_for_rep
+        - smart_connect_zone_name_for_rep

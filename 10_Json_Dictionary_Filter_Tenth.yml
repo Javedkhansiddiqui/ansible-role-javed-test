@@ -1,0 +1,69 @@
+---
+- name: "This Is Usecase Of Json Query Filter"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    storage_details:
+      [
+          {
+            "memory_size_MiB": 131072,
+            "vm": "esxi-1029",
+            "name": "(Kyndryl Win 2019 jump) zqkpcloudwm7008",
+            "power_state": "POWERED_OFF",
+            "cpu_count": 8
+          },
+          {
+            "memory_size_MiB": 8192,
+            "vm": "vm-1055",
+            "name": "(IaaS Dev2) zqkpcloudwm9044",
+            "power_state": "POWERED_ON",
+            "cpu_count": 2
+          },
+          {
+            "memory_size_MiB": 65536,
+            "vm": "vm-1057",
+            "name": "(vRA Dev1) zqkpcloudvm1108",
+            "power_state": "POWERED_ON",
+            "cpu_count": 8
+          },
+                    {
+            "memory_size_MiB": 655786,
+            "vm": "vm-1059",
+            "name": "(vRA Dev3) zqkpcloudvm1109",
+            "power_state": "POWERED_ON",
+            "cpu_count": 8
+          }
+      ]
+  tasks:
+    - name: "Print only vm names"
+      ansible.builtin.set_fact:
+        only_vm: "{{ storage_details | json_query('[].vm') }}"
+        only_vm_copy: "{{ storage_details | json_query('[*].vm') }}"
+        only_name: "{{ storage_details | json_query('[].name') }}"
+        only_powered_on: "{{ storage_details | json_query(only_powered_on_var) }}"
+        only_cpu_count_more_than_8: "{{ storage_details | json_query(only_cpu_count_more_than_8_var) }}"
+        only_vm_contains_string: "{{ storage_details | json_query(only_vm_contains_string_var) }}"
+        only_vm_startswith_string: "{{ storage_details | json_query(only_vm_startswith_string_var) }}"
+      vars:
+        only_powered_on_var: "[?power_state ==`POWERED_ON`].name"
+        only_cpu_count_more_than_8_var: "[?cpu_count > `5`].cpu_count"
+        only_vm_contains_string_var: "[?contains(name,'vRA')].name"
+        only_vm_startswith_string_var: "[?starts_with(vm,'vm')].vm"
+
+
+    - name: "Print only vm names"
+      ansible.builtin.debug:
+        msg:
+          - "{{ only_vm }}"
+          - "==============="
+          - "{{only_vm_copy}}"
+          - "==============="
+          - "{{ only_name }}"
+          - "==============="
+          - "{{ only_powered_on }}"
+          - "==============="
+          - "{{ only_cpu_count_more_than_8 }}"
+          - "==============="
+          - "{{ only_vm_contains_string }}"
+          - "==============="
+          - "{{ only_vm_startswith_string }}"

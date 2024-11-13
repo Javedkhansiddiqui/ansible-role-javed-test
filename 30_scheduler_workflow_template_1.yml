@@ -1,0 +1,48 @@
+---
+- name: "Run Ansible Tower Workflow/Job Template With Dynamic Credential"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    scheduler_name: "test_javed"
+    scheduler_utc_time: ""
+  tasks:
+    - name: "Run Ansible Tower Workflow Template With Dynamic Credential"
+      no_log: true
+      ansible.builtin.uri:
+        # url: https://ansible2.cloud.kp.org/api/v2/workflow_job_templates/{{ workflow_job_template_id }}/schedules/
+        url: "https://ansible-tower-na2.ocp1.sr1.ag1.sp.ibm.local/api/v2/workflow_job_templates/{{ workflow_job_template_id }}/schedules/"
+        method: POST
+        body_format: json
+        validate_certs: false
+        force_basic_auth: true
+        user: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+        body: "{'name': '{{ scheduler_name }}','rrule': 'DTSTART:{{ scheduler_utc_time }} RRULE:FREQ=MINUTELY;INTERVAL=30;COUNT=5','extra_data': '{{ json_fil | to_json | regex_replace (\"\\'\",\"\\\\'\") }}'}"
+        status_code: 201, 200, 204
+      register: scheduler_output_workflow
+      # retries: "{{ scheduler_retry }}"
+      # delay: "{{ scheduler_delay }}"
+      # until: scheduler_output_workflow.json.id is defined
+      # when: workflow_job_template_id is defined
+
+
+
+    # - name: "Run Ansible Tower Job Template With Dynamic Credential"
+    #   no_log: true
+    #   ansible.builtin.uri:
+    #     url: https://ansible2.cloud.kp.org/api/v2/workflow_job_templates/{{ workflow_job_template_id }}/schedules/
+    #     method: POST
+    #     body_format: json
+    #     validate_certs: False
+    #     force_basic_auth: true
+    #     headers:
+    #       Authorization: "Basic {{ ansible_tower_basic_auth }}"
+    #       Content-Type: "application/json"
+    #       Accept: "application/json"
+    #     body: "{'name': '{{ scheduler_name }}','rrule': 'DTSTART:{{ scheduler_utc_time }} RRULE:FREQ=MINUTELY;INTERVAL=30;COUNT=5','extra_data': '{{ json_fil | to_json | regex_replace (\"\\'\",\"\\\\'\") }}'}"
+    #     status_code: 201, 200, 204
+    #   register: scheduler_output_job_template
+    #   retries: "{{ scheduler_retry }}"
+    #   delay: "{{ scheduler_delay }}"
+    #   until: scheduler_output_job_template.json.id is defined
+    #   when: workflow_job_template_id is defined

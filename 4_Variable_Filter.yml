@@ -1,0 +1,38 @@
+---
+- name: "Variable Filter"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    var1: "Javed Khan Siddque"
+    var2: "Ansible Developer"
+    var3: "Kyndryl"
+    primary_data_center: "CDC"
+    # target_data_center: "SSDC"
+  tasks:
+    - name: "Print only If Variable Defined"
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      when: item != omit
+      loop:
+        - "{{ var1 | d(omit) }}"
+        - "{{ var2 | d(omit) }}"
+        - "{{ var3 | d(omit) }}"
+        - "{{ var4 | d(omit) }}"   # not defined , skipped , don't fail
+
+    - name: "Variable Different Type Filters"
+      ansible.builtin.set_fact:
+        javed_found_var: "{{ ('Javed' in var1) | ternary('{{ var1 }}', 'No Javed Found') }}"
+        javed_found_text: "{{ ('Javed' in var1) | ternary('We have found Javed', 'No Javed Found') }}"
+        javed_not_match_skip: "{{ ('Jaed' in var1) | ternary('{{ var1 }}', 'No Javed Found', omit) }}"
+        javed_found_var_opps: "{{ (var1 == 'Javed') | ternary('', '{{ var1 }}') }}"
+        # galaxy_api_key: "{{ undef(hint='You must specify your Galaxy API key') }}"
+
+
+    - name: "Print Filtered Variable"
+      ansible.builtin.debug:
+        msg:
+          - "{{ javed_found_var }}"
+          - "{{ javed_found_text }}"
+          - "{{ javed_not_match_skip }}"
+          - "{{ javed_found_var_opps }}"
+          - "{{ target_data_center | d('') }}"

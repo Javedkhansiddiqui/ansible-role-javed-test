@@ -1,0 +1,20 @@
+---
+- name: "Test"
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - 10_Json_Dictionary_Filter_Input.yml
+  tasks:
+    - name: "File/dirs permission of {{ inventory_hostname }}" # noqa jinja[invalid]
+      ansible.builtin.set_fact:
+        files_perm: "{{ server_list | json_query(jquery_arg_files) }}"
+        dirs_perm: "{{ server_list | json_query(jquery_arg_dirs) }}"
+      vars:
+        jquery_arg_files: "[?server=='{{ inventory_hostname }}'].files[]"
+        jquery_arg_dirs: "[?server=='{{ inventory_hostname }}'].dirs[]"
+
+    - name: "Debug"
+      ansible.builtin.debug:
+        var:
+          - files_perm
+          - dirs_perm

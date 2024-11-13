@@ -1,0 +1,48 @@
+---
+- name: "PLAY-1 Obtaining Credential From Custom Vault"
+  hosts: all
+  gather_facts: false
+  vars:
+    account_code: "{{ hostvars['localhost']['account_code'] }}"
+    trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+  tasks:
+    - name: "Retrieve Credentials From Custom Vault"
+      include_role:
+        name: ansible-role-custom-vault-integration
+      vars:
+        update_tower_credential: false    # means we don't want to update credential
+        actionVault: "ObtainCredentials"  # means we only want to GET credential
+  
+
+- name: "Perform Connectivity Checks For Linux Target"
+  hosts: all
+  gather_facts: false
+  vars:
+    account_code: "{{ hostvars['localhost']['account_code'] }}"
+    trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+  tasks:
+    - name: "Checking Linux Connectivity"
+      shell: "cat /etc/sudoers | grep -i kppc_linux_admins"
+      check_mode: no
+      register: check_connect_output 
+
+
+    - debug: var=check_connect_output
+    - debug: msg="Issue with Sudo"
+      when:  check_connect_output.failed|default("true")
+    - debug: msg="Sudo Works"
+      when: check_connect_output.changed|default("false")
+      
+- name: Completed Tasks - Time to CleanUp and Exit
+  hosts: all
+  gather_facts: false
+  vars:
+    account_code: "{{ hostvars['localhost']['account_code'] }}"
+    trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+  tasks:
+    - name: Exit Custom Vault
+      include_role:
+        name: ansible-role-custom-vault-integration
+      vars:
+        update_tower_credential: false
+        actionVault: "ExitAndClear"

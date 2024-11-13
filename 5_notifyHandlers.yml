@@ -1,0 +1,27 @@
+---
+- name: "this is Example of Notify Any Handler"
+  hosts: localhost
+  tasks:
+
+     - name: "Open the ifconfig command"
+       shell:
+        cmd: "ifconfig > /home/Javed/Desktop/abc.txt"
+       register: ifconfig_output
+       
+     - debug:
+          var: ifconfig_output.stdout_lines   
+       notify: 
+          - copy the ifconfig on gedit and save as ifconfig.txt
+
+
+     - name: "open the gedit command"
+       shell:
+         cmd: "gedit /home/Javed/Desktop/abc.txt"
+         
+
+  handlers:
+     - name: "copy the ifconfig on gedit and save as ifconfig.txt"
+       shell:
+         cmd: "echo ifconfig_output.stdout_lines cat -ifconfig.txt"
+
+...

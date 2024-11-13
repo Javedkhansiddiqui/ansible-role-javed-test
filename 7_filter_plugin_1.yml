@@ -1,0 +1,14 @@
+- name: "This is The Example To Use Fileter Plugins"
+  gather_facts: false
+  hosts: localhost
+  vars:
+    my_number_list: [10, 21, 19, 34, 56, 17]
+  tasks:
+    - name: "Find The Odd Number From The List"
+      ansible.builtin.set_fact:
+        my_odd_number: "{{ my_number_list | javed_plugin }}" # this will looks for method called javed_plugin on filter_plugins/*.py
+
+
+    - name: "Print The Odd Number"
+      ansible.builtin.debug:
+        msg: "{{ my_odd_number }}"

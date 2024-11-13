@@ -1,0 +1,32 @@
+---
+- name: "This is playbook for reading excel csv data"
+  gather_facts: false
+  hosts: localhost
+  vars:
+    region: "CO GA MA"
+    primary_data_center: "SSDC"
+    srch1: "PDC"
+    srch2: "1.1.1.4"
+
+  tasks:
+
+    - name: "Match 'PDC' on the always first column, return desire row value from given column(5) second column (0 based index)"
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.csvfile', '{{ srch1 }} file=library/KPHP-isilon-inventry.csv delimiter=, col=1') }}"
+
+
+    - name: "Match 'SSDC' on the always first column, return desire row value from given column(5) second column (0 based index)"
+      ansible.builtin.debug:
+        msg: "{{ lookup('ansible.builtin.csvfile', '{{ srch2 }} file=library/tab_based_data.csv col=2') }}"
+
+
+    - name: "Define Values From CSV File"
+      ansible.builtin.set_fact:
+        cluster_name: "{{ lookup('ansible.builtin.csvfile', '{{ primary_data_center }}' +' file=library/testing.csv delimiter=, col=4') }}"
+        ip_address: "{{ lookup('ansible.builtin.csvfile', '{{ primary_data_center }}' +' file=library/testing.csv delimiter=, col=6') }}"
+
+    - name: "Value"
+      ansible.builtin.debug:
+        msg:
+          - "Cluster Name Is :- {{ cluster_name }}"
+          - "IP Address Is :- {{ ip_address }}"

@@ -1,0 +1,19 @@
+---
+- name: "Update and Sync Ansible Tower Projects From GitHub"
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: "Update and Sync GitHub Projects in Ansible Tower"
+      awx.awx.project:
+        name: "kp2_project_storage_space_reclaimation" # kph_project_storage_space_reclaimation_1554716
+        organization: "kp2"
+        scm_type: "git"
+        # scm_url: "https://github.kyndryl.net/CACF-NA-KaiserPermanente/ansible-role-javed-test"
+        scm_url: "https://github.kyndryl.net/CACF-NA-KaiserPermanente/ansible-role-storage-space-reclaimation.git"
+        scm_branch: "storage_space_reclaimation"     # Replace with the branch you want to sync
+        scm_update_on_launch: true
+        state: "present"
+        tower_host: "{{ lookup('env', 'TOWER_HOST') }}"
+        tower_username: "{{ lookup('env', 'TOWER_USERNAME') }}"
+        tower_password: "{{ lookup('env', 'TOWER_PASSWORD') }}"
+      delegate_to: localhost

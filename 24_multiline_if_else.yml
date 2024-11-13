@@ -1,0 +1,16 @@
+- name: "This Is The Program to Create List Of List From Input"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    genf_copy: 0
+    genf_copy_vm: 0
+    genf_copy_esxi: 0
+    linux_hosts_ui: 'czxbap3.crdc.kp.org,czxbap11.crdc.kp.org,czxbap12.crdc.kp.org'
+  tasks:
+    - name: "First"
+      ansible.builtin.set_fact:
+        genf_var: "{%if ((genf_copy == 0) and (genf_copy_esxi == 0) and (genf_copy_vm == 0)) %}0{% else %}1{%endif %}"
+
+    - name: "Print"
+      ansible.builtin.debug:
+        msg: "{{ genf_var }}"

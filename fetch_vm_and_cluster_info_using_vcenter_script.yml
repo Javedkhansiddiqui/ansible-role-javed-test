@@ -1,0 +1,25 @@
+---
+- name: "Socks Tunnel Check"
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  roles:
+    - role: ansible-role-event-socks-tunnel
+
+
+- name: "Export VM And ESXI Host Details From vCenter"
+  hosts: "{{ jump_host | default([]) }}"
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: "/usr/bin/python"
+    jump_host: "csc2cwp00008395.cloud.kp.org"
+    account_code: "{{ hostvars['localhost']['account_code'] }}"
+    trans_num: "{{ hostvars['localhost']['trans_num'] }}"
+    vcenter_server: "{{ lookup('env', 'VMWARE_HOST') }}"
+    vcenter_user: "{{ lookup('env', 'VMWARE_USER') }}"
+    vcenter_password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+  tasks:
+      - name: "Import Task To Perform Export VM And ESXI Host Details From vCenter"
+        ansible.builtin.include_role:
+          name: javed_test
+          tasks_from: fetch_vm_and_cluster_info_using_vcenter_script.yml

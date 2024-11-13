@@ -1,0 +1,32 @@
+---
+- name: "This is the example of ansible with python to read row wise data"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    exec_option: "library/read_row_wise_data.xlsx"
+    exec_option_out: "library/read_row_wise_data.txt"
+
+  tasks:
+    - name: "Find row wise data module"
+      test:
+        excel_path: "{{ exec_option }}"
+      register: my_sample
+
+    - name: "Print the data"
+      ansible.builtin.debug:
+        msg: "=> {{ my_sample }}"
+
+    - name: "Create a Fresh File to store result :- library/read_row_wise_data.txt"
+      ansible.builtin.file:
+        path: "{{ exec_option_out }}"
+        state: absent
+
+    # - name: "Saving Output in format"
+    #   ansible.builtin.lineinfile:
+    #     path: "{{ exec_option_out }}"
+    #     line: "{{ item.meta }}"
+    #     insertafter: EOF
+    #     state: present
+    #     create: true
+    #     mode: '0644'
+    #   loop: "{{ my_sample.results }}"

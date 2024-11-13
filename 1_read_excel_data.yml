@@ -1,0 +1,36 @@
+---
+- name: "This is the example of ansible with python to read excel file data"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    exec_option: "library/my_format.txt"
+
+  tasks:
+    - name: "Test that read_excel_data module works"
+      read_excel_data:
+        excel_path: "library/filled_intake_form.xlsx"
+        row: "{{ item.row }}"
+        column: "{{ item.column }}"
+      with_items:
+        - { row: 23, column: 3 }
+        - { row: 27, column: 3 }
+        - { row: 26, column: 3 }
+        - { row: 14, column: 3 }
+        - { row: 28, column: 3 }
+      register: my_sample
+
+    - name: "Create a Fresh File to store result :- library/my_format.txt"
+      ansible.builtin.file:
+        path: "{{ exec_option }}"
+        state: absent
+
+
+    - name: "Saving Output in format"
+      ansible.builtin.lineinfile:
+        path: "{{ exec_option }}"
+        line: "{{ item.meta }}"
+        insertafter: EOF
+        state: present
+        create: true
+        mode: '0644'
+      loop: "{{ my_sample.results }}"

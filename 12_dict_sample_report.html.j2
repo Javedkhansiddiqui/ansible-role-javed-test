@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>SAN VMAX EXPANSION</title>
+</head>
+
+<style>
+    table {
+        font-family: Aptos, sans-serif;
+        width: 70%;
+        border: 2px solid black;
+        text-align: center;
+    }
+
+    td {
+        border: 2px solid black;
+        text-align: center;
+        padding: 5px 5px;
+    }
+
+    th {
+        border: 2px solid black;
+        text-align: center;
+        padding: 10px 10px;
+        background: rgb(139, 139, 67);
+    }
+</style>
+
+<body>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Aptos, sans-serif;">Hello Team,</span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br class="ContentPasted1"></span>
+        </div>
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br class="ContentPasted1"></span>
+        </div>
+        <div class="ContentPasted1"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;">Storage SAN VMAX expansion playbook has
+                been triggered and completed successfully.</span>
+        </div><span style="font-size: 16px; font-family: Calibri, sans-serif;">Details of IG, SG, and MV names for
+            servers as follows.</span>
+    </div>
+    <br>
+
+
+    <div style="text-align:left;font-weight: bold; font-size:16px;color: rgb(9, 20, 238)">SAN ARRAY :
+        {{san_array_id }}</div>
+    <br>
+    {% for output in mail_content_final_dict %}
+    <table class="table table-bordered">
+
+        {% set server_name = output.server_name %}
+        {% set ig_name = output.ig_name %}
+        {% set sg_name = output.sg_name %}
+        {% set mv_name = output.mv_name %}
+        {% set size_dict = output.size_dict %}
+        <tr>
+
+            <td colspan="2" style="text-align:center;font-weight: bold;background: rgb(111, 128, 69); font-size:16px">{{
+                server_name }}</td>
+        </tr>
+
+        <tr>
+            <td style="text-align:center;font-weight: bold;background: rgb(139, 139, 67); font-size:14px">IG NAME:</td>
+            <td style="text-align:center;font-weight: bold;background:rgb(139, 139, 67); font-size:14px">{{ ig_name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align:center;font-weight: bold;background: rgb(139, 139, 67); font-size:14px">SG NAME:</td>
+            <td style="text-align:center;font-weight: bold;background:rgb(139, 139, 67); font-size:14px">{{ sg_name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td style="text-align:center;font-weight: bold;background:  rgb(139, 139, 67); font-size:14px">MV NAME:</td>
+            <td style="text-align:center;font-weight: bold;background:rgb(139, 139, 67); font-size:14px">{{ mv_name }}
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:center;font-weight: bold;background: rgb(139, 139, 67); font-size:14px">SIZE DICT:
+            </td>
+            <td style="text-align:center;font-weight: bold;background:rgb(139, 139, 67); font-size:14px">
+                {% for key, value in size_dict.items() %}
+                <li>{{ key }} : {{ value }}</li>
+                {% endfor %}
+            </td>
+        </tr>
+        <br>
+        <br>
+    </table>
+    {% endfor %}
+
+
+
+
+
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div>
+    <div class="elementToProof ContentPasted1 ContentPasted2"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><span
+                style="color: rgb(184, 49, 47);"><strong>NOTE:</strong></span><br></span>
+    </div>
+    <ul>
+        <li style="font-weight: bold; font-size: 16px;"><strong>&nbsp;Validate replication / SRDF / Any clone activities
+                required (&quot;Please raise task for RSAS team for replication &amp; Validation&quot;).</strong></li>
+        <li style="font-weight: bold; font-size: 16px;"><strong>Replication should complete with in 3 Days without
+                fail.</strong></li>
+        <li style="font-weight: bold; font-size: 16px;"><strong>ASM Drives Permission.</strong></li>
+    </ul>
+    <div class="elementToProof ContentPasted1 ContentPasted2"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;">&nbsp; &nbsp; &nbsp;&nbsp;<br></span>
+        <div class="ContentPasted2"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;">If you have any questions, please send an
+                email to the KP Storage Ops Support.</span>
+        </div>
+        <div class="ContentPasted2"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;">team :
+                Sharanabasava.Lackmaji@kyndryl.com</span>
+        </div>
+        <div class="ContentPasted2"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+        </div>
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+        </div><span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span><span
+            style="color: rgb(209, 213, 216); text-shadow: rgba(107, 76, 76, 0.85) 1px -1px 0px; font-size: 16px; font-family: Calibri, sans-serif;">*******
+            This is an auto-generated mail , Please don&apos;t reply *******</span>
+    </div>
+    <div class="elementToProof"
+        style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+        <p><span style="font-size: 16px; text-shadow: rgba(107, 76, 76, 0.85) 1px -1px 0px;">Thanks &amp;&amp;
+                Regards<br>Storage Team</span></p>
+    </div>
+    <p><span style="font-size: 16px; font-family: Calibri, sans-serif;">&nbsp;
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>&nbsp;
+        </span></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <p><br></p>
+</body>
+
+</html>

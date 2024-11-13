@@ -1,0 +1,14 @@
+---
+- name: "Regex amtch"
+  hosts: localhost
+  gather_facts: false
+  become: true
+  tasks:
+    - name: "First Read isilon cluster csv file from mount point for login"
+      ansible.builtin.set_fact:
+        my_path: "{{ ('/ifs','cnpldcisit-hc01', 'MA') | path_join }}/DEV/FOUMAD0031301"
+
+
+    - name: "Print"
+      ansible.builtin.debug:
+        msg: "{{ my_path }}"

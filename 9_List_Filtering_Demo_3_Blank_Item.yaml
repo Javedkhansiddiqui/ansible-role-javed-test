@@ -1,0 +1,30 @@
+---
+- name: This is a example of Filter, Join , List in Ansible
+  hosts: localhost
+  vars:
+    my_list1: ["Javed", "Khan", false, "", "Sidque", 0]
+  tasks:
+    - name: "Debug it"
+      ansible.builtin.set_fact:
+        my_list2: "{{ my_list1 | select() }}"
+
+    - name: "Debug it"
+      ansible.builtin.debug:
+        msg:
+          - "{{ my_list1 }}"
+          - "==============="
+          - "{{ my_list2 }}"
+
+    # "msg": [
+    #     [
+    #         "Javed",
+    #         "Khan",
+    #         "",
+    #         "Sidque"
+    #     ],
+    #     "===============",
+    #     [
+    #         "Javed",
+    #         "Khan",
+    #         "Sidque"
+    #     ]

@@ -1,0 +1,22 @@
+---
+# .ansible-lint
+
+skip_list:
+  - var-naming[no-role-prefix]
+  - yaml[indentation]
+  - yaml[line-length]
+  - no-handler
+  - fqcn[action]
+  - role-name
+  - name[template]
+  - risky-shell-pipe
+  - yaml[empty-lines]
+  - no-tabs
+  - name[template]
+  - var-naming[no-jinja]
+  - jinja[spacing]
+  - fqcn[canonical]
+  - schema[tasks]
+  - meta-incorrect
+  - var-naming[pattern]
+

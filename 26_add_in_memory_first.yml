@@ -1,0 +1,58 @@
+---
+- name: "This is a First Play"
+  hosts: webservers
+  gather_facts: false
+  vars:
+    my_host: "172.16.170.36"   # cnpldcisit-hc01.pldc.kp.org
+    ansible_remote_tmp: /tmp/.ansible/tmp
+  tasks:
+    - name: "Set_fact Isilon Region Name :- SSDC/NDC/CDC"
+      ansible.builtin.set_fact:
+        isilon_region: "{{ isilon_cluster_name_p | regex_search('(?<=^..)(.{4})') }}"
+
+
+    - name: "Set_fact Isilon Domain Name :- kp.org"
+      ansible.builtin.set_fact:
+        isilon_domain: 'kp.org'
+
+
+    - name: "Set_fact Isilon Domain Name :- kp.org"
+      ansible.builtin.set_fact:
+        isilon_node_fqdn_fact: "{{ '.'.join((isilon_cluster_name_p, isilon_region, isilon_domain)) }}"    # "cnpldcisit-hc01.pldc.kp.org"
+
+
+    - name: "Add Host To Inventory To Perform Some Operation"
+      no_log: true
+      ansible.builtin.add_host:
+        name: "{{ isilon_node_fqdn_fact }}"    # "cnpldcisit-hc01.pldc.kp.org"
+        groups: kp2_grp_sshproxy_2hop_1
+        ansible_user: "{{ lookup('env', 'Endpoint_USERNAME') }}"
+        ansible_password: "{{ lookup('env', 'Endpoint_PASSWORD') }}"
+        ansible_host: "{{ isilon_ip_address_p }}"
+        devicetype: compute
+        fqdn: "{{ isilon_node_fqdn_fact }}"    # "{{ isilon_node }}"
+        ipaddress: "{{ isilon_ip_address_p }}"
+        ostype: linux
+        tier: nonproduction
+
+
+    - name: End_play
+      ansible.builtin.meta:
+        end_play
+
+
+    - name: "Connect To Isilon Device To Perform Some Operation"
+      become: true
+      become_user: "{{ isilon_api_user }}"         # "cs\\svc_stor_isi_auto"
+      delegate_to: "{{ isilon_node_fqdn_fact }}"   # "cnpldcisit-hc01.pldc.kp.org"
+      block:
+        - name: "Connect to Isilon Device"
+          ansible.builtin.command: "isi nfs exports modify --id={{ nfs_prod_source_id }} --clients {{ item }} --root-clients {{ item }} --read-write-clients {{ item }} --description {{ description }} --map-root=root"
+          register: isi_map_root_output
+          changed_when: isi_quota_output.rc == 0
+          loop: "{{ client_nfs_export_server_list }}"
+
+
+        - name: "Debug"
+          ansible.builtin.debug:
+            msg: "{{ isi_map_root_output }}"

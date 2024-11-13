@@ -1,0 +1,75 @@
+- name: "Playbook San Powermax Allocation"
+  hosts: "csc2cxn00002917.cloud.kp.org"  # it supposed to run on jump host.
+  gather_facts: true
+  become: true
+  become_exe: pbrun
+  become_flags: ''
+  vars:
+    ansible_python_interpreter: python3
+    port_info_fos1: "2D:07,2D:09"
+    port_info_fos2: "2D:07"
+  tasks:  
+    - name: "Fetch EVEN Set Of Port Information From port_info Variable For SWITCH 'A'"
+      ansible.builtin.set_fact:
+        port_info_fab_a: "{{ port_info_fab_a | default([]) + ([item | regex_replace(':', '')]) }}"
+      loop: "{{ port_info_fos1.split(',') }}"
+
+
+    - name: "Print EVEN Set Of Port Information From port_info Variable For SWITCH 'A'"
+      ansible.builtin.debug:
+        msg: "port_info_fab_a: {{ port_info_fab_a }}"
+
+
+    - name: "Get Details Of Identifier For Given Director-ID && Port ID"
+      dellemc.powermax.port:
+        unispherehost: "172.16.12.156"
+        verifycert: false
+        user: "Ansible_test_user"
+        password: "Ansible@123"
+        serial_no: "000197903319"
+        ports:
+          - director_id: "FA-{{ item.split(':')[0] }}"
+            port_id: "{{ item.split(':')[1] }}"
+      register: port_output
+      loop: "{{ port_info_fos1.split(',') }}"
+
+
+    - name: "Print 'port_output'"
+      ansible.builtin.debug:
+        msg: "{{ port_output }}"
+       
+    - name: "Set-Fact 'fa_wwn_switch_a'"
+      ansible.builtin.set_fact:
+        fa_wwn_switch_a: "{{ port_output.results | json_query('[].port_details.*.symmetrixPort') }}"
+
+
+    - name: "Print 'fa_wwn_switch_a'"
+      ansible.builtin.debug:
+        msg: "{{ fa_wwn_switch_a }}"
+
+
+    - name: Extract identifiers
+      set_fact:
+        identifiers: "{{ identifiers | default([]) + [item.identifier | regex_replace('(.{2})', '\\1:') | regex_replace(':$', '')] }}"
+      loop: "{{ fa_wwn_switch_a | flatten(1) }}"
+
+
+    - name: "Print identifiers"
+      ansible.builtin.debug:
+        msg: "{{ identifiers }}"
+
+
+    # - name: "Set-Fact 'fa_wwn_switch_a'"
+    #   ansible.builtin.set_fact:
+    #      identifiers: "{{ identifiers | default([]) + [item.port_details.values() | map(attribute='symmetrixPort.identifier')] | flatten }}"
+    #   loop: "{{port_output.results}}"
+   
+    # - debug:
+    #     var: identifiers
+ 
+    # - set_fact:
+    #     modified_string: "{{ modified_string | default([]) + [item | regex_replace('(.{2})', '\\1:') | regex_replace(':$', '')] }}"
+    #   loop: "{{ identifiers }}"
+ 
+    # - debug:
+    #    var: modified_string

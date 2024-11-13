@@ -1,0 +1,37 @@
+---
+- name: "This Is The Check Program"
+  hosts: localhost
+- hosts: localhost
+  gather_facts: no
+  vars:
+    is_cluster: 'yes'
+    nested_list: [[a,b,c,d],[c,d,e],[e,f],[g,h,i]]
+    list1: [1, 2, 5, 1, 3, 4, 10]
+    list2: [1, 2, 3, 4, 5, 11, 99, 10]
+    volume_list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    diff_list: [1, 2, 3, 4, 5, 6, 7, 8]
+  tasks:
+    # - debug: msg="{{ item | last }}"
+    #   with_list: "{{ nested_list }}"
+
+    # - debug:
+    #     msg: "{{ list1 | difference(list2) }}"
+
+    - name: "Fetch The Difference"
+      ansible.builtin.set_fact:
+        trs: "{{ volume_list | difference(diff_list) }}"
+
+
+    - name: "Fail Playbook If is_cluster Is Empty."
+      ansible.builtin.fail:
+        msg: "Variable is_cluster cannot be empty. Please check the extra vars"
+      when: is_cluster|lower == 'no' and trs != []
+
+
+
+    # - name: "Template Loading"
+    #   ansible.builtin.template:
+    #     src: "12_my_template.html.j2"
+    #     dest: "/var/www/html/index.html"
+    #     mode: "0655"
+    #   become: true

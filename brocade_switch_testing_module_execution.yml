@@ -1,0 +1,276 @@
+- name: "Playbook For Brocade Fabric Side Zoning Activity"
+  hosts: "csc2cxn00002917.cloud.kp.org"  # csc2cxp21113105.cloud.kp.org / csc2cxp21113104.cloud.kp.org
+  gather_facts: false
+  collections:
+    - brocade.fos
+  vars:
+    my_credential:
+      fos_ip_addr: "172.16.130.191"       # "{{fos_ip_addr}}"
+      fos_user_name: "Ansible_test_user"  # "{{fos_user_name}}"
+      fos_password: "Ansible@123"         # "{{fos_password}}"
+      https: self                         # "{{fos_https}}"
+      ssh_hostkeymust: false
+    san_array_id: "000197903319"
+    port_info: "1D:24,2D:24,3D:27,4D:27"   # "2D:05,2D:11"
+    active_fabric_config_name: "PdcFabric_A"
+    storage_details_combined:
+      - wwns_dict:
+          host0: 10009440c9d01da2
+          host2: 10009440c9d01da3
+          host3: 10009440c9d01de1
+          host4: 10009440c9d01de2
+        server_name: pdviatsto004.pldc.kp.org
+        wwns_pmax_list:
+          - 10009440c9d01da2
+          - 10009440c9d01da3
+          - 10009440c9d01de1
+          - 10009440c9d01de2
+  tasks:
+    - name: "Gather Facts Related To Existing Zones/Alias And On/Off Switches"
+      brocade.fos.brocade_facts:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        gather_subset:
+          - brocade_zoning
+      register: existing_facts_output
+
+# cfgremove/cfgdisable careful it removes existing , make sure you pass members_remove_only:true
+    - name: "Remove The Newly Created Zones To Active Zone Configuration"  # cfgremove
+      brocade.fos.brocade_zoning_cfg:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        cfgs:
+          - name: "{{ active_fabric_config_name }}"
+            members:
+               - "{{ item }}"
+        members_remove_only: true  # mandatory for remove particular , without touching existing one
+        active_cfg: "{{ active_fabric_config_name }}"
+      register: remove_new_zones_ac
+      loop:
+        - "pdviatsto004_host0_PMAX3319_2A1D_PdcFabric_A"
+        - "pdviatsto004_host2_PMAX3319_2A1D_PdcFabric_A"
+        - "pdviatsto004_host3_PMAX3319_2A1D_PdcFabric_A"
+        - "pdviatsto004_host4_PMAX3319_2A1D_PdcFabric_A"
+
+
+
+    # - name: "Try To Delete Zones"
+    #   brocade.fos.brocade_zoning_zone:
+    #     credential: "{{ my_credential }}"
+    #     vfid: 128
+    #     zones_to_delete:
+    #       - name: "pdviatsto004_host0_PMAX3319_2A1D_PdcFabric_A"
+    #       - name: "pdviatsto004_host2_PMAX3319_2A1D_PdcFabric_A"
+    #       - name: "pdviatsto004_host3_PMAX3319_2A1D_PdcFabric_A"
+    #       - name: "pdviatsto004_host4_PMAX3319_2A1D_PdcFabric_A"
+    #   register: deleted_zone_output
+
+
+    # - name: "Try To Delete Alias"
+    #   brocade.fos.brocade_zoning_alias:
+    #     credential: "{{ my_credential }}"
+    #     vfid: 128
+    #     aliases_to_delete:
+    #       - name: pdviatsto004_host0
+    #       - name: pdviatsto004_host2
+    #       - name: pdviatsto004_host3
+    #       - name: pdviatsto004_host4
+    #   register: deleted_alias_output
+
+
+    - name: "Gather Facts Related To Existing Zones/Alias And On/Off Switches"
+      brocade.fos.brocade_facts:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        gather_subset:
+          - brocade_zoning
+      register: existing_facts_output
+
+
+    - name: "End Play"
+      ansible.builtin.meta: end_play
+
+
+    - name: "Format Port Information"
+      ansible.builtin.set_fact:
+        my_port_info: "{{ port_info.split(',') | map('replace', ':', '') | list }}"
+
+
+    - name: "Gather Facts Related To Available Zones/Alias And On/Off Switches"
+      brocade.fos.brocade_facts:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        gather_subset:
+          - brocade_interface_fibrechannel
+      register: swtich_port_detailed_output
+
+
+    - name: "Print Switch And Port Full Details"
+      ansible.builtin.set_fact:
+        my_switch_name: "{{ swtich_port_detailed_output.ansible_facts.brocade_interface_fibrechannel[0].user_friendly_name.split('.')[0] }}"
+
+
+
+
+    - name: "Check Active Fabric configuration Name"
+      set_fact:
+        active_fabric_config_name: "{{ existing_zone_alias_output.ansible_facts.brocade_zoning['defined-configuration'].cfg.cfg_name }}"
+
+
+    - name: "Gather Facts Related To Existing Zones/Alias And On/Off Switches"
+      brocade.fos.brocade_facts:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        gather_subset:
+          - brocade_zoning
+      register: existing_facts_output
+
+
+    - name: "Check Active Fabric configuration Name"
+      set_fact:
+        active_fabric_config_name: "{{ existing_facts_output.ansible_facts.brocade_zoning['defined-configuration'].cfg.cfg_name }}"
+
+
+    - name: "Check Active Fabric configuration Name"
+      set_fact:
+        active_fabric_config_name: "{{ existing_zone_alias_output.ansible_facts.brocade_zoning['defined-configuration'].cfg.cfg_name }}"
+
+
+# ************************ ALIAS ACTIVITY ***********************************
+    - name: "Extract Existing Alias Names And Their Respective WWN Members"
+      ansible.builtin.set_fact:
+        my_existing_alias: "{{ existing_facts_output.ansible_facts.brocade_zoning['defined-configuration'].alias | map(attribute='alias_name') | list }}"
+        my_existing_alias_member: "{{ existing_facts_output.ansible_facts.brocade_zoning['defined-configuration'].alias | map(attribute='member_entry.alias_entry_name') | list }}"
+
+
+    - name: "Combine Existing Alias Names With Their Respective WWN Members"
+      ansible.builtin.set_fact:
+        my_existing_alias_member_list: "{{ dict(my_existing_alias|zip(my_existing_alias_member)) }}"
+
+
+    - name: "Display Existing Alias Names And Their Respective WWN Members"
+      ansible.builtin.debug:
+        msg: "{{ my_existing_alias_member_list }}"
+
+
+    - name: "Format HBA With Their Respective WWN's"
+      ansible.builtin.set_fact:
+        formatted_alias_combined: "{{ formatted_alias_combined | default({}) | combine({(storage_details_combined[0].server_name.split('.')[0] + ('_npiv' if item.value.startswith('C') else ''))+'_'+item.key : item.value | regex_replace('(.{2})(?!$)', '\\1:')}) }}"
+      loop: "{{ storage_details_combined[0].wwns_dict | dict2items }}"
+
+
+    - name: "Display Formatted HBA With Their Respective WWN's"
+      ansible.builtin.debug:
+        msg: "{{ formatted_alias_combined }}"
+
+
+    - name: "Create Alias And Add Respective WWN As Member"
+      brocade.fos.brocade_zoning_alias:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        aliases:
+          - name: "{{ item.key }}"
+            members:
+              - "{{ item.value }}"
+      register: created_alias_output
+      when: item.key not in my_existing_alias_member_list.keys()
+      loop: "{{ formatted_alias_combined | dict2items }}"
+
+
+    - name: "[SUCCESSFUL CREATION] Fetch Created Alias Names As List"
+      ansible.builtin.set_fact:
+        my_created_alias_name: "{{ created_alias_output.results | map(attribute='post_list') | map('first') | map(attribute='name') | list  }}"
+      when: created_alias_output is defined
+      ignore_errors: true
+
+
+    - name: "[EXISTING/FAILED CREATION] Fetch Created Alias Names As List"
+      ansible.builtin.set_fact:
+        my_created_alias_name: "{{ formatted_alias_combined.keys() }}"
+      when: my_created_alias_name is undefined
+
+
+# ************************ ZONES ACTIVITY ***********************************
+    - name: "Extract Existing Zone Names And Their Respective Alias Members"
+      ansible.builtin.set_fact:
+        my_existing_zones: "{{ existing_facts_output.ansible_facts.brocade_zoning['defined-configuration'].zone | map(attribute='zone_name') | list }}"
+        my_existing_zone_member: "{{ existing_facts_output.ansible_facts.brocade_zoning['defined-configuration'].zone | map(attribute='member_entry.entry_name') | list }}"
+
+
+    - name: "Combine Existing Zone Names With Their Respective Alias Members"
+      ansible.builtin.set_fact:
+        my_existing_zone_member_list: "{{ dict(my_existing_zones|zip(my_existing_zone_member)) }}"
+
+
+    - name: "Display Existing Zone Names And Their Respective Alias Members"
+      ansible.builtin.debug:
+        msg: "{{ my_existing_zone_member_list }}"
+
+
+    - name: "Format Zones With Their Respective Alias's"
+      ansible.builtin.set_fact:
+        formatted_zone_combined: "{{ formatted_zone_combined | default({}) | combine({ storage_details_combined[0].server_name.split('.')[0]+('_npiv' if item.value.startswith('C') else '')+'_'+item.key+'_PMAX'+san_array_id[-4:]+'_'+my_port_info[0]+'_'+active_fabric_config_name : storage_details_combined[0].server_name.split('.')[0]+('_npiv' if item.value.startswith('C') else '')+'_'+item.key  }) }}"
+      loop: "{{ storage_details_combined[0].wwns_dict | dict2items }}"
+
+
+    # - name: "Format Zones With Their Respective Alias's"
+    #   ansible.builtin.set_fact:
+    #     formatted_zone_combined: "{{ formatted_zone_combined | default({}) | combine({ storage_details_combined[0].server_name.split('.')[0]+('_npiv' if item.0.value.startswith('C') else '')+'_'+item.0.key+'_PMAX'+san_array_id[-4:]+'_'+item.1+'_'+active_fabric_config_name : storage_details_combined[0].server_name.split('.')[0]+('_npiv' if item.0.value.startswith('C') else '')+'_'+item.0.key  }) }}"
+    #   with_nested:
+    #     - "{{ storage_details_combined[0].wwns_dict | dict2items }}"
+    #     - "{{ my_port_info }}"
+
+
+    - name: "Display Formatted Alias With Their Respective Alias's"
+      ansible.builtin.debug:
+        msg: "{{ formatted_zone_combined }}"
+
+
+
+    - name: "Create Zones And Add respective Alias As Member"
+      brocade.fos.brocade_zoning_zone:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        zones:
+          - name: "{{ item.key }}"
+            members:
+              - "{{ item.value }}"
+      register: created_zones_output
+      when: item.key not in my_existing_zone_member_list.keys()
+      loop: "{{ formatted_zone_combined | dict2items }}"
+
+
+
+    - name: "[SUCCESSFUL CREATION] Fetch Created Zone Names As List"
+      ansible.builtin.set_fact:
+        my_created_zone_name: "{{ created_zones_output.results | map(attribute='post_list') | map('first') | map(attribute='name') | list  }}"
+      when: created_zones_output is defined
+      ignore_errors: true
+
+
+    - name: "[EXISTING/FAILED CREATION] Fetch Created Zone Names As List"
+      ansible.builtin.set_fact:
+        my_created_zone_name: "{{ formatted_zone_combined.keys() }}"
+      when: my_created_zone_name is undefined
+
+
+# cfgadd/cfgsave+cfgenable careful it removes existing , make sure you pass members_add_only:true
+    - name: "Add+Save+Enable The Newly Created Zones To Active Zone Configuration"
+      brocade.fos.brocade_zoning_cfg:
+        credential: "{{ my_credential }}"
+        vfid: 128
+        cfgs:
+          - name: "{{ active_fabric_config_name }}"
+            members:
+              - "{{ item }}"
+        members_add_only: true       # mandatory for append particular , without touching existing one
+        active_cfg: "{{ active_fabric_config_name }}"
+      register: add_new_zones_ac
+      loop: "{{ my_created_zone_name }}"
+
+
+
+# - name: "Validate Zones Only Related For Server"
+# - name: "Validate Zone And Their Respective Alias Member For Server- Full Details"
+# - name: "Maintain the cooling period of 2 hrs before proceeding with Fabric B"
+# - name: "Repeat All Activity For Swtich - 2"

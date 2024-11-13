@@ -1,0 +1,96 @@
+---
+- name: "This Play To Fetch Information About ESXI Services On VCenter"
+  hosts: "csc2cxp21113105.cloud.kp.org"      # "csc2cxp21113104.cloud.kp.org"
+  gather_facts: false
+  vars:
+    vcenter_server: "cscrdengvc8.crdc.kp.org"          # "zqkpcloudvm9120.cloud-lab.kp.org"
+    esxi_name: "zqviatsto008.pldc.kp.org"
+    vcenter_user: "{{ lookup('env', 'VMWARE_USER') }}"
+    vcenter_password: "{{ lookup('env', 'VMWARE_PASSWORD') }}"
+    ansible_python_interpreter: "/usr/bin/python3"
+    # service_dict: []
+  tasks:
+#       - name: "0=> Gather Services Running On All ESXI-HOST"
+#         community.vmware.vmware_host_service_info:
+#           hostname: "{{ vcenter_server }}"
+#           username: "{{ vcenter_user }}"
+#           password: "{{ vcenter_password }}"
+#           esxi_hostname: "{{ esxi_name }}"
+#           validate_certs: false
+#         register: gather_esxi_first
+    
+
+#       - name: "1=> Create Dictionary Of Services Running On ESXI-HOST -> {{ vcenter_server }}=>{{ esxi_name }}"
+#         ansible.builtin.set_fact:
+#           service_dict: "{{ service_dict | default([]) + [item.value] }}"
+#         when: item.key == esxi_name    # picking only "zqviatsto008.pldc.kp.org"
+#         loop: "{{ gather_esxi_first.host_service_info | dict2items }}"
+
+
+#       - name: "2=> Fetch Running State And Policy State On ESXI-HOST -> {{ vcenter_server }}=>{{ esxi_name }}://'TSM-SSH'"
+#         ansible.builtin.set_fact:
+#           current_running_state: "{{ item.running }}" 
+#           current_policy_state: "{{ item.policy }}"
+#         with_items: "{{ service_dict | flatten | json_query(query) }}"
+#         vars:
+#           query: "[?key=='TSM-SSH'].{running: running, policy: policy}"   # picking only "zqviatsto008.pldc.kp.org: TSM-SSH"
+
+
+#       - name: "3=> Debug 'current_running_state' && 'current_policy_state' Value"
+#         ansible.builtin.debug:
+#           msg:
+#            - "RUNNING STATE :- {{ current_running_state }}"
+#            - "POLICY STATE :- {{ current_policy_state }}"
+
+
+
+#       - name: "4=> Start TSM-SSH Service Setting For {{ vcenter_server }}=>{{ esxi_name }}://'TSM-SSH'"
+#         community.vmware.vmware_host_service_manager:
+#           hostname: '{{ vcenter_server }}'
+#           username: '{{ vcenter_user }}'
+#           password: '{{ vcenter_password }}'
+#           esxi_hostname: "{{ esxi_name }}"
+#           validate_certs: false
+#           service_name: TSM-SSH
+#           service_policy: off
+#           state: present
+#         register: start_ssh
+#         when: current_running_state == 'false'     # starting only if "zqviatsto008.pldc.kp.org: 'TSM-SSH' is down
+      
+
+
+# - name: "Play To Fetch SAN Array ID Of ESXI-HOST"
+#   hosts: "{{ esxi_name | default([]) }}"
+#   become: true
+#   become_user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+#   vars:
+#     esxi_name: "zqviatsto008.pldc.kp.org"
+#     ansible_user: "{{ lookup('env', 'ANSIBLE_NET_USERNAME') }}"
+#     ansible_password: "{{ lookup('env', 'ANSIBLE_NET_PASSWORD') }}"
+#   tasks:
+#     - name: "5=> Run Command To Get SAN Array ID -> {{ esxi_name }}"     # cred_name: kp2_net_cred_esxi_pmax
+#       ansible.builtin.shell: "esxcfg-scsidevs -l | grep -m1 -i naa | cut -c 13-24"
+#       register: out_esx
+
+#     - name: "6=> Debug Array ID 'out_esx'"
+#       ansible.builtin.debug:
+#         msg: "{{ out_esx.stdout }}"
+
+
+
+      # - name: "2=> Stop SSH service setting for an ESXi Host in given Cluster"
+      #   community.vmware.vmware_host_service_manager:
+      #     hostname: '{{ vcenter_server }}'
+      #     username: '{{ vcenter_user }}'
+      #     password: '{{ vcenter_password }}'
+      #     esxi_hostname: "{{ esxi_name }}"
+      #     validate_certs: false
+      #     service_name: TSM-SSH
+      #     service_policy: off
+      #     state: absent
+      #   register: stop_ssh
+
+
+      # - name: "3=> Debug - stop_ssh"
+      #   ansible.builtin.debug:
+      #     msg: "{{ stop_ssh }}"

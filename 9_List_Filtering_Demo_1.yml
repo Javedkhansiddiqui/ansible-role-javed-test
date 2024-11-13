@@ -1,0 +1,31 @@
+---
+- name: "This Is The Check Program"
+  hosts: localhost
+  gather_facts: false
+  vars:
+      node_list: [
+          "10.2.0.1",
+          "10.2.0.2",
+      ]
+
+      java_process_list: [
+          [
+              "8612",
+              "8613",
+              "8614",
+              "8615"
+          ],
+          [
+              "8616",
+              "8617",
+              "8618",
+              "8619"
+          ]
+      ]
+  tasks:
+      - name: "Print Combine Dict"
+        ansible.builtin.debug:
+            msg: "{{ item.0.key }}: {{ item.1 }}"
+        with_subelements:
+            - "{{ dict(node_list | zip(java_process_list)) | dict2items }}"
+            - value

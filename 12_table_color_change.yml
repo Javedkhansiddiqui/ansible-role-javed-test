@@ -1,0 +1,29 @@
+---
+- name: "This is a Example of Line In File MOdule"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_headers: MODE,NO. OF LINKS/ DIR'S,USER,GROUP,SIZE,DATE / TIME,FILE / DIRECTORY
+  tasks:
+    - name: "Running ls -l Command"
+      ansible.builtin.shell:
+        cmd: ls -l | awk '(NR>1) {print $1","$2","$3","$4","$5","$6,$7,$8","$9}' > library/12_table_color_change.txt
+      changed_when: copy_data.rc == 0
+      register: copy_data
+      delegate_to: localhost
+
+
+    - name: "Debug The File Using Cat Command"
+      ansible.builtin.command:
+        cmd: cat library/12_table_color_change.txt
+      register: output_data
+      changed_when: output_data.rc == 0
+
+
+    - name: "12_table_color_change.txt File Created"
+      ansible.builtin.template:
+        src: "12_table_color_change.html.j2"
+        dest: "/var/www/html/index.html"
+        mode: "0677"
+      become: true
+

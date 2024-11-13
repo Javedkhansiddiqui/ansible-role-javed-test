@@ -1,0 +1,16 @@
+---
+- name: "========Default Variable Value========================"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    var1: "Javed Khan Siddque"
+    var2: "Kyndryl"
+    var3: "Ansible Developer"
+  tasks:
+    - name: "Display"
+      ansible.builtin.debug:
+        msg:
+          - "{{ var1 | default('Chhattisgarh')}}"
+          - "{{ var2 | default('Chhattisgarh')}}"
+          - "{{ var3 | default('Chhattisgarh')}}"
+          - "{{ var4 | default('Chhattisgarh') }}"  # it will print default value

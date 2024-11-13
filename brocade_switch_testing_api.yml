@@ -1,0 +1,160 @@
+- name: "Playbook For Brocade Switch Connection Via API"
+  hosts: csc2cxp21113105.cloud.kp.org # "csc2cxn00002917.cloud.kp.org"
+  gather_facts: false
+  ignore_errors: true
+  collections:
+    - brocade.fos
+  vars:
+    switch_a_ip_address: "172.16.130.191"
+  tasks:
+    - name: "Brocade Switch Login"
+      ansible.builtin.uri:
+        url: "https://{{ switch_a_ip_address }}/rest/login"
+        method: POST
+        headers:
+          Content-Type: "application/yang-data+json"
+          Accept: "application/yang-data+json"
+        user: "Ansible_test_user"
+        password: "Ansible@123"
+        body_format: json
+        force_basic_auth: true
+        validate_certs: false
+        return_content: true
+      register: login_session_output
+
+
+    - name: "Save The Auth Key For Next Session"
+      ansible.builtin.set_fact:
+        my_auth_token: ""
+
+
+    - name: "Save The Auth Key For Next Session"
+      ansible.builtin.set_fact:
+        my_auth_token: "{{ login_session_output.authorization }}"
+
+
+# ------------ List All Alias ---------------------
+    - name: "List All Alias"
+      ansible.builtin.uri:
+        url: "https://{{ switch_a_ip_address }}/rest/running/brocade-zone/defined-configuration/alias"
+        method: GET
+        headers:
+          Content-Type: "application/yang-data+json"
+          Accept: "application/yang-data+json"
+          Authorization: "{{ my_auth_token }}"
+        body_format: json
+        validate_certs: false
+        return_content: true
+      register: list_alias_output
+
+
+    - name: "Print All Alias Name Available On Given Brocade Switch"
+      ansible.builtin.debug:
+        msg: "{{ list_alias_output.json.Response }}"
+
+
+
+
+
+
+# # =========== Creating Alias ===============
+#     - name: "Create Alias With Member As WWN[JSON-8]"
+#       ansible.builtin.uri:
+#         url: https://{{ switch_a_ip_address }}/rest/running/zone/defined-configuration/alias/
+#         method: POST
+#         headers:
+#           Content-Type: "application/yang-data+json"
+#           Accept: "application/yang-data+json"
+#           Authorization: "{{ my_auth_token }}"
+#         body: "{{ lookup('file', 'input.json') }}"
+#         # body: |
+#         #   {
+#         #     "alias": {
+#         #       "alias-name": "{{ item.key }}",
+#         #       "member-entry": {
+#         #         "alias-entry-name": "{{ item.value }}"
+#         #       }
+#         #     }
+#         #   }
+#         body_format: json
+#         validate_certs: false
+#         return_content: true
+#       register: create_alias_output
+#       # loop: "{{ formatted_alias_combined | dict2items }}"
+
+
+
+
+
+
+# =========== Creating Alias ===============
+    # - name: "Create Alias With Member As WWN[JSON-9]"
+    #   ansible.builtin.uri:
+    #     url: "https://{{ switch_a_ip_address }}/rest/running/brocade-zone/defined-configuration/alias"
+    #     method: POST
+    #     headers:
+    #       Content-Type: "application/yang-data+json"
+    #       Accept: "application/yang-data+json"
+    #       Authorization: "{{ my_auth_token }}"
+    #     # body: '{"alias": {"alias-name": "api_test", "member-entry": {"alias-entry-name": "50:06:01:60:47:e4:10:d4"}}}'
+    #     body:
+    #       {
+    #         "alias": {
+    #           "alias-name": "ali_1",
+    #           "member-entry": {
+    #             "alias-entry-name": [
+    #               "1,3",
+    #               "10:10:10:38:85:9a:13:15"
+    #             ]
+    #           }
+    #         }
+    #       }
+    #     # body: "{{ lookup('file', 'input.json') }}"
+    #     # body: |
+    #     #   {
+    #     #     "alias": {
+    #     #       "alias-name": "{{ item.key }}",
+    #     #       "member-entry": {
+    #     #         "alias-entry-name": "{{ item.value }}"
+    #     #       }
+    #     #     }
+    #     #   }
+    #     body_format: json
+    #     validate_certs: false
+    #     return_content: true
+    #   register: create_alias_output
+    #   # loop: "{{ formatted_alias_combined | dict2items }}"
+
+
+    - name: "Fetch details About Number Of Fabric ID On Logical Switch"
+      uri:
+        url: https://{{ switch_a_ip_address }}/rest/running/brocade-fibrechannel-logical-switch/fibrechannel-logical-switch
+        method: GET
+        headers:
+          Content-Type: "application/yang-data+json"
+          Accept: "application/yang-data+json"
+          Authorization: "{{ my_auth_token }}"
+        status_code:
+          - 204
+          - 200
+        body_format: json
+        validate_certs: false
+        return_content: true
+      register: logical_switch_output
+
+
+    - name: "Logout From Brocade Switch"
+      ansible.builtin.uri:
+        url: "https://{{ switch_a_ip_address }}/rest/logout"
+        method: POST
+        headers:
+          Content-Type: "application/yang-data+json"
+          Accept: "application/yang-data+json"
+          Authorization: "{{ my_auth_token }}"
+        status_code:
+          - 204
+          - 200
+        body_format: json
+        validate_certs: false
+        return_content: true
+      register: logout_session_output

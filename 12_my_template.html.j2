@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>EXPORT VM AND HOST DETAILS FROM vCENTER</title>
+</head>
+
+<style>
+    table {
+        font-family: Aptos, sans-serif;
+        width: 70%;
+        border: 2px solid black;
+        text-align: center;
+    }
+
+    td {
+        border: 2px solid black;
+        text-align: center;
+        padding: 5px 5px;
+    }
+
+    th {
+        border: 2px solid black;
+        text-align: center;
+        padding: 10px 10px;
+        background: rgb(139, 139, 67);
+    }
+</style>
+
+<body>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <span style="font-size: 16px; font-family: Aptos, sans-serif;">Hello {{ team }},</span>
+    </div>
+    <div class="elementToProof ContentPasted1"
+        style="border: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 12pt; line-height: inherit; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-optical-sizing: inherit; font-kerning: inherit; font-feature-settings: inherit; font-variation-settings: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: rgb(0, 0, 0);">
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br class="ContentPasted1"></span>
+        </div>
+        <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br class="ContentPasted1"></span>
+        </div>
+        <div class="ContentPasted1"
+            style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+            <span style="font-size: 16px; font-family: Calibri, sans-serif;">VM and HOST csv file has been exported
+                successfully.</span>
+        </div><span style="font-size: 16px; font-family: Calibri, sans-serif;">Please find the Details below.</span>
+    </div>
+    <br>
+    <div style="text-align:left;font-weight: bold; font-size:16px;color:blue;"> FILE PATH :&nbsp;&nbsp; {{
+        export_share_path }}
+    </div>
+
+
+    <br>
+    <br>
+
+    <table class="table table-bordered 70%" style="border: 2px solid black; border-collapse: collapse; width:80%">
+        <thead class="thead-dark">
+            <tr>
+                {% for hdr in my_headers.split(",") %}
+                <td style="text-align:center;font-weight: bold;background: rgb(111, 128, 69); font-size:16px">
+                    {{ hdr }}
+                </td>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for output in mail_content_final_list %}
+            <tr>
+                {% for key, value in output.items() %}
+                <td
+                    style="text-align:center;font-weight: bold;background:rgb(74, 75, 70); font-size:16px;color:rgb(228, 235, 235);">
+                    {{ key }} **
+                </td>
+                {% if value|int == 1 %}
+                <td
+                    style="text-align:center;font-weight: bold;background: rgb(74, 75, 70); font-size:16px;color:rgb(255, 94, 0);">
+                    <b>FAILED</b>
+                </td>
+                {% else %}
+                <td
+                    style="text-align:center;font-weight: bold;background: rgb(74, 75, 70); font-size:16px;color:rgb(17, 247, 189);">
+                    SUCCESSFUL</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+        <span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span>
+    </div><span style="font-size: 16px; font-family: Calibri, sans-serif;"><br></span><span
+        style="color: rgb(209, 213, 216); text-shadow: rgba(107, 76, 76, 0.85) 1px -1px 0px; font-size: 16px; font-family: Calibri, sans-serif;">*******
+        This is an auto-generated mail , Please don&apos;t reply *******</span>
+    </div>
+    <div class="elementToProof"
+        style="border: 0px; font: inherit; margin: 0px; padding: 0px; vertical-align: baseline; color: inherit;">
+        <p><span style="font-size: 16px; text-shadow: rgba(107, 76, 76, 0.85) 1px -1px 0px;">Thanks &amp;&amp;
+                Regards<br>Ansible Team</span></p>
+    </div>
+    <p><span style="font-size: 16px; font-family: Calibri, sans-serif;">&nbsp;
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>&nbsp;
+        </span></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
+    <p><br></p>
+</body>
+
+</html>

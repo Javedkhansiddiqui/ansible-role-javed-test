@@ -1,0 +1,40 @@
+---
+- name: "Play For print Different Time Format"
+  hosts: localhost
+  gather_facts: true
+  vars:
+    date1: '2022-11-15T03:23:13.686956868Z'
+    date2: '2021-12-15T16:06:24.400087Z'
+  tasks:
+    - name: "Set-Fact Time Format"
+      ansible.builtin.set_fact:
+        date_short: '{{ date1 | regex_replace("([^.]+)(\.\d{6})(\d*)(.+)", "\1\2\4") }}' # shorten microseconds
+        iso8601format: '%Y-%m-%dT%H:%M:%S.%fZ'
+        # date_diff_isoed: '{{ (date1 | to_datetime(isoformat) - date2 | to_datetime(isoformat)).total_seconds() }}'
+        secsdiff: '{{ (("2016-08-14 20:00:12" | to_datetime) - ("2015-12-25" | to_datetime("%Y-%m-%d"))).total_seconds()  }}'
+
+    - name: "Print Different Time Format"
+      ansible.builtin.debug:
+        msg:
+          - "Display year-month-day"
+          - "{{ '%Y-%m-%d' | strftime }}"
+          # => "2021-03-19"
+          - "----------------------"
+          - "Display hour:min:sec"
+          - "{{ '%H:%M:%S' | strftime }}"
+          # => "21:51:04"
+          - "----------------------"
+          - "Use ansible_date_time.epoch fact"
+          - "{{ '%Y-%m-%d %H:%M:%S' | strftime(ansible_date_time.epoch) }}"
+          # => "2021-03-19 21:54:09"
+          - "----------------------"
+          - "Use arbitrary epoch value"
+          - "{{ '%Y-%m-%d' | strftime(0) }}"          # => 1970-01-01
+          - "{{ '%Y-%m-%d' | strftime(1441357287) }}" # => 2015-09-04
+          - "----------------------"
+          - "date_short is below"
+          - "{{ date_short }}"
+          - "date_diff_isoed is below"
+          # - "{{ date1 | to_datetime(isoformat) }}"
+          - "{{ secsdiff }}"
+          # - "{{ date1 | to_datetime('%Y-%m-%d %H:%M:%S') }}"

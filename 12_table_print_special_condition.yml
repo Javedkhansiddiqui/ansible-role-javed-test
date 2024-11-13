@@ -1,0 +1,22 @@
+---
+- name: "This is a Example Printing Lines Is Table"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    my_win_headers: ["GUEST OS", "STATUS"]
+    number_of_win_server_processed: 100
+    number_of_win_server: 200
+  tasks:
+    - name: "Debug The File Using Cat Command"
+      ansible.builtin.command:
+        cmd: cat "~/Desktop/testing.txt"
+      register: input_data
+      changed_when: input_data.rc == 0
+
+
+    - name: "112_table_print_special_condition.html.j2 rendering"
+      ansible.builtin.template:
+        src: "12_table_print_special_condition.html.j2"
+        dest: "/var/www/html/index.html"
+        mode: "0677"
+      become: true

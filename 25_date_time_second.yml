@@ -1,0 +1,21 @@
+---
+- name: "Time Conversion IST Example"
+  hosts: localhost
+  gather_facts: true
+  vars:
+    cluster_name: "cnpdcpscale002"
+    isilon_region: "{{ cluster_name | regex_search('(?<=^..)(.{4})') }}"
+  tasks:
+    - name: "Captured Current Time In IST"
+      ansible.builtin.command: "date '+%d-%m-%Y %r'"
+      register: ist_date
+      environment:
+        TZ: Asia/Kolkata
+      changed_when: ist_date.rc == 0
+
+
+    - name: "Debug Time In IST"
+      ansible.builtin.debug:
+        msg:
+          - "{{ ist_date.stdout }}"
+          - "{{ isilon_region }}"

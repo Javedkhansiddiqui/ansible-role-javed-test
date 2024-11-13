@@ -1,0 +1,58 @@
+# # need to check with samir , whether it is working or not???
+# - name: "This Is A Mail Test KYNDRYL-TO-KP Using Kyndryl SMTP Server [QA]"
+#   hosts: localhost
+#   vars:
+#     mail_host: "ag1pdr1smtp01.pdr1.ag1.sp.ibm.local" # QA KYNDRYL SMTP Server
+#     mail_port: "25"
+#     mail_subject: "This Is A Mail Test KYNDRYL-TO-KP Using Kyndryl SMTP Server [QA]"
+#     sender_email: "samir.patra@kyndryl.com"
+#     recipient_email: "samir.k.patra@kp-dev.org"
+#   tasks:
+#     - name: "This Is A Mail Test KYNDRYL-TO-KP Using Kyndryl SMTP Server [QA]"
+#       community.general.mail:
+#         host: "{{ mail_host }}"
+#         port: "{{ mail_port }}"
+#         subject: "{{ mail_subject }}"
+#         sender: "{{ sender_email }}"
+#         to: "{{ recipient_email }}"
+#         body: "This Is A Mail Test KYNDRYL-TO-KP Using Kyndryl SMTP Server [QA]"
+#         secure: starttls
+#         subtype: html
+#       register: mail_output_kyndryl_to_kp_qa
+
+
+# not working
+- name: "This Is A Mail Test KP-TO-KYNDRYL Using KP SMTP Server [QA]"
+  hosts: "masdcpemp550.ssdc.kp.org"   # QA Server
+  gather_facts: true
+  vars:
+    mail_host: "qamta-dmz.kp.org"   # QA KP SMTP Server
+    mail_port: "25"
+    mail_subject: "This Is A Mail Test KP-TO-KYNDRYL Using KP SMTP Server [QA]"
+    sender_email: "sudhakar.d.kote@kp-dev.org"     # "samir.k.patra@kp-dev.org"
+    recipient_email: "sudhakar.kote@kyndryl.com"   # "samir.patra@kyndryl.com"
+    ansible_python_interpreter: /usr/bin/python
+  tasks:
+    - name: "Fetching Disk Space Statistics"
+      ansible.builtin.shell: |
+        df -h
+      register: create_stats_output
+      changed_when: create_stats_output.rc == 0
+
+
+    - name: "Debug Disk Space Statistics"
+      ansible.builtin.debug:
+        msg: "{{ create_stats_output.stdout_lines }}"
+
+
+    - name: "This Is A Mail Test KP-TO-KYNDRYL Using KP SMTP Server [QA]"
+      community.general.mail:
+        host: "{{ mail_host }}"
+        port: "{{ mail_port }}"
+        subject: "{{ mail_subject }}"
+        sender: "{{ sender_email }}"
+        to: "{{ recipient_email }}"
+        body: "This Is A Mail Test KP-TO-KYNDRYL Using KP SMTP Server [QA]"
+        secure: starttls
+        subtype: html
+      register: mail_output_kp_to_kyndryl_qa

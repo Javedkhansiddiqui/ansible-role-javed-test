@@ -1,0 +1,34 @@
+---
+- name: "This is a Example of reading dictionary"
+  hosts: localhost
+  gather_facts: false
+  vars:
+    data_item_dict: {
+      "SMC Vignette Admins": "Full",
+      "SVC_APC_Prod": "Read only",
+      "UNIX KP VIDM": "Read-Write",
+      "cs\\EMC Server Admins (Groups Only)": "Full",
+      "cs\\CS Server Admins (Groups Only)": "Modify",
+      "cs\\STOR_SCRIPT_BUR": "Full"
+    }
+
+  tasks:
+    - name: "Looping Through Dictionary"
+      ansible.builtin.debug:
+        msg:
+          - "Print the whole Item"
+          - "------------------------- "
+          - "{{ item }}"
+          - "Print the whole Item , with key value pair"
+          - "------------------------- "
+          - "{{ item.key }} value is {{ item.value }}"
+      loop: "{{ lookup('dict', data_item_dict) }}"
+      # loop: "{{ data_item_dict }}"    data_item_dict is adictionary , not a list , loop look for list
+
+
+    - name: "Getting Only Key Name"
+      ansible.builtin.debug:
+        msg:
+          - "Using Map Attribute To Print Only Keys"
+          - "-------------------------------------"
+          - "{{ data_item_dict | map(attribute=key) }}"
